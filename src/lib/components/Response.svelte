@@ -102,9 +102,13 @@
 
       <div class="mb-3">
         <strong>Headers:</strong>
-        <pre class="m-0 p-2 rounded small hljs"><code>{@html highlightJson(
-              JSON.stringify(request.response.headers, null, 2)
-            )}</code></pre>
+        <ul class="list-unstyled">
+          {#each Object.entries(request.response.headers) as [key, value]}
+            <li class="mb-1">
+              <code class="text-primary">{key}</code>: <code class="bg-light px-1">{value}</code>
+            </li>
+          {/each}
+        </ul>
       </div>
 
       <div class="mb-3">
