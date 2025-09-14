@@ -6,6 +6,9 @@
   export let isSelected: boolean = false;
   export let onClick: () => void;
   export let methodBadgePathClass: string = '';
+
+  $: selectedTextClass = isSelected ? 'text-light' : '';
+  $: descriptionClass = isSelected ? 'text-light' : 'text-muted';
 </script>
 
 <button class="list-group-item list-group-item-action {isSelected ? 'active' : ''}" on:click={onClick}>
@@ -14,17 +17,17 @@
       <h6 class="mb-1">
         <MethodBadge method={endpoint.method} />
         {#if methodBadgePathClass}
-          <span class="{methodBadgePathClass} {isSelected ? 'text-light' : ''}">{endpoint.path}</span>
+          <span class="{methodBadgePathClass} {selectedTextClass}">{endpoint.path}</span>
         {:else}
-          <span class={isSelected ? 'text-light' : ''}>{endpoint.path}</span>
+          <span class={selectedTextClass}>{endpoint.path}</span>
         {/if}
       </h6>
-      <p class="mb-1 small {isSelected ? 'text-light' : 'text-muted'}">{endpoint.description}</p>
-      <div class={isSelected ? 'text-light' : ''}>
+      <p class="mb-1 small {descriptionClass}">{endpoint.description}</p>
+      <div class={selectedTextClass}>
         <slot />
       </div>
     </div>
-    <div class="text-end {isSelected ? 'text-light' : ''}">
+    <div class="text-end {selectedTextClass}">
       <slot name="side-content" />
     </div>
   </div>
