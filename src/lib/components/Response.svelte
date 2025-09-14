@@ -6,6 +6,7 @@
   import 'highlightjs-copy/dist/highlightjs-copy.min.css';
   import CopyButtonPlugin from 'highlightjs-copy';
   import type { ApiRequest } from '../types.js';
+  import { getRelativeTime } from '../utils.js';
 
   export let request: ApiRequest | null = null;
 
@@ -31,18 +32,6 @@
     return hljs.highlight(formatted, { language: 'json' }).value;
   }
 
-  function getRelativeTime(timestamp: number): string {
-    const now = Date.now();
-    const diff = now - timestamp;
-    const minutes = Math.floor(diff / 60000);
-    const hours = Math.floor(diff / 3600000);
-    const days = Math.floor(diff / 86400000);
-
-    if (minutes < 1) return 'Just now';
-    if (minutes < 60) return `${minutes}m ago`;
-    if (hours < 24) return `${hours}h ago`;
-    return `${days}d ago`;
-  }
 
   function getStatusText(status: number): string {
     if (status === 0) return 'Network Error';
