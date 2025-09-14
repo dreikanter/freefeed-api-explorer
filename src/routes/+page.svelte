@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, afterUpdate } from 'svelte';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
   import type { ApiEndpoint, ApiRequest, ApiResponse } from '$lib/types.js';
@@ -8,6 +8,12 @@
   import Response from '$lib/components/Response.svelte';
   import NavigationBar from '$lib/components/NavigationBar.svelte';
   import RequestListItem from '$lib/components/RequestListItem.svelte';
+  import hljs from 'highlight.js/lib/core';
+  import javascript from 'highlight.js/lib/languages/javascript';
+  import bash from 'highlight.js/lib/languages/bash';
+  import 'highlight.js/styles/github.css';
+  import 'highlightjs-copy/dist/highlightjs-copy.min.css';
+  import CopyButtonPlugin from 'highlightjs-copy';
 
   let searchQuery = '';
   let selectedScope = '';
@@ -16,6 +22,7 @@
   let parameters: Record<string, string> = {};
   let showCodeGeneration = false;
   let generatedCode = '';
+  let codeLanguage = 'javascript';
 
   $: {
     filteredEndpoints = API_ENDPOINTS.filter((endpoint) => {
@@ -239,6 +246,7 @@
 
   function showCode(type: 'fetch' | 'curl') {
     const newCode = type === 'fetch' ? generateFetchCode() : generateCurlCode();
+    codeLanguage = type === 'fetch' ? 'javascript' : 'bash';
     if (showCodeGeneration && generatedCode === newCode) {
       showCodeGeneration = false;
     } else {
@@ -248,12 +256,28 @@
   }
 
   onMount(() => {
+    hljs.registerLanguage('javascript', javascript);
+    hljs.registerLanguage('bash', bash);
+    hljs.addPlugin(
+      new CopyButtonPlugin({
+        autohide: false,
+      })
+    );
+
     if (!$token) {
       // @ts-ignore - Bootstrap is loaded via CDN
       const modal = new window.bootstrap.Modal(document.getElementById('tokenModal'));
       modal.show();
     }
   });
+
+  afterUpdate(() => {
+    hljs.highlightAll();
+  });
+
+  function highlightCode(code: string, language: string): string {
+    return hljs.highlight(code, { language }).value;
+  }
 </script>
 
 <svelte:head>
@@ -372,7 +396,7 @@
           <div class="card mb-4">
             <h5 class="card-header">Code Example</h5>
             <div class="card-body">
-              <pre class="m-0 p-2 rounded small"><code>{generatedCode}</code></pre>
+              <pre class="m-0 p-2 rounded small hljs"><code>{@html highlightCode(generatedCode, codeLanguage)}</code></pre>
             </div>
           </div>
         {/if}
