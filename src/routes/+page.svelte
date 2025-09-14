@@ -21,6 +21,14 @@
   let generatedCode = '';
   let codeLanguage = 'javascript';
 
+  // Find most recent response for the currently selected endpoint
+  $: endpointResponse = selectedEndpoint
+    ? $requestHistory.find(req =>
+        req.endpoint.method === selectedEndpoint.method &&
+        req.endpoint.path === selectedEndpoint.path
+      )
+    : null;
+
   $: {
     filteredEndpoints = API_ENDPOINTS.filter((endpoint) => {
       const matchesSearch =
@@ -447,8 +455,10 @@
         {/if}
 
         <!-- Response -->
-        <Response request={$currentRequest} />
-      {:else if !$currentRequest}
+        {#if endpointResponse}
+          <Response request={endpointResponse} />
+        {/if}
+      {:else if !endpointResponse && !$currentRequest}
         <div class="card">
           <div class="card-body text-center text-muted py-5">
             <h3>Welcome to FreeFeed API Explorer</h3>
@@ -496,7 +506,6 @@
           </div>
         {/if}
 
-        <Response request={$currentRequest} />
       {/if}
     </div>
   </div>
