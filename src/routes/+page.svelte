@@ -156,6 +156,7 @@
       };
 
       request.response = apiResponse;
+      $currentRequest = request;
       addToHistory(request);
     } catch (error) {
       const apiResponse: ApiResponse = {
@@ -165,6 +166,7 @@
         timestamp: Date.now(),
       };
       request.response = apiResponse;
+      $currentRequest = request;
       addToHistory(request);
     } finally {
       $isLoading = false;
