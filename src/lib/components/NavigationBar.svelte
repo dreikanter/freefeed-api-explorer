@@ -5,7 +5,6 @@
   export let currentPage: 'home' | 'history' = 'home';
 </script>
 
-<!-- Header -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
   <div class="container-fluid">
     <div class="d-flex align-items-center">
