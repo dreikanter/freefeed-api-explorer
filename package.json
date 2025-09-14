@@ -23,6 +23,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.25.4",
     "@sveltejs/adapter-auto": "^2.1.0",
+    "@sveltejs/adapter-static": "^2.0.3",
     "@sveltejs/kit": "^1.30.0",
     "@sveltejs/vite-plugin-svelte": "^2.5.0",
     "@testing-library/jest-dom": "^6.4.8",
