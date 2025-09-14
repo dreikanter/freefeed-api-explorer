@@ -59,7 +59,7 @@
               <a href="/" class="btn btn-primary">Start exploring the API</a>
             </div>
           {:else}
-            <div class="list-group list-group-flush border-top">
+            <div class="list-group list-group-flush">
               {#each $requestHistory as request}
                 <ListItem
                   endpoint={request.endpoint}
