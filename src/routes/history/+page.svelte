@@ -1,5 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { page } from '$app/stores';
+  import { goto } from '$app/navigation';
   import { requestHistory, clearHistory } from '$lib/stores.js';
   import type { ApiRequest } from '$lib/types.js';
 
@@ -7,24 +9,30 @@
 
   function selectRequest(request: ApiRequest) {
     selectedRequest = request;
-    // Store selected request ID in localStorage
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem('selected-history-request', request.id);
-    }
+    // Update URL with selected request ID
+    const url = new URL($page.url);
+    url.searchParams.set('request', request.id);
+    goto(url.toString(), { replaceState: true });
   }
 
-  // Restore selected request on page load
-  onMount(() => {
-    if (typeof localStorage !== 'undefined') {
-      const selectedId = localStorage.getItem('selected-history-request');
-      if (selectedId) {
-        const found = $requestHistory.find(req => req.id === selectedId);
-        if (found) {
-          selectedRequest = found;
-        }
+  // Watch for URL changes and update selected request
+  $: {
+    const requestId = $page.url.searchParams.get('request');
+    if (requestId && $requestHistory.length > 0) {
+      const found = $requestHistory.find(req => req.id === requestId);
+      if (found && found !== selectedRequest) {
+        selectedRequest = found;
+      } else if (!found && selectedRequest) {
+        // Request not found, clear URL parameter
+        const url = new URL($page.url);
+        url.searchParams.delete('request');
+        goto(url.toString(), { replaceState: true });
+        selectedRequest = null;
       }
+    } else if (!requestId && selectedRequest) {
+      selectedRequest = null;
     }
-  });
+  }
 
   function formatJson(jsonString: string): string {
     try {
