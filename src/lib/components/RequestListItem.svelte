@@ -12,7 +12,12 @@
   <div class="d-flex w-100 justify-content-between align-items-start">
     <div class="flex-grow-1">
       <h6 class="mb-1">
-        <MethodBadge {endpoint} pathClass={methodBadgePathClass} />
+        <MethodBadge method={endpoint.method} />
+        {#if methodBadgePathClass}
+          <span class="{methodBadgePathClass}">{endpoint.path}</span>
+        {:else}
+          {endpoint.path}
+        {/if}
       </h6>
       <p class="mb-1 small text-muted">{endpoint.description}</p>
       <slot />

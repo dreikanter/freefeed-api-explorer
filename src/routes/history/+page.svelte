@@ -104,7 +104,8 @@
         <!-- Request Info -->
         <div class="card mb-4">
           <h5 class="card-header">
-            <MethodBadge endpoint={selectedRequest.endpoint} badgeClass="me-2" />
+            <MethodBadge method={selectedRequest.endpoint.method} />
+            <span class="ms-2">{selectedRequest.endpoint.path}</span>
           </h5>
           <div class="card-body">
             <p class="card-text">{selectedRequest.endpoint.description}</p>
