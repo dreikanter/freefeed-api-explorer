@@ -455,9 +455,7 @@
 
               <div class="mb-3">
                 <strong>Body:</strong>
-                <pre
-                  class="bg-light p-3 rounded"
-                  style="max-height: 400px; overflow-y: auto;">{formatJson(
+                <pre class="bg-light p-3 rounded">{formatJson(
                     $currentRequest.response.body
                   )}</pre>
               </div>
