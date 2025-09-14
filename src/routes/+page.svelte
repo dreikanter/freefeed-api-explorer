@@ -13,6 +13,7 @@
     addToHistory,
   } from '$lib/stores.js';
   import Response from '$lib/components/Response.svelte';
+  import NavigationBar from '$lib/components/NavigationBar.svelte';
 
   let searchQuery = '';
   let selectedScope = '';
@@ -266,38 +267,7 @@
   <title>FreeFeed API Explorer</title>
 </svelte:head>
 
-  <!-- Header -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
-    <div class="container-fluid">
-      <div class="d-flex align-items-center">
-        <span class="navbar-brand mb-0 h1">FreeFeed API Explorer</span>
-        <a href="/history" class="nav-link text-light ms-3">History</a>
-      </div>
-      <div class="navbar-nav ms-auto">
-        <div class="dropdown">
-          <button
-            class="btn btn-outline-light btn-sm dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-          >
-            {$selectedInstance.name}
-          </button>
-          <ul class="dropdown-menu">
-            {#each FREEFEED_INSTANCES as instance}
-              <li>
-                <button class="dropdown-item" on:click={() => ($selectedInstance = instance)}>
-                  {instance.name}
-                </button>
-              </li>
-            {/each}
-          </ul>
-        </div>
-        <button class="btn btn-outline-light btn-sm ms-2" on:click={clearToken}>
-          Reset Token
-        </button>
-      </div>
-    </div>
-  </nav>
+  <NavigationBar currentPage="home" />
 
 <div class="container-fluid mb-4">
   <div class="row">
