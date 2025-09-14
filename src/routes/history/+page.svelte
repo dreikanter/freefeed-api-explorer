@@ -6,6 +6,7 @@
   import type { ApiRequest } from '$lib/types.js';
   import Response from '$lib/components/Response.svelte';
   import NavigationBar from '$lib/components/NavigationBar.svelte';
+  import MethodBadge from '$lib/components/MethodBadge.svelte';
 
   let selectedRequest: ApiRequest | null = null;
 
@@ -77,20 +78,7 @@
                   <div class="d-flex w-100 justify-content-between align-items-start">
                     <div class="flex-grow-1">
                       <h6 class="mb-1">
-                        <span
-                          class="badge bg-{request.endpoint.method === 'GET'
-                            ? 'success'
-                            : request.endpoint.method === 'POST'
-                              ? 'primary'
-                              : request.endpoint.method === 'PUT'
-                                ? 'warning'
-                                : request.endpoint.method === 'DELETE'
-                                  ? 'danger'
-                                  : 'secondary'}"
-                        >
-                          {request.endpoint.method}
-                        </span>
-                        <span class="small ms-1">{request.endpoint.path}</span>
+                        <MethodBadge endpoint={request.endpoint} pathClass="small ms-1" />
                       </h6>
                       <p class="mb-1 small text-muted">{request.endpoint.description}</p>
                       <small class="text-muted">{request.instance.name}</small>
@@ -129,20 +117,7 @@
         <!-- Request Info -->
         <div class="card mb-4">
           <h5 class="card-header">
-            <span
-              class="badge bg-{selectedRequest.endpoint.method === 'GET'
-                ? 'success'
-                : selectedRequest.endpoint.method === 'POST'
-                  ? 'primary'
-                  : selectedRequest.endpoint.method === 'PUT'
-                    ? 'warning'
-                    : selectedRequest.endpoint.method === 'DELETE'
-                      ? 'danger'
-                      : 'secondary'} me-2"
-            >
-              {selectedRequest.endpoint.method}
-            </span>
-            {selectedRequest.endpoint.path}
+            <MethodBadge endpoint={selectedRequest.endpoint} badgeClass="me-2" />
           </h5>
           <div class="card-body">
             <p class="card-text">{selectedRequest.endpoint.description}</p>
