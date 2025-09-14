@@ -1,7 +1,7 @@
 <script lang="ts">
   export let method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
-  const getMethodColor = (method: typeof method) => {
+  const getMethodColor = (method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH') => {
     switch (method) {
       case 'GET':
         return 'success';
