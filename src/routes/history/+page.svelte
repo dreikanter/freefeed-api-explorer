@@ -26,8 +26,7 @@
   <div class="container-fluid">
     <div class="d-flex align-items-center">
       <a href="/" class="navbar-brand mb-0 h1 text-decoration-none">FreeFeed API Explorer</a>
-      <span class="text-light mx-2">/</span>
-      <span class="navbar-text text-light">History</span>
+      <span class="nav-link text-light ms-3 active fw-bold">History</span>
     </div>
   </div>
 </nav>
