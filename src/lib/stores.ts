@@ -30,6 +30,7 @@ export function clearToken() {
 
 export function clearHistory() {
   requestHistory.set([]);
+  currentRequest.set(null);
 }
 
 export function addToHistory(request: ApiRequest) {
