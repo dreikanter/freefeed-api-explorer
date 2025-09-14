@@ -330,15 +330,15 @@
     </div>
   </nav>
 
-<div class="container-fluid">
+<div class="container-fluid mb-4">
   <div class="row">
     <!-- Left Sidebar: API Endpoints -->
     <div class="col-md-4">
       <div class="card">
         <h5 class="card-header">API Endpoints</h5>
-        <div class="card-body">
+        <div class="card-body p-0">
           <!-- Search and Filter -->
-          <div class="mb-3">
+          <div class="p-3">
             <input
               type="text"
               class="form-control mb-2"
@@ -354,7 +354,7 @@
           </div>
 
           <!-- Endpoints List -->
-          <div class="list-group list-group-flush">
+          <div class="list-group list-group-flush border-top">
             {#each filteredEndpoints as endpoint}
               <button
                 class="list-group-item list-group-item-action {selectedEndpoint === endpoint
