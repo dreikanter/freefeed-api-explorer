@@ -140,9 +140,9 @@
       {#if selectedRequest}
         <!-- Request Info -->
         <div class="card mb-4">
-          <h5 class="card-header">
-            <MethodBadge method={selectedRequest.endpoint.method} />
-            <span class="ms-2 font-monospace small">{generateFullUrl(selectedRequest)}</span>
+          <h5 class="card-header font-monospace">
+            <strong>{selectedRequest.endpoint.method}</strong>
+            {generateFullUrl(selectedRequest)}
           </h5>
           <div class="card-body">
             <p>

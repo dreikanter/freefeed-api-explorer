@@ -370,8 +370,8 @@
     <div class="col-md-8">
       {#if selectedEndpoint}
         <div class="card mb-4">
-          <h5 class="card-header">
-            {selectedEndpoint.method}
+          <h5 class="card-header font-monospace">
+            <strong>{selectedEndpoint.method}</strong>
             {selectedEndpoint.path}
           </h5>
           <div class="card-body">
@@ -471,8 +471,8 @@
       <!-- Show response and code generation when no endpoint selected but have current request -->
       {#if !selectedEndpoint && $currentRequest}
         <div class="card mb-4">
-          <h5 class="card-header">
-            {$currentRequest.endpoint.method}
+          <h5 class="card-header font-monospace">
+            <strong>{$currentRequest.endpoint.method}</strong>
             {$currentRequest.endpoint.path}
           </h5>
           <div class="card-body">
