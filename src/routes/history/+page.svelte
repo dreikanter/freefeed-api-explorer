@@ -61,7 +61,7 @@
               <a href="/" class="btn btn-primary">Start exploring the API</a>
             </div>
           {:else}
-            <div class="list-group list-group-flush" style="max-height: 70vh; overflow-y: auto;">
+            <div class="list-group list-group-flush border-top">
               {#each $requestHistory as request}
                 <ListItem
                   endpoint={request.endpoint}
