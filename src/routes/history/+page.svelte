@@ -108,15 +108,11 @@
                   endpoint={request.endpoint}
                   isSelected={selectedRequest === request}
                   onClick={() => selectRequest(request)}
-                  methodBadgePathClass="small ms-1"
                 >
-                  <small class="text-muted">
-                    {request.instance.name}
-                  </small>
                   <div slot="side-content">
                     {#if request.response}
-                      <div class="mb-1">
-                        <span
+
+                        <p class="mb-1"><span
                           class="badge bg-{request.response.status < 300
                             ? 'success'
                             : request.response.status < 400
@@ -124,12 +120,12 @@
                               : 'danger'}"
                         >
                           {request.response.status}
-                        </span>
-                      </div>
+                        </span></p>
+
                     {/if}
-                    <small class="text-muted">
+                    <p class="mb-0 small">
                       {getRelativeTime(request.timestamp)}
-                    </small>
+                    </p>
                   </div>
                 </RequestListItem>
               {/each}

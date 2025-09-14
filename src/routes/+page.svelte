@@ -359,10 +359,7 @@
                 {endpoint}
                 isSelected={selectedEndpoint === endpoint}
                 onClick={() => selectEndpoint(endpoint)}
-                methodBadgePathClass="font-monospace"
-              >
-                <small class="text-muted">{endpoint.scope}</small>
-              </RequestListItem>
+              />
             {/each}
           </div>
         </div>
