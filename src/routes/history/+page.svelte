@@ -111,8 +111,8 @@
                 >
                   <div slot="side-content">
                     {#if request.response}
-
-                        <p class="mb-1"><span
+                      <p class="mb-1">
+                        <span
                           class="badge bg-{request.response.status < 300
                             ? 'success'
                             : request.response.status < 400
@@ -120,8 +120,8 @@
                               : 'danger'}"
                         >
                           {request.response.status}
-                        </span></p>
-
+                        </span>
+                      </p>
                     {/if}
                     <p class="mb-0 small">
                       {getRelativeTime(request.timestamp)}
