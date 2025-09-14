@@ -14,8 +14,18 @@
     </style>
     %sveltekit.head%
   </head>
-  <body data-sveltekit-preload-data="hover">
+  <body data-sveltekit-preload-data="hover" style="visibility: hidden;">
     <div style="display: contents">%sveltekit.body%</div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Prevent FOUC by showing body after styles load
+      document.addEventListener('DOMContentLoaded', function() {
+        document.body.style.visibility = 'visible';
+      });
+      // Fallback: show after a short delay regardless
+      setTimeout(function() {
+        document.body.style.visibility = 'visible';
+      }, 100);
+    </script>
   </body>
 </html>
