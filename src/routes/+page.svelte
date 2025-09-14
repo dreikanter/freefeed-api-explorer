@@ -286,6 +286,29 @@
     }
   }
 
+  async function executeStoredRequest() {
+    if (!$currentRequest || !$token || !$selectedInstance) return;
+
+    // Temporarily set selectedEndpoint and parameters from stored request
+    const tempEndpoint = $currentRequest.endpoint;
+    const tempParameters = $currentRequest.parameters;
+
+    // Store current values
+    const originalEndpoint = selectedEndpoint;
+    const originalParameters = parameters;
+
+    // Set temporary values
+    selectedEndpoint = tempEndpoint;
+    parameters = tempParameters;
+
+    // Execute the request
+    await executeRequest();
+
+    // Restore original values (but keep the new response)
+    selectedEndpoint = originalEndpoint;
+    parameters = originalParameters;
+  }
+
   onMount(() => {
     hljs.registerLanguage('javascript', javascript);
     hljs.registerLanguage('bash', bash);
@@ -461,6 +484,9 @@
             </p>
 
             <div class="mt-4">
+              <button class="btn btn-success me-2" on:click={executeStoredRequest} disabled={$isLoading || !$token}>
+                {$isLoading ? 'Executing...' : 'Execute Again'}
+              </button>
               <button class="btn btn-outline-secondary ms-2" on:click={() => showCodeFromRequest('fetch')}>
                 Generate fetch()
               </button>
