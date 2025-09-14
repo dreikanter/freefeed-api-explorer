@@ -296,7 +296,7 @@
           </div>
 
           <!-- Endpoints List -->
-          <div class="list-group list-group-flush" style="max-height: 500px; overflow-y: auto;">
+          <div class="list-group list-group-flush">
             {#each filteredEndpoints as endpoint}
               <button
                 class="list-group-item list-group-item-action {selectedEndpoint === endpoint
