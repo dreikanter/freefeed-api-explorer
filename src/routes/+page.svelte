@@ -283,9 +283,7 @@
 		<!-- Left Sidebar: API Endpoints -->
 		<div class="col-md-4">
 			<div class="card">
-				<div class="card-header">
-					<h5>API Endpoints</h5>
-				</div>
+				<h5 class="card-header">API Endpoints</h5>
 				<div class="card-body">
 					<!-- Search and Filter -->
 					<div class="mb-3">
@@ -341,15 +339,13 @@
 		<div class="col-md-8">
 			{#if selectedEndpoint}
 				<div class="card mb-4">
-					<div class="card-header d-flex justify-content-between align-items-center">
-						<h5>{selectedEndpoint.method} {selectedEndpoint.path}</h5>
+					<h5 class="card-header">{selectedEndpoint.method} {selectedEndpoint.path}</h5>
+					<div class="card-body">
+						<p class="card-text">{selectedEndpoint.description}</p>
+						<p>
+							<strong>Scope:</strong> <span class="badge bg-info">{selectedEndpoint.scope}</span>
+						</p>
 						<div>
-							<button class="btn btn-outline-primary btn-sm me-2" on:click={() => showCode('fetch')}>
-								Generate fetch()
-							</button>
-							<button class="btn btn-outline-secondary btn-sm me-2" on:click={() => showCode('curl')}>
-								Generate curl
-							</button>
 							<button
 								class="btn btn-success"
 								on:click={executeRequest}
@@ -357,11 +353,13 @@
 							>
 								{$isLoading ? 'Executing...' : 'Execute'}
 							</button>
+							<button class="btn btn-outline-secondary ms-2" on:click={() => showCode('fetch')}>
+								Generate fetch()
+							</button>
+							<button class="btn btn-outline-secondary ms-2" on:click={() => showCode('curl')}>
+								Generate curl
+							</button>
 						</div>
-					</div>
-					<div class="card-body">
-						<p class="card-text">{selectedEndpoint.description}</p>
-						<p><strong>Scope:</strong> <span class="badge bg-info">{selectedEndpoint.scope}</span></p>
 
 						<!-- Parameters -->
 						{#if selectedEndpoint.parameters && selectedEndpoint.parameters.length > 0}
@@ -423,7 +421,7 @@
 							</button>
 						</div>
 						<div class="card-body">
-							<pre class="bg-light p-3 rounded"><code>{generatedCode}</code></pre>
+							<pre class="bg-light rounded mb-0"><code>{generatedCode}</code></pre>
 						</div>
 					</div>
 				{/if}
