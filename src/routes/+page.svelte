@@ -210,8 +210,13 @@
   }
 
   function showCode(type: 'fetch' | 'curl') {
-    generatedCode = type === 'fetch' ? generateFetchCode() : generateCurlCode();
-    showCodeGeneration = true;
+    const newCode = type === 'fetch' ? generateFetchCode() : generateCurlCode();
+    if (showCodeGeneration && generatedCode === newCode) {
+      showCodeGeneration = false;
+    } else {
+      generatedCode = newCode;
+      showCodeGeneration = true;
+    }
   }
 
   function copyToClipboard(text: string) {
