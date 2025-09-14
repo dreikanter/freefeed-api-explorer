@@ -317,7 +317,7 @@
               {#each selectedEndpoint.parameters as param}
                 <div class="mb-3">
                   <label for="param-{param.name}" class="form-label">
-                    {param.name}
+                    <code class="bg-light px-1">{param.name}</code>
                     {#if param.required}<span class="text-danger">*</span>{/if}
                     {#if param.description}<small class="text-muted ms-1">{param.description}</small>{/if}
                   </label>
