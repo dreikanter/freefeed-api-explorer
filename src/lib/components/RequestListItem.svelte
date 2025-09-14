@@ -11,6 +11,19 @@
   $: descriptionClass = isSelected ? 'text-light' : 'text-muted';
 </script>
 
+<style>
+  /* Override all text colors when item is active/selected */
+  .list-group-item.active .text-muted,
+  .list-group-item.active .text-secondary {
+    color: var(--bs-gray-100) !important;
+  }
+
+  /* Ensure all text inside active items has good contrast */
+  .list-group-item.active * {
+    color: inherit !important;
+  }
+</style>
+
 <button class="list-group-item list-group-item-action {isSelected ? 'active' : ''}" on:click={onClick}>
   <div class="d-flex w-100 justify-content-between align-items-start">
     <div class="flex-grow-1">
