@@ -106,7 +106,7 @@
 </svelte:head>
 
 <!-- Header -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary bg-gradient mb-4">
   <div class="container-fluid">
     <div class="d-flex align-items-center">
       <a href="/" class="navbar-brand mb-0 h1 text-decoration-none">FreeFeed API Explorer</a>

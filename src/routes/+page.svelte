@@ -362,8 +362,8 @@
                   : ''}"
                 on:click={() => selectEndpoint(endpoint)}
               >
-                <div class="d-flex w-100 justify-content-between">
-                  <h6 class="mb-1">
+                <h6 class="fw-normal">
+                  <strong>
                     <span
                       class="badge bg-{endpoint.method === 'GET'
                         ? 'success'
@@ -375,9 +375,9 @@
                               ? 'danger'
                               : 'secondary'}">{endpoint.method}</span
                     >
-                    {endpoint.path}
-                  </h6>
-                </div>
+                    <span class="font-monospace">{endpoint.path}</span>
+                  </strong>
+                </h6>
                 <p class="mb-1 small">{endpoint.description}</p>
                 <small class="text-muted">{endpoint.scope}</small>
               </button>
@@ -464,7 +464,7 @@
         {#if showCodeGeneration}
           <div class="card mb-4">
             <div class="card-header d-flex justify-content-between align-items-center">
-              <h5 class="mb-0">Code Example</h5>
+              <h5>Code Example</h5>
               <button
                 class="btn btn-link btn-sm p-1 text-decoration-none"
                 on:click={() => copyToClipboard(generatedCode)}
@@ -503,7 +503,7 @@
 
               <div class="mb-3">
                 <strong>Headers:</strong>
-                <pre class="bg-light p-2 rounded small">{JSON.stringify(
+                <pre class="bg-light m-0 p-2 rounded small">{JSON.stringify(
                     $currentRequest.response.headers,
                     null,
                     2
@@ -512,7 +512,7 @@
 
               <div class="mb-3">
                 <strong>Body:</strong>
-                <pre class="bg-light p-3 rounded">{formatJson(
+                <pre class="bg-light m-0 p-2 rounded">{formatJson(
                     $currentRequest.response.body
                   )}</pre>
               </div>
