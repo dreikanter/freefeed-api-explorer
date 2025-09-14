@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount, afterUpdate } from 'svelte';
+  import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
   import type { ApiEndpoint, ApiRequest, ApiResponse } from '$lib/types.js';
@@ -324,9 +324,6 @@
     }
   });
 
-  afterUpdate(() => {
-    hljs.highlightAll();
-  });
 
   function highlightCode(code: string, language: string): string {
     return hljs.highlight(code, { language }).value;

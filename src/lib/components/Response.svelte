@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount, afterUpdate } from 'svelte';
+  import { onMount } from 'svelte';
   import { initHighlight, hljs } from '../highlight.js';
   import 'highlight.js/styles/github.css';
   import 'highlightjs-copy/dist/highlightjs-copy.min.css';
@@ -10,10 +10,6 @@
 
   onMount(() => {
     initHighlight();
-  });
-
-  afterUpdate(() => {
-    hljs.highlightAll();
   });
 
   function formatJson(jsonString: string): string {
