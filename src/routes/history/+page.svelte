@@ -139,7 +139,7 @@
             <!-- Parameters -->
             {#if Object.keys(selectedRequest.parameters).length > 0}
               <h6>Parameters Used:</h6>
-              <ul class="list-unstyled">
+              <ul>
                 {#each Object.entries(selectedRequest.parameters) as [key, value]}
                   <li class="mb-1">
                     <code class="text-primary">{key}</code>: <code class="bg-light px-1">{value}</code>
