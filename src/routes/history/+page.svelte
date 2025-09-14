@@ -29,6 +29,33 @@
     });
   }
 
+  function generateFullUrl(request: ApiRequest): string {
+    let path = request.endpoint.path;
+
+    // Replace path parameters with actual values
+    if (request.parameters) {
+      for (const [key, value] of Object.entries(request.parameters)) {
+        if (path.includes(`:${key}`)) {
+          path = path.replace(`:${key}`, encodeURIComponent(value));
+        }
+      }
+    }
+
+    // Construct full URL with instance domain
+    const fullUrl = new URL(path, request.instance.url);
+
+    // Add query parameters for GET requests
+    if (request.endpoint.method === 'GET' && request.parameters) {
+      for (const [key, value] of Object.entries(request.parameters)) {
+        if (!request.endpoint.path.includes(`:${key}`) && value) {
+          fullUrl.searchParams.set(key, value);
+        }
+      }
+    }
+
+    return fullUrl.toString();
+  }
+
   // Watch for URL changes and update selected request
   $: {
     if (!isNavigating) {
@@ -119,22 +146,17 @@
         <div class="card mb-4">
           <h5 class="card-header">
             <MethodBadge method={selectedRequest.endpoint.method} />
-            <span class="ms-2">{selectedRequest.endpoint.path}</span>
+            <span class="ms-2 font-monospace small">{generateFullUrl(selectedRequest)}</span>
           </h5>
           <div class="card-body">
-            <p class="card-text">{selectedRequest.endpoint.description}</p>
-            <div class="row">
-              <div class="col-md-6">
-                <p>
-                  <strong>Scope:</strong>
-                  <span class="badge bg-info">{selectedRequest.endpoint.scope}</span>
-                </p>
-                <p>
-                  <strong>Instance:</strong>
-                  {selectedRequest.instance.name}
-                </p>
-              </div>
-            </div>
+            <p>
+              <strong>Scope:</strong>
+              <span class="badge bg-info">{selectedRequest.endpoint.scope}</span>
+            </p>
+            <p>
+              <strong>Instance:</strong>
+              {selectedRequest.instance.name}
+            </p>
 
             <!-- Parameters -->
             {#if Object.keys(selectedRequest.parameters).length > 0}
