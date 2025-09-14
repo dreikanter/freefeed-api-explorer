@@ -18,7 +18,10 @@ function createLocalStorageStore<T>(key: string, defaultValue: T) {
 }
 
 export const token = createLocalStorageStore('freefeed-token', '');
-export const selectedInstance = createLocalStorageStore<FreeFeedInstance>('freefeed-instance', FREEFEED_INSTANCES[0]);
+export const selectedInstance = createLocalStorageStore<FreeFeedInstance>(
+	'freefeed-instance',
+	FREEFEED_INSTANCES[0]
+);
 export const requestHistory = createLocalStorageStore<ApiRequest[]>('freefeed-history', []);
 
 export const currentRequest = writable<ApiRequest | null>(null);
@@ -33,5 +36,5 @@ export function clearHistory() {
 }
 
 export function addToHistory(request: ApiRequest) {
-	requestHistory.update(history => [request, ...history.slice(0, 49)]);
+	requestHistory.update((history) => [request, ...history.slice(0, 49)]);
 }

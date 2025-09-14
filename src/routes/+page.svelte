@@ -2,7 +2,16 @@
 	import { onMount } from 'svelte';
 	import type { ApiEndpoint, ApiRequest, ApiResponse, FreeFeedInstance } from '$lib/types.js';
 	import { API_ENDPOINTS, FREEFEED_INSTANCES } from '$lib/api-endpoints.js';
-	import { token, selectedInstance, requestHistory, currentRequest, isLoading, clearToken, clearHistory, addToHistory } from '$lib/stores.js';
+	import {
+		token,
+		selectedInstance,
+		requestHistory,
+		currentRequest,
+		isLoading,
+		clearToken,
+		clearHistory,
+		addToHistory,
+	} from '$lib/stores.js';
 
 	let searchQuery = '';
 	let selectedScope = '';
@@ -14,8 +23,9 @@
 	let generatedCode = '';
 
 	$: {
-		filteredEndpoints = API_ENDPOINTS.filter(endpoint => {
-			const matchesSearch = !searchQuery ||
+		filteredEndpoints = API_ENDPOINTS.filter((endpoint) => {
+			const matchesSearch =
+				!searchQuery ||
 				endpoint.path.toLowerCase().includes(searchQuery.toLowerCase()) ||
 				endpoint.description.toLowerCase().includes(searchQuery.toLowerCase());
 			const matchesScope = !selectedScope || endpoint.scope === selectedScope;
@@ -23,12 +33,12 @@
 		});
 	}
 
-	const scopes = [...new Set(API_ENDPOINTS.map(e => e.scope))].sort();
+	const scopes = [...new Set(API_ENDPOINTS.map((e) => e.scope))].sort();
 
 	function selectEndpoint(endpoint: ApiEndpoint) {
 		selectedEndpoint = endpoint;
 		parameters = {};
-		endpoint.parameters?.forEach(param => {
+		endpoint.parameters?.forEach((param) => {
 			if (param.required) {
 				parameters[param.name] = param.example || '';
 			}
@@ -72,7 +82,7 @@
 			timestamp: Date.now(),
 			instance: $selectedInstance,
 			endpoint: selectedEndpoint,
-			parameters: { ...parameters }
+			parameters: { ...parameters },
 		};
 
 		$currentRequest = request;
@@ -80,9 +90,9 @@
 
 		try {
 			const headers: Record<string, string> = {
-				'Authorization': `Bearer ${$token}`,
-				'Accept': 'application/json',
-				'User-Agent': 'FreeFeed-API-Explorer'
+				Authorization: `Bearer ${$token}`,
+				Accept: 'application/json',
+				'User-Agent': 'FreeFeed-API-Explorer',
 			};
 
 			let body: string | undefined;
@@ -102,7 +112,7 @@
 			const response = await fetch(url, {
 				method: selectedEndpoint.method,
 				headers,
-				body
+				body,
 			});
 
 			const responseBody = await response.text();
@@ -115,18 +125,17 @@
 				status: response.status,
 				headers: responseHeaders,
 				body: responseBody,
-				timestamp: Date.now()
+				timestamp: Date.now(),
 			};
 
 			request.response = apiResponse;
 			addToHistory(request);
-
 		} catch (error) {
 			const apiResponse: ApiResponse = {
 				status: 0,
 				headers: {},
 				body: JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
-				timestamp: Date.now()
+				timestamp: Date.now(),
 			};
 			request.response = apiResponse;
 			addToHistory(request);
@@ -140,9 +149,9 @@
 
 		const url = generateUrl();
 		const headers: Record<string, string> = {
-			'Authorization': `Bearer YOUR_TOKEN_HERE`,
-			'Accept': 'application/json',
-			'User-Agent': 'FreeFeed-API-Explorer'
+			Authorization: `Bearer YOUR_TOKEN_HERE`,
+			Accept: 'application/json',
+			'User-Agent': 'FreeFeed-API-Explorer',
 		};
 
 		let body: string | undefined;
@@ -160,9 +169,13 @@
 		}
 
 		return `fetch('${url}', {
-	method: '${selectedEndpoint.method}',
-	headers: ${JSON.stringify(headers, null, 2)}${body ? `,
-	body: ${body}` : ''}
+  method: '${selectedEndpoint.method}',
+  headers: ${JSON.stringify(headers, null, 2)}${
+		body
+			? `,
+  body: ${body}`
+			: ''
+	}
 })
 .then(response => response.json())
 .then(data => console.log(data))
@@ -235,17 +248,24 @@
 		<div class="container-fluid">
 			<span class="navbar-brand mb-0 h1">FreeFeed API Explorer</span>
 			<div class="navbar-nav ms-auto">
-				<button class="btn btn-outline-light btn-sm me-2" on:click={() => showHistory = !showHistory}>
+				<button
+					class="btn btn-outline-light btn-sm me-2"
+					on:click={() => (showHistory = !showHistory)}
+				>
 					{showHistory ? 'Hide' : 'Show'} History
 				</button>
 				<div class="dropdown">
-					<button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+					<button
+						class="btn btn-outline-light btn-sm dropdown-toggle"
+						type="button"
+						data-bs-toggle="dropdown"
+					>
 						{$selectedInstance.name}
 					</button>
 					<ul class="dropdown-menu">
 						{#each FREEFEED_INSTANCES as instance}
 							<li>
-								<button class="dropdown-item" on:click={() => $selectedInstance = instance}>
+								<button class="dropdown-item" on:click={() => ($selectedInstance = instance)}>
 									{instance.name}
 								</button>
 							</li>
@@ -274,7 +294,7 @@
 							class="form-control mb-2"
 							placeholder="Search endpoints..."
 							bind:value={searchQuery}
-						>
+						/>
 						<select class="form-select" bind:value={selectedScope}>
 							<option value="">All Scopes</option>
 							{#each scopes as scope}
@@ -287,12 +307,24 @@
 					<div class="list-group list-group-flush" style="max-height: 500px; overflow-y: auto;">
 						{#each filteredEndpoints as endpoint}
 							<button
-								class="list-group-item list-group-item-action {selectedEndpoint === endpoint ? 'active' : ''}"
+								class="list-group-item list-group-item-action {selectedEndpoint === endpoint
+									? 'active'
+									: ''}"
 								on:click={() => selectEndpoint(endpoint)}
 							>
 								<div class="d-flex w-100 justify-content-between">
 									<h6 class="mb-1">
-										<span class="badge bg-{endpoint.method === 'GET' ? 'success' : endpoint.method === 'POST' ? 'primary' : endpoint.method === 'PUT' ? 'warning' : endpoint.method === 'DELETE' ? 'danger' : 'secondary'}">{endpoint.method}</span>
+										<span
+											class="badge bg-{endpoint.method === 'GET'
+												? 'success'
+												: endpoint.method === 'POST'
+													? 'primary'
+													: endpoint.method === 'PUT'
+														? 'warning'
+														: endpoint.method === 'DELETE'
+															? 'danger'
+															: 'secondary'}">{endpoint.method}</span
+										>
 										{endpoint.path}
 									</h6>
 								</div>
@@ -339,7 +371,8 @@
 									<label for="param-{param.name}" class="form-label">
 										{param.name}
 										{#if param.required}<span class="text-danger">*</span>{/if}
-										{#if param.description}<small class="text-muted ms-1">{param.description}</small>{/if}
+										{#if param.description}<small class="text-muted ms-1">{param.description}</small
+											>{/if}
 									</label>
 									{#if param.type === 'number'}
 										<input
@@ -349,7 +382,7 @@
 											bind:value={parameters[param.name]}
 											placeholder={param.example || ''}
 											required={param.required}
-										>
+										/>
 									{:else if param.type === 'boolean'}
 										<select
 											id="param-{param.name}"
@@ -369,7 +402,7 @@
 											bind:value={parameters[param.name]}
 											placeholder={param.example || ''}
 											required={param.required}
-										>
+										/>
 									{/if}
 								</div>
 							{/each}
@@ -381,8 +414,11 @@
 				{#if showCodeGeneration}
 					<div class="card mb-4">
 						<div class="card-header d-flex justify-content-between align-items-center">
-							<h5>Generated Code</h5>
-							<button class="btn btn-outline-primary btn-sm" on:click={() => copyToClipboard(generatedCode)}>
+							<h5>Code Example</h5>
+							<button
+								class="btn btn-outline-primary btn-sm"
+								on:click={() => copyToClipboard(generatedCode)}
+							>
 								Copy to Clipboard
 							</button>
 						</div>
@@ -401,19 +437,33 @@
 						<div class="card-body">
 							<div class="mb-3">
 								<strong>Status:</strong>
-								<span class="badge bg-{$currentRequest.response.status < 300 ? 'success' : $currentRequest.response.status < 400 ? 'warning' : 'danger'}">
+								<span
+									class="badge bg-{$currentRequest.response.status < 300
+										? 'success'
+										: $currentRequest.response.status < 400
+											? 'warning'
+											: 'danger'}"
+								>
 									{$currentRequest.response.status}
 								</span>
 							</div>
 
 							<div class="mb-3">
 								<strong>Headers:</strong>
-								<pre class="bg-light p-2 rounded small">{JSON.stringify($currentRequest.response.headers, null, 2)}</pre>
+								<pre class="bg-light p-2 rounded small">{JSON.stringify(
+										$currentRequest.response.headers,
+										null,
+										2
+									)}</pre>
 							</div>
 
 							<div class="mb-3">
 								<strong>Body:</strong>
-								<pre class="bg-light p-3 rounded" style="max-height: 400px; overflow-y: auto;">{formatJson($currentRequest.response.body)}</pre>
+								<pre
+									class="bg-light p-3 rounded"
+									style="max-height: 400px; overflow-y: auto;">{formatJson(
+										$currentRequest.response.body
+									)}</pre>
 							</div>
 						</div>
 					</div>
@@ -422,7 +472,10 @@
 				<div class="text-center text-muted py-5">
 					<h3>Welcome to FreeFeed API Explorer</h3>
 					<p>Select an API endpoint from the sidebar to get started.</p>
-					<p class="small">This tool helps you explore and test the FreeFeed API. Your token and request history are stored locally on your device.</p>
+					<p class="small">
+						This tool helps you explore and test the FreeFeed API. Your token and request history
+						are stored locally on your device.
+					</p>
 				</div>
 			{/if}
 		</div>
@@ -430,14 +483,18 @@
 
 	<!-- History Sidebar -->
 	{#if showHistory}
-		<div class="offcanvas offcanvas-end show" tabindex="-1" style="position: fixed; visibility: visible;">
+		<div
+			class="offcanvas offcanvas-end show"
+			tabindex="-1"
+			style="position: fixed; visibility: visible;"
+		>
 			<div class="offcanvas-header">
 				<h5 class="offcanvas-title">Request History</h5>
 				<div>
 					<button class="btn btn-outline-danger btn-sm me-2" on:click={clearHistory}>
 						Clear History
 					</button>
-					<button type="button" class="btn-close" on:click={() => showHistory = false}></button>
+					<button type="button" class="btn-close" on:click={() => (showHistory = false)}></button>
 				</div>
 			</div>
 			<div class="offcanvas-body">
@@ -448,16 +505,22 @@
 						<div class="card mb-2">
 							<div class="card-body p-2">
 								<h6 class="card-title small">
-									<span class="badge bg-{request.endpoint.method === 'GET' ? 'success' : 'primary'}">{request.endpoint.method}</span>
+									<span class="badge bg-{request.endpoint.method === 'GET' ? 'success' : 'primary'}"
+										>{request.endpoint.method}</span
+									>
 									{request.endpoint.path}
 								</h6>
 								<p class="card-text small text-muted">{request.instance.name}</p>
 								{#if request.response}
 									<p class="card-text">
-										<span class="badge bg-{request.response.status < 300 ? 'success' : 'danger'}">{request.response.status}</span>
+										<span class="badge bg-{request.response.status < 300 ? 'success' : 'danger'}"
+											>{request.response.status}</span
+										>
 									</p>
 								{/if}
-								<p class="card-text"><small class="text-muted">{new Date(request.timestamp).toLocaleString()}</small></p>
+								<p class="card-text">
+									<small class="text-muted">{new Date(request.timestamp).toLocaleString()}</small>
+								</p>
 							</div>
 						</div>
 					{/each}
@@ -476,7 +539,9 @@
 			</div>
 			<div class="modal-body">
 				<div class="alert alert-info">
-					<strong>Privacy Notice:</strong> Your token is stored locally in your browser's localStorage and will not be sent to any third-party servers except when making API requests to the selected FreeFeed instance.
+					<strong>Privacy Notice:</strong> Your token is stored locally in your browser's localStorage
+					and will not be sent to any third-party servers except when making API requests to the selected
+					FreeFeed instance.
 				</div>
 				<div class="mb-3">
 					<label for="token-input" class="form-label">FreeFeed API Token</label>
@@ -486,7 +551,7 @@
 						class="form-control"
 						bind:value={$token}
 						placeholder="Enter your FreeFeed API token..."
-					>
+					/>
 				</div>
 				<div class="mb-3">
 					<label for="instance-select" class="form-label">FreeFeed Instance</label>
