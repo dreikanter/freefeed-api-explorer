@@ -40,27 +40,26 @@ src/
 3. **Stage precisely:** use `git add -p` (or IDE line/selection staging) to include only the hunks that satisfy the one-sentence change.
 4. **Run tests/linters:** keep the suite green per commit.
 5. **Commit message (subject ≤ 50 chars, imperative):**
+   - Subject: “Add user_email index”
+   - Body (optional): why + constraints/links.
 
-   * Subject: “Add user\_email index”
-   * Body (optional): why + constraints/links.
 6. **Repeat** for the next planned step. If changes get mixed, use `git reset -p`, `git commit --amend`, or `git rebase -i` to reorganize before pushing.
 
 #### What counts as “atomic”
 
-* **Single purpose & complete:** one logical change, fully done.
-* **Examples:**
-
-  * “Add migration for `orders.status` enum” (+ entity change if required).
-  * “Refactor `UserService` to use async/await” (no styling changes).
-  * “Fix divide-by-zero in `calc()` + test.”
+- **Single purpose & complete:** one logical change, fully done.
+- **Examples:**
+  - “Add migration for `orders.status` enum” (+ entity change if required).
+  - “Refactor `UserService` to use async/await” (no styling changes).
+  - “Fix divide-by-zero in `calc()` + test.”
 
 #### Review yourself before push
 
-* Inspect `git status`, `git diff`, `git log --oneline`.
-* Squash/fixup only when several commits are fragments of the *same* unit of work.
+- Inspect `git status`, `git diff`, `git log --oneline`.
+- Squash/fixup only when several commits are fragments of the _same_ unit of work.
 
 #### Guardrails
 
-* **Never** stage unrelated edits together (formatting, renames, feature code in one commit).
-* If mid-flow you discover a second concern, **stop** and create a new TODO line; do not keep coding in the same commit.
-* Prefer many small PRs built from atomic commits; they’re easier to review, revert, and bisect.
+- **Never** stage unrelated edits together (formatting, renames, feature code in one commit).
+- If mid-flow you discover a second concern, **stop** and create a new TODO line; do not keep coding in the same commit.
+- Prefer many small PRs built from atomic commits; they’re easier to review, revert, and bisect.
