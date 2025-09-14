@@ -14,15 +14,17 @@
       <h6 class="mb-1">
         <MethodBadge method={endpoint.method} />
         {#if methodBadgePathClass}
-          <span class="{methodBadgePathClass}">{endpoint.path}</span>
+          <span class="{methodBadgePathClass} {isSelected ? 'text-light' : ''}">{endpoint.path}</span>
         {:else}
-          {endpoint.path}
+          <span class="{isSelected ? 'text-light' : ''}">{endpoint.path}</span>
         {/if}
       </h6>
-      <p class="mb-1 small text-muted">{endpoint.description}</p>
-      <slot />
+      <p class="mb-1 small {isSelected ? 'text-light' : 'text-muted'}">{endpoint.description}</p>
+      <div class="{isSelected ? 'text-light' : ''}">
+        <slot />
+      </div>
     </div>
-    <div class="text-end">
+    <div class="text-end {isSelected ? 'text-light' : ''}">
       <slot name="side-content" />
     </div>
   </div>
