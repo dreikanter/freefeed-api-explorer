@@ -11,16 +11,26 @@
 
   let selectedRequest: ApiRequest | null = null;
 
+  let isNavigating = false;
+
   function selectRequest(request: ApiRequest) {
+    if (isNavigating) return;
+
     selectedRequest = request;
+    isNavigating = true;
+
     // Update URL with selected request ID
     const url = new URL($page.url);
     url.searchParams.set('request', request.id);
-    goto(url.toString(), { replaceState: true });
+    goto(url.toString(), { replaceState: true }).then(() => {
+      isNavigating = false;
+    });
   }
 
   // Watch for URL changes and update selected request
   $: {
+    if (isNavigating) return;
+
     const requestId = $page.url.searchParams.get('request');
     if (requestId && $requestHistory.length > 0) {
       const found = $requestHistory.find((req) => req.id === requestId);
@@ -28,9 +38,12 @@
         selectedRequest = found;
       } else if (!found && selectedRequest) {
         // Request not found, clear URL parameter
+        isNavigating = true;
         const url = new URL($page.url);
         url.searchParams.delete('request');
-        goto(url.toString(), { replaceState: true });
+        goto(url.toString(), { replaceState: true }).then(() => {
+          isNavigating = false;
+        });
         selectedRequest = null;
       }
     } else if (!requestId && selectedRequest) {
