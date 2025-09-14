@@ -13,9 +13,11 @@ function init() {
   hljs.registerLanguage('javascript', javascript);
   hljs.registerLanguage('bash', bash);
   hljs.registerLanguage('json', json);
-  hljs.addPlugin(new CopyButtonPlugin({
-    autohide: false
-  }));
+  hljs.addPlugin(
+    new CopyButtonPlugin({
+      autohide: false,
+    })
+  );
 
   initialized = true;
 }

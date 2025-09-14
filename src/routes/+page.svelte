@@ -23,9 +23,8 @@
 
   // Find most recent response for the currently selected endpoint
   $: endpointResponse = selectedEndpoint
-    ? $requestHistory.find(req =>
-        req.endpoint.method === selectedEndpoint.method &&
-        req.endpoint.path === selectedEndpoint.path
+    ? $requestHistory.find(
+        (req) => req.endpoint.method === selectedEndpoint.method && req.endpoint.path === selectedEndpoint.path
       )
     : null;
 
@@ -324,7 +323,6 @@
     }
   });
 
-
   function highlightCode(code: string, language: string): string {
     return hljs.highlight(code, { language }).value;
   }
@@ -446,7 +444,10 @@
           <div class="card mb-4">
             <h5 class="card-header">Code Example</h5>
             <div class="card-body">
-              <pre class="m-0 p-2 rounded small hljs"><code>{@html highlightCode(generatedCode, codeLanguage)}</code></pre>
+              <pre class="m-0 p-2 rounded small hljs"><code>{@html highlightCode(
+                    generatedCode,
+                    codeLanguage
+                  )}</code></pre>
             </div>
           </div>
         {/if}
@@ -488,7 +489,9 @@
               <button class="btn btn-outline-secondary ms-2" on:click={() => showCodeFromRequest('fetch')}>
                 Generate fetch()
               </button>
-              <button class="btn btn-outline-secondary ms-2" on:click={() => showCodeFromRequest('curl')}>Generate curl</button>
+              <button class="btn btn-outline-secondary ms-2" on:click={() => showCodeFromRequest('curl')}>
+                Generate curl
+              </button>
             </div>
           </div>
         </div>
@@ -498,11 +501,13 @@
           <div class="card mb-4">
             <h5 class="card-header">Code Example</h5>
             <div class="card-body">
-              <pre class="m-0 p-2 rounded small hljs"><code>{@html highlightCode(generatedCode, codeLanguage)}</code></pre>
+              <pre class="m-0 p-2 rounded small hljs"><code>{@html highlightCode(
+                    generatedCode,
+                    codeLanguage
+                  )}</code></pre>
             </div>
           </div>
         {/if}
-
       {/if}
     </div>
   </div>
