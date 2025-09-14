@@ -12,12 +12,12 @@ const localStorageMock = (() => {
     },
     clear: () => {
       store = {};
-    }
+    },
   };
 })();
 
 Object.defineProperty(window, 'localStorage', {
-  value: localStorageMock
+  value: localStorageMock,
 });
 
 describe('stores', () => {
@@ -34,7 +34,7 @@ describe('stores', () => {
       timestamp: Date.now(),
       instance: { name: 'Test', url: 'http://test.com', description: 'Test instance' },
       endpoint: { method: 'GET', path: '/test', description: 'Test endpoint', scope: 'public', parameters: [] },
-      parameters: {}
+      parameters: {},
     };
 
     requestHistory.set([mockRequest]);

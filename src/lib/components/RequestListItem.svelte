@@ -16,11 +16,11 @@
         {#if methodBadgePathClass}
           <span class="{methodBadgePathClass} {isSelected ? 'text-light' : ''}">{endpoint.path}</span>
         {:else}
-          <span class="{isSelected ? 'text-light' : ''}">{endpoint.path}</span>
+          <span class={isSelected ? 'text-light' : ''}>{endpoint.path}</span>
         {/if}
       </h6>
       <p class="mb-1 small {isSelected ? 'text-light' : 'text-muted'}">{endpoint.description}</p>
-      <div class="{isSelected ? 'text-light' : ''}">
+      <div class={isSelected ? 'text-light' : ''}>
         <slot />
       </div>
     </div>

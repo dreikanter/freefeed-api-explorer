@@ -10,11 +10,11 @@ const config = {
   kit: {
     adapter: adapter({
       fallback: 'index.html',
-      precompress: false
+      precompress: false,
     }),
     paths: {
-      base: process.env.NODE_ENV === 'production' ? '/freefeed-api-explorer' : ''
-    }
+      base: process.env.NODE_ENV === 'production' ? '/freefeed-api-explorer' : '',
+    },
   },
 };
 

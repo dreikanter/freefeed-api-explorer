@@ -116,7 +116,9 @@
 
       <div class="mb-3">
         <strong>Headers:</strong>
-        <pre class="bg-light m-0 p-2 rounded small hljs"><code>{@html highlightJson(JSON.stringify(request.response.headers, null, 2))}</code></pre>
+        <pre class="bg-light m-0 p-2 rounded small hljs"><code>{@html highlightJson(
+              JSON.stringify(request.response.headers, null, 2)
+            )}</code></pre>
       </div>
 
       <div class="mb-3">
