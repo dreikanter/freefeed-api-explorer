@@ -73,7 +73,9 @@
 {#if request?.response}
   <div class="card">
     <h5 class="card-header">
-      Response <span class="text-muted">(received {getRelativeTime(request.response.timestamp)})</span>
+      Response <span class="text-muted">
+        (received {getRelativeTime(request.response.timestamp)})
+      </span>
     </h5>
     <div class="card-body">
       <div class="mb-3">
@@ -87,16 +89,14 @@
         >
           {request.response.status}
         </span>
-        <span class="text-muted ms-2">{getStatusText(request.response.status)}</span>
+        <span class="text-muted ms-2">
+          {getStatusText(request.response.status)}
+        </span>
       </div>
 
       <div class="mb-3">
         <strong>Headers:</strong>
-        <pre class="bg-light m-0 p-2 rounded small">{JSON.stringify(
-            request.response.headers,
-            null,
-            2
-          )}</pre>
+        <pre class="bg-light m-0 p-2 rounded small">{JSON.stringify(request.response.headers, null, 2)}</pre>
       </div>
 
       <div class="mb-3">

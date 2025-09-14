@@ -69,7 +69,9 @@
                   layout="detailed"
                   methodBadgePathClass="small ms-1"
                 >
-                  <small class="text-muted" slot="subtitle">{request.instance.name}</small>
+                  <small class="text-muted" slot="subtitle">
+                    {request.instance.name}
+                  </small>
                   <div slot="side-content">
                     {#if request.response}
                       <div class="mb-1">
@@ -85,7 +87,8 @@
                       </div>
                     {/if}
                     <small class="text-muted">
-                      {new Date(request.timestamp).toLocaleDateString()}<br />
+                      {new Date(request.timestamp).toLocaleDateString()}
+                      <br />
                       {new Date(request.timestamp).toLocaleTimeString()}
                     </small>
                   </div>
@@ -113,7 +116,10 @@
                   <strong>Scope:</strong>
                   <span class="badge bg-info">{selectedRequest.endpoint.scope}</span>
                 </p>
-                <p><strong>Instance:</strong> {selectedRequest.instance.name}</p>
+                <p>
+                  <strong>Instance:</strong>
+                  {selectedRequest.instance.name}
+                </p>
               </div>
               <div class="col-md-6">
                 <p>
@@ -157,7 +163,8 @@
             <p>Select a request from the sidebar to view its details.</p>
             {#if $requestHistory.length === 0}
               <p class="small">
-                No requests found. <a href="/">Start exploring the API</a> to build your request history.
+                No requests found. <a href="/">Start exploring the API</a>
+                to build your request history.
               </p>
             {/if}
           </div>

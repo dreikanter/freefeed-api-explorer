@@ -4,14 +4,7 @@
   import { goto } from '$app/navigation';
   import type { ApiEndpoint, ApiRequest, ApiResponse, FreeFeedInstance } from '$lib/types.js';
   import { API_ENDPOINTS, FREEFEED_INSTANCES } from '$lib/api-endpoints.js';
-  import {
-    token,
-    selectedInstance,
-    currentRequest,
-    isLoading,
-    clearToken,
-    addToHistory,
-  } from '$lib/stores.js';
+  import { token, selectedInstance, currentRequest, isLoading, clearToken, addToHistory } from '$lib/stores.js';
   import Response from '$lib/components/Response.svelte';
   import NavigationBar from '$lib/components/NavigationBar.svelte';
   import MethodBadge from '$lib/components/MethodBadge.svelte';
@@ -164,7 +157,9 @@
       const apiResponse: ApiResponse = {
         status: 0,
         headers: {},
-        body: JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
+        body: JSON.stringify({
+          error: error instanceof Error ? error.message : 'Unknown error',
+        }),
         timestamp: Date.now(),
       };
       request.response = apiResponse;
@@ -281,12 +276,7 @@
         <div class="card-body p-0">
           <!-- Search and Filter -->
           <div class="p-3">
-            <input
-              type="text"
-              class="form-control mb-2"
-              placeholder="Search endpoints..."
-              bind:value={searchQuery}
-            />
+            <input type="text" class="form-control mb-2" placeholder="Search endpoints..." bind:value={searchQuery} />
             <select class="form-select" bind:value={selectedScope}>
               <option value="">All Scopes</option>
               {#each scopes as scope}
@@ -317,7 +307,10 @@
     <div class="col-md-8">
       {#if selectedEndpoint}
         <div class="card mb-4">
-          <h5 class="card-header">{selectedEndpoint.method} {selectedEndpoint.path}</h5>
+          <h5 class="card-header">
+            {selectedEndpoint.method}
+            {selectedEndpoint.path}
+          </h5>
           <div class="card-body">
             <p class="card-text">{selectedEndpoint.description}</p>
             <p>
@@ -332,8 +325,7 @@
                   <label for="param-{param.name}" class="form-label">
                     {param.name}
                     {#if param.required}<span class="text-danger">*</span>{/if}
-                    {#if param.description}<small class="text-muted ms-1">{param.description}</small
-                      >{/if}
+                    {#if param.description}<small class="text-muted ms-1">{param.description}</small>{/if}
                   </label>
                   {#if param.type === 'number'}
                     <input
@@ -370,19 +362,13 @@
             {/if}
 
             <div class="mt-4">
-              <button
-                class="btn btn-success"
-                on:click={executeRequest}
-                disabled={$isLoading || !$token}
-              >
+              <button class="btn btn-success" on:click={executeRequest} disabled={$isLoading || !$token}>
                 {$isLoading ? 'Executing...' : 'Execute'}
               </button>
               <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('fetch')}>
                 Generate fetch()
               </button>
-              <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('curl')}>
-                Generate curl
-              </button>
+              <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('curl')}>Generate curl</button>
             </div>
           </div>
         </div>
@@ -405,8 +391,8 @@
             <h3>Welcome to FreeFeed API Explorer</h3>
             <p>Select an API endpoint from the sidebar to get started.</p>
             <p class="small">
-              This tool helps you explore and test the FreeFeed API. Your token and request history
-              are stored locally on your device.
+              This tool helps you explore and test the FreeFeed API. Your token and request history are stored locally
+              on your device.
             </p>
           </div>
         </div>
@@ -424,9 +410,9 @@
       </div>
       <div class="modal-body">
         <div class="alert alert-info">
-          <strong>Privacy Notice:</strong> Your token is stored locally in your browser's localStorage
-          and will not be sent to any third-party servers except when making API requests to the selected
-          FreeFeed instance.
+          <strong>Privacy Notice:</strong>
+          Your token is stored locally in your browser's localStorage and will not be sent to any third-party servers except
+          when making API requests to the selected FreeFeed instance.
         </div>
         <div class="mb-3">
           <label for="token-input" class="form-label">FreeFeed API Token</label>
@@ -442,7 +428,9 @@
           <label for="instance-select" class="form-label">FreeFeed Instance</label>
           <select id="instance-select" class="form-select" bind:value={$selectedInstance}>
             {#each FREEFEED_INSTANCES as instance}
-              <option value={instance}>{instance.name} - {instance.description}</option>
+              <option value={instance}>
+                {instance.name} - {instance.description}
+              </option>
             {/each}
           </select>
         </div>

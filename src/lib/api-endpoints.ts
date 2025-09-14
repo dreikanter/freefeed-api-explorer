@@ -61,7 +61,12 @@ export const API_ENDPOINTS: ApiEndpoint[] = [
     description: 'Get home timeline posts',
     scope: 'read-feeds',
     parameters: [
-      { name: 'offset', type: 'number', required: false, description: 'Number of posts to skip' },
+      {
+        name: 'offset',
+        type: 'number',
+        required: false,
+        description: 'Number of posts to skip',
+      },
       {
         name: 'limit',
         type: 'number',
@@ -76,8 +81,18 @@ export const API_ENDPOINTS: ApiEndpoint[] = [
     description: 'Get posts from a specific home feed',
     scope: 'read-feeds',
     parameters: [
-      { name: 'feedId', type: 'string', required: true, description: 'Feed ID' },
-      { name: 'offset', type: 'number', required: false, description: 'Number of posts to skip' },
+      {
+        name: 'feedId',
+        type: 'string',
+        required: true,
+        description: 'Feed ID',
+      },
+      {
+        name: 'offset',
+        type: 'number',
+        required: false,
+        description: 'Number of posts to skip',
+      },
       {
         name: 'limit',
         type: 'number',
@@ -116,8 +131,18 @@ export const API_ENDPOINTS: ApiEndpoint[] = [
     description: 'Get user timeline',
     scope: 'read-feeds',
     parameters: [
-      { name: 'username', type: 'string', required: true, description: 'Username' },
-      { name: 'offset', type: 'number', required: false, description: 'Number of posts to skip' },
+      {
+        name: 'username',
+        type: 'string',
+        required: true,
+        description: 'Username',
+      },
+      {
+        name: 'offset',
+        type: 'number',
+        required: false,
+        description: 'Number of posts to skip',
+      },
       {
         name: 'limit',
         type: 'number',
@@ -132,8 +157,18 @@ export const API_ENDPOINTS: ApiEndpoint[] = [
     description: 'Get posts liked by user',
     scope: 'read-feeds',
     parameters: [
-      { name: 'username', type: 'string', required: true, description: 'Username' },
-      { name: 'offset', type: 'number', required: false, description: 'Number of posts to skip' },
+      {
+        name: 'username',
+        type: 'string',
+        required: true,
+        description: 'Username',
+      },
+      {
+        name: 'offset',
+        type: 'number',
+        required: false,
+        description: 'Number of posts to skip',
+      },
       {
         name: 'limit',
         type: 'number',
@@ -148,8 +183,18 @@ export const API_ENDPOINTS: ApiEndpoint[] = [
     description: 'Get user comments',
     scope: 'read-feeds',
     parameters: [
-      { name: 'username', type: 'string', required: true, description: 'Username' },
-      { name: 'offset', type: 'number', required: false, description: 'Number of posts to skip' },
+      {
+        name: 'username',
+        type: 'string',
+        required: true,
+        description: 'Username',
+      },
+      {
+        name: 'offset',
+        type: 'number',
+        required: false,
+        description: 'Number of posts to skip',
+      },
       {
         name: 'limit',
         type: 'number',
@@ -164,8 +209,18 @@ export const API_ENDPOINTS: ApiEndpoint[] = [
     description: 'Search posts and comments',
     scope: 'read-feeds',
     parameters: [
-      { name: 'q', type: 'string', required: true, description: 'Search query' },
-      { name: 'offset', type: 'number', required: false, description: 'Number of results to skip' },
+      {
+        name: 'q',
+        type: 'string',
+        required: true,
+        description: 'Search query',
+      },
+      {
+        name: 'offset',
+        type: 'number',
+        required: false,
+        description: 'Number of results to skip',
+      },
       {
         name: 'limit',
         type: 'number',
@@ -179,7 +234,14 @@ export const API_ENDPOINTS: ApiEndpoint[] = [
     path: '/v4/posts/:postId',
     description: 'Get single post',
     scope: 'read-feeds',
-    parameters: [{ name: 'postId', type: 'string', required: true, description: 'Post ID' }],
+    parameters: [
+      {
+        name: 'postId',
+        type: 'string',
+        required: true,
+        description: 'Post ID',
+      },
+    ],
   },
 
   // read-users-info scope
@@ -188,28 +250,56 @@ export const API_ENDPOINTS: ApiEndpoint[] = [
     path: '/v4/users/:username',
     description: 'Get user information',
     scope: 'read-users-info',
-    parameters: [{ name: 'username', type: 'string', required: true, description: 'Username' }],
+    parameters: [
+      {
+        name: 'username',
+        type: 'string',
+        required: true,
+        description: 'Username',
+      },
+    ],
   },
   {
     method: 'GET',
     path: '/v4/users/:username/statistics',
     description: 'Get user statistics',
     scope: 'read-users-info',
-    parameters: [{ name: 'username', type: 'string', required: true, description: 'Username' }],
+    parameters: [
+      {
+        name: 'username',
+        type: 'string',
+        required: true,
+        description: 'Username',
+      },
+    ],
   },
   {
     method: 'GET',
     path: '/v4/users/:username/subscribers',
     description: 'Get user subscribers',
     scope: 'read-users-info',
-    parameters: [{ name: 'username', type: 'string', required: true, description: 'Username' }],
+    parameters: [
+      {
+        name: 'username',
+        type: 'string',
+        required: true,
+        description: 'Username',
+      },
+    ],
   },
   {
     method: 'GET',
     path: '/v4/users/:username/subscriptions',
     description: 'Get user subscriptions',
     scope: 'read-users-info',
-    parameters: [{ name: 'username', type: 'string', required: true, description: 'Username' }],
+    parameters: [
+      {
+        name: 'username',
+        type: 'string',
+        required: true,
+        description: 'Username',
+      },
+    ],
   },
 
   // manage-posts scope
@@ -219,7 +309,12 @@ export const API_ENDPOINTS: ApiEndpoint[] = [
     description: 'Create new post',
     scope: 'manage-posts',
     parameters: [
-      { name: 'body', type: 'string', required: true, description: 'Post content' },
+      {
+        name: 'body',
+        type: 'string',
+        required: true,
+        description: 'Post content',
+      },
       {
         name: 'feeds',
         type: 'string',
@@ -234,8 +329,18 @@ export const API_ENDPOINTS: ApiEndpoint[] = [
     description: 'Update post',
     scope: 'manage-posts',
     parameters: [
-      { name: 'postId', type: 'string', required: true, description: 'Post ID' },
-      { name: 'body', type: 'string', required: true, description: 'Updated post content' },
+      {
+        name: 'postId',
+        type: 'string',
+        required: true,
+        description: 'Post ID',
+      },
+      {
+        name: 'body',
+        type: 'string',
+        required: true,
+        description: 'Updated post content',
+      },
     ],
   },
   {
@@ -243,21 +348,42 @@ export const API_ENDPOINTS: ApiEndpoint[] = [
     path: '/v4/posts/:postId',
     description: 'Delete post',
     scope: 'manage-posts',
-    parameters: [{ name: 'postId', type: 'string', required: true, description: 'Post ID' }],
+    parameters: [
+      {
+        name: 'postId',
+        type: 'string',
+        required: true,
+        description: 'Post ID',
+      },
+    ],
   },
   {
     method: 'POST',
     path: '/v4/posts/:postId/like',
     description: 'Like post',
     scope: 'manage-posts',
-    parameters: [{ name: 'postId', type: 'string', required: true, description: 'Post ID' }],
+    parameters: [
+      {
+        name: 'postId',
+        type: 'string',
+        required: true,
+        description: 'Post ID',
+      },
+    ],
   },
   {
     method: 'POST',
     path: '/v4/posts/:postId/unlike',
     description: 'Unlike post',
     scope: 'manage-posts',
-    parameters: [{ name: 'postId', type: 'string', required: true, description: 'Post ID' }],
+    parameters: [
+      {
+        name: 'postId',
+        type: 'string',
+        required: true,
+        description: 'Post ID',
+      },
+    ],
   },
   {
     method: 'POST',
@@ -265,8 +391,18 @@ export const API_ENDPOINTS: ApiEndpoint[] = [
     description: 'Create comment',
     scope: 'manage-posts',
     parameters: [
-      { name: 'body', type: 'string', required: true, description: 'Comment content' },
-      { name: 'postId', type: 'string', required: true, description: 'Post ID' },
+      {
+        name: 'body',
+        type: 'string',
+        required: true,
+        description: 'Comment content',
+      },
+      {
+        name: 'postId',
+        type: 'string',
+        required: true,
+        description: 'Post ID',
+      },
     ],
   },
   {
@@ -275,8 +411,18 @@ export const API_ENDPOINTS: ApiEndpoint[] = [
     description: 'Update comment',
     scope: 'manage-posts',
     parameters: [
-      { name: 'commentId', type: 'string', required: true, description: 'Comment ID' },
-      { name: 'body', type: 'string', required: true, description: 'Updated comment content' },
+      {
+        name: 'commentId',
+        type: 'string',
+        required: true,
+        description: 'Comment ID',
+      },
+      {
+        name: 'body',
+        type: 'string',
+        required: true,
+        description: 'Updated comment content',
+      },
     ],
   },
   {
@@ -284,6 +430,13 @@ export const API_ENDPOINTS: ApiEndpoint[] = [
     path: '/v4/comments/:commentId',
     description: 'Delete comment',
     scope: 'manage-posts',
-    parameters: [{ name: 'commentId', type: 'string', required: true, description: 'Comment ID' }],
+    parameters: [
+      {
+        name: 'commentId',
+        type: 'string',
+        required: true,
+        description: 'Comment ID',
+      },
+    ],
   },
 ];

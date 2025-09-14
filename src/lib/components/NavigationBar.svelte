@@ -18,11 +18,7 @@
     </div>
     <div class="navbar-nav ms-auto">
       <div class="dropdown">
-        <button
-          class="btn btn-outline-light btn-sm dropdown-toggle"
-          type="button"
-          data-bs-toggle="dropdown"
-        >
+        <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
           {$selectedInstance.name}
         </button>
         <ul class="dropdown-menu">
@@ -35,12 +31,8 @@
           {/each}
         </ul>
       </div>
-      <button class="btn btn-outline-light btn-sm ms-2" on:click={clearHistory}>
-        Clear History
-      </button>
-      <button class="btn btn-outline-light btn-sm ms-2" on:click={clearToken}>
-        Reset Token
-      </button>
+      <button class="btn btn-outline-light btn-sm ms-2" on:click={clearHistory}>Clear History</button>
+      <button class="btn btn-outline-light btn-sm ms-2" on:click={clearToken}>Reset Token</button>
     </div>
   </div>
 </nav>
