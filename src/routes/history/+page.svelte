@@ -65,10 +65,9 @@
                   endpoint={request.endpoint}
                   isSelected={selectedRequest === request}
                   onClick={() => selectRequest(request)}
-                  layout="detailed"
                   methodBadgePathClass="small ms-1"
                 >
-                  <small class="text-muted" slot="subtitle">
+                  <small class="text-muted">
                     {request.instance.name}
                   </small>
                   <div slot="side-content">
