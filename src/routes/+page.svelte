@@ -2,19 +2,11 @@
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
-  import type { ApiEndpoint, ApiRequest, ApiResponse, FreeFeedInstance } from '$lib/types.js';
+  import type { ApiEndpoint, ApiRequest, ApiResponse } from '$lib/types.js';
   import { API_ENDPOINTS, FREEFEED_INSTANCES } from '$lib/api-endpoints.js';
-  import {
-    token,
-    selectedInstance,
-    currentRequest,
-    isLoading,
-    clearToken,
-    addToHistory,
-  } from '$lib/stores.js';
+  import { token, selectedInstance, currentRequest, isLoading, addToHistory } from '$lib/stores.js';
   import Response from '$lib/components/Response.svelte';
   import NavigationBar from '$lib/components/NavigationBar.svelte';
-  import MethodBadge from '$lib/components/MethodBadge.svelte';
   import ListItem from '$lib/components/ListItem.svelte';
 
   let searchQuery = '';
@@ -43,7 +35,7 @@
     const endpointParam = $page.url.searchParams.get('endpoint');
     if (endpointParam && endpointParam.includes(':')) {
       const [method, path] = endpointParam.split(':', 2);
-      const found = API_ENDPOINTS.find(ep => ep.method === method && ep.path === path);
+      const found = API_ENDPOINTS.find((ep) => ep.method === method && ep.path === path);
       if (found && found !== selectedEndpoint) {
         selectedEndpoint = found;
         parameters = {};
@@ -164,7 +156,9 @@
       const apiResponse: ApiResponse = {
         status: 0,
         headers: {},
-        body: JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
+        body: JSON.stringify({
+          error: error instanceof Error ? error.message : 'Unknown error',
+        }),
         timestamp: Date.now(),
       };
       request.response = apiResponse;
@@ -253,11 +247,6 @@
     }
   }
 
-  function copyToClipboard(text: string) {
-    navigator.clipboard.writeText(text);
-  }
-
-
   onMount(() => {
     if (!$token) {
       // @ts-ignore - Bootstrap is loaded via CDN
@@ -271,7 +260,7 @@
   <title>FreeFeed API Explorer</title>
 </svelte:head>
 
-  <NavigationBar currentPage="home" />
+<NavigationBar currentPage="home" />
 
 <div class="container-fluid mb-4">
   <div class="row">
@@ -282,12 +271,7 @@
         <div class="card-body p-0">
           <!-- Search and Filter -->
           <div class="p-3">
-            <input
-              type="text"
-              class="form-control mb-2"
-              placeholder="Search endpoints..."
-              bind:value={searchQuery}
-            />
+            <input type="text" class="form-control mb-2" placeholder="Search endpoints..." bind:value={searchQuery} />
             <select class="form-select" bind:value={selectedScope}>
               <option value="">All Scopes</option>
               {#each scopes as scope}
@@ -318,7 +302,10 @@
     <div class="col-md-8">
       {#if selectedEndpoint}
         <div class="card mb-4">
-          <h5 class="card-header">{selectedEndpoint.method} {selectedEndpoint.path}</h5>
+          <h5 class="card-header">
+            {selectedEndpoint.method}
+            {selectedEndpoint.path}
+          </h5>
           <div class="card-body">
             <p class="card-text">{selectedEndpoint.description}</p>
             <p>
@@ -333,8 +320,7 @@
                   <label for="param-{param.name}" class="form-label">
                     {param.name}
                     {#if param.required}<span class="text-danger">*</span>{/if}
-                    {#if param.description}<small class="text-muted ms-1">{param.description}</small
-                      >{/if}
+                    {#if param.description}<small class="text-muted ms-1">{param.description}</small>{/if}
                   </label>
                   {#if param.type === 'number'}
                     <input
@@ -371,19 +357,13 @@
             {/if}
 
             <div class="mt-4">
-              <button
-                class="btn btn-success"
-                on:click={executeRequest}
-                disabled={$isLoading || !$token}
-              >
+              <button class="btn btn-success" on:click={executeRequest} disabled={$isLoading || !$token}>
                 {$isLoading ? 'Executing...' : 'Execute'}
               </button>
               <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('fetch')}>
                 Generate fetch()
               </button>
-              <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('curl')}>
-                Generate curl
-              </button>
+              <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('curl')}>Generate curl</button>
             </div>
           </div>
         </div>
@@ -391,19 +371,7 @@
         <!-- Code Generation -->
         {#if showCodeGeneration}
           <div class="card mb-4">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <h5>Code Example</h5>
-              <button
-                class="btn btn-link btn-sm p-1 text-decoration-none"
-                on:click={() => copyToClipboard(generatedCode)}
-                title="Copy to clipboard"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                  <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                </svg>
-              </button>
-            </div>
+            <h5 class="card-header">Code Example</h5>
             <div class="card-body">
               <pre class="bg-light rounded mb-0"><code>{generatedCode}</code></pre>
             </div>
@@ -418,15 +386,14 @@
             <h3>Welcome to FreeFeed API Explorer</h3>
             <p>Select an API endpoint from the sidebar to get started.</p>
             <p class="small">
-              This tool helps you explore and test the FreeFeed API. Your token and request history
-              are stored locally on your device.
+              This tool helps you explore and test the FreeFeed API. Your token and request history are stored locally
+              on your device.
             </p>
           </div>
         </div>
       {/if}
     </div>
   </div>
-
 </div>
 
 <!-- Token Modal -->
@@ -438,9 +405,9 @@
       </div>
       <div class="modal-body">
         <div class="alert alert-info">
-          <strong>Privacy Notice:</strong> Your token is stored locally in your browser's localStorage
-          and will not be sent to any third-party servers except when making API requests to the selected
-          FreeFeed instance.
+          <strong>Privacy Notice:</strong>
+          Your token is stored locally in your browser's localStorage and will not be sent to any third-party servers except
+          when making API requests to the selected FreeFeed instance.
         </div>
         <div class="mb-3">
           <label for="token-input" class="form-label">FreeFeed API Token</label>
@@ -456,7 +423,9 @@
           <label for="instance-select" class="form-label">FreeFeed Instance</label>
           <select id="instance-select" class="form-select" bind:value={$selectedInstance}>
             {#each FREEFEED_INSTANCES as instance}
-              <option value={instance}>{instance.name} - {instance.description}</option>
+              <option value={instance}>
+                {instance.name} - {instance.description}
+              </option>
             {/each}
           </select>
         </div>

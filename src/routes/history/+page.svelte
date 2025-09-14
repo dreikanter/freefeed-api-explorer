@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
-  import { requestHistory, clearHistory } from '$lib/stores.js';
+  import { requestHistory } from '$lib/stores.js';
   import type { ApiRequest } from '$lib/types.js';
   import Response from '$lib/components/Response.svelte';
   import NavigationBar from '$lib/components/NavigationBar.svelte';
@@ -23,7 +22,7 @@
   $: {
     const requestId = $page.url.searchParams.get('request');
     if (requestId && $requestHistory.length > 0) {
-      const found = $requestHistory.find(req => req.id === requestId);
+      const found = $requestHistory.find((req) => req.id === requestId);
       if (found && found !== selectedRequest) {
         selectedRequest = found;
       } else if (!found && selectedRequest) {
@@ -37,7 +36,6 @@
       selectedRequest = null;
     }
   }
-
 </script>
 
 <svelte:head>
@@ -61,7 +59,7 @@
               <a href="/" class="btn btn-primary">Start exploring the API</a>
             </div>
           {:else}
-            <div class="list-group list-group-flush border-top">
+            <div class="list-group list-group-flush">
               {#each $requestHistory as request}
                 <ListItem
                   endpoint={request.endpoint}
@@ -70,7 +68,9 @@
                   layout="detailed"
                   methodBadgePathClass="small ms-1"
                 >
-                  <small class="text-muted" slot="subtitle">{request.instance.name}</small>
+                  <small class="text-muted" slot="subtitle">
+                    {request.instance.name}
+                  </small>
                   <div slot="side-content">
                     {#if request.response}
                       <div class="mb-1">
@@ -86,7 +86,8 @@
                       </div>
                     {/if}
                     <small class="text-muted">
-                      {new Date(request.timestamp).toLocaleDateString()}<br />
+                      {new Date(request.timestamp).toLocaleDateString()}
+                      <br />
                       {new Date(request.timestamp).toLocaleTimeString()}
                     </small>
                   </div>
@@ -110,11 +111,20 @@
             <p class="card-text">{selectedRequest.endpoint.description}</p>
             <div class="row">
               <div class="col-md-6">
-                <p><strong>Scope:</strong> <span class="badge bg-info">{selectedRequest.endpoint.scope}</span></p>
-                <p><strong>Instance:</strong> {selectedRequest.instance.name}</p>
+                <p>
+                  <strong>Scope:</strong>
+                  <span class="badge bg-info">{selectedRequest.endpoint.scope}</span>
+                </p>
+                <p>
+                  <strong>Instance:</strong>
+                  {selectedRequest.instance.name}
+                </p>
               </div>
               <div class="col-md-6">
-                <p><strong>Timestamp:</strong> {new Date(selectedRequest.timestamp).toLocaleString()}</p>
+                <p>
+                  <strong>Timestamp:</strong>
+                  {new Date(selectedRequest.timestamp).toLocaleString()}
+                </p>
               </div>
             </div>
 
@@ -152,7 +162,8 @@
             <p>Select a request from the sidebar to view its details.</p>
             {#if $requestHistory.length === 0}
               <p class="small">
-                No requests found. <a href="/">Start exploring the API</a> to build your request history.
+                No requests found. <a href="/">Start exploring the API</a>
+                to build your request history.
               </p>
             {/if}
           </div>

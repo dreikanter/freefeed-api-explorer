@@ -31,7 +31,7 @@
         200: 'OK',
         201: 'Created',
         202: 'Accepted',
-        204: 'No Content'
+        204: 'No Content',
       };
       return statusTexts[status] || 'Success';
     }
@@ -39,7 +39,7 @@
       const statusTexts: Record<number, string> = {
         301: 'Moved Permanently',
         302: 'Found',
-        304: 'Not Modified'
+        304: 'Not Modified',
       };
       return statusTexts[status] || 'Redirect';
     }
@@ -52,7 +52,7 @@
         405: 'Method Not Allowed',
         409: 'Conflict',
         422: 'Unprocessable Entity',
-        429: 'Too Many Requests'
+        429: 'Too Many Requests',
       };
       return statusTexts[status] || 'Client Error';
     }
@@ -62,7 +62,7 @@
         501: 'Not Implemented',
         502: 'Bad Gateway',
         503: 'Service Unavailable',
-        504: 'Gateway Timeout'
+        504: 'Gateway Timeout',
       };
       return statusTexts[status] || 'Server Error';
     }
@@ -72,7 +72,11 @@
 
 {#if request?.response}
   <div class="card">
-    <h5 class="card-header">Response <span class="text-muted">(received {getRelativeTime(request.response.timestamp)})</span></h5>
+    <h5 class="card-header">
+      Response <span class="text-muted">
+        (received {getRelativeTime(request.response.timestamp)})
+      </span>
+    </h5>
     <div class="card-body">
       <div class="mb-3">
         <strong>Status:</strong>
@@ -85,23 +89,19 @@
         >
           {request.response.status}
         </span>
-        <span class="text-muted ms-2">{getStatusText(request.response.status)}</span>
+        <span class="text-muted ms-2">
+          {getStatusText(request.response.status)}
+        </span>
       </div>
 
       <div class="mb-3">
         <strong>Headers:</strong>
-        <pre class="bg-light m-0 p-2 rounded small">{JSON.stringify(
-            request.response.headers,
-            null,
-            2
-          )}</pre>
+        <pre class="bg-light m-0 p-2 rounded small">{JSON.stringify(request.response.headers, null, 2)}</pre>
       </div>
 
       <div class="mb-3">
         <strong>Body:</strong>
-        <pre class="bg-light m-0 p-2 rounded">{formatJson(
-            request.response.body
-          )}</pre>
+        <pre class="bg-light m-0 p-2 rounded">{formatJson(request.response.body)}</pre>
       </div>
     </div>
   </div>

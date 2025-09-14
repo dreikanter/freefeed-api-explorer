@@ -9,10 +9,7 @@
   export let methodBadgePathClass: string = '';
 </script>
 
-<button
-  class="list-group-item list-group-item-action {isSelected ? 'active' : ''}"
-  on:click={onClick}
->
+<button class="list-group-item list-group-item-action {isSelected ? 'active' : ''}" on:click={onClick}>
   {#if layout === 'simple'}
     <!-- Simple vertical layout for endpoints -->
     <h6 class="fw-normal">
