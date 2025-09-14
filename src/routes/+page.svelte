@@ -1,5 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { page } from '$app/stores';
+  import { goto } from '$app/navigation';
   import type { ApiEndpoint, ApiRequest, ApiResponse, FreeFeedInstance } from '$lib/types.js';
   import { API_ENDPOINTS, FREEFEED_INSTANCES } from '$lib/api-endpoints.js';
   import {
@@ -33,6 +35,27 @@
 
   const scopes = [...new Set(API_ENDPOINTS.map((e) => e.scope))].sort();
 
+  // Watch for URL changes and update selected endpoint
+  $: {
+    const endpointParam = $page.url.searchParams.get('endpoint');
+    if (endpointParam && endpointParam.includes(':')) {
+      const [method, path] = endpointParam.split(':', 2);
+      const found = API_ENDPOINTS.find(ep => ep.method === method && ep.path === path);
+      if (found && found !== selectedEndpoint) {
+        selectedEndpoint = found;
+        parameters = {};
+        found.parameters?.forEach((param) => {
+          if (param.required) {
+            parameters[param.name] = param.example || '';
+          }
+        });
+        showCodeGeneration = false;
+      }
+    } else if (!endpointParam && selectedEndpoint) {
+      selectedEndpoint = null;
+    }
+  }
+
   function selectEndpoint(endpoint: ApiEndpoint) {
     selectedEndpoint = endpoint;
     parameters = {};
@@ -42,6 +65,11 @@
       }
     });
     showCodeGeneration = false;
+
+    // Update URL with selected endpoint
+    const url = new URL($page.url);
+    url.searchParams.set('endpoint', `${endpoint.method}:${endpoint.path}`);
+    goto(url.toString(), { replaceState: true });
   }
 
   function generateUrl(): string {
