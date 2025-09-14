@@ -112,6 +112,11 @@
       <a href="/" class="navbar-brand mb-0 h1 text-decoration-none">FreeFeed API Explorer</a>
       <span class="nav-link text-light ms-3 active fw-bold">History</span>
     </div>
+    <div class="navbar-nav ms-auto">
+      <button class="btn btn-outline-light btn-sm ms-2" on:click={clearHistory}>
+        Clear History
+      </button>
+    </div>
   </div>
 </nav>
 
