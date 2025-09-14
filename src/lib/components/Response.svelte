@@ -1,7 +1,22 @@
 <script lang="ts">
+  import { onMount, afterUpdate } from 'svelte';
+  import hljs from 'highlight.js/lib/core';
+  import json from 'highlight.js/lib/languages/json';
+  import 'highlight.js/styles/github.css';
+  import 'highlightjs-copy/dist/highlightjs-copy.min.css';
+  import CopyButtonPlugin from 'highlightjs-copy';
   import type { ApiRequest } from '../types.js';
 
   export let request: ApiRequest | null = null;
+
+  onMount(() => {
+    hljs.registerLanguage('json', json);
+    hljs.addPlugin(new CopyButtonPlugin());
+  });
+
+  afterUpdate(() => {
+    hljs.highlightAll();
+  });
 
   function formatJson(jsonString: string): string {
     try {
@@ -9,6 +24,11 @@
     } catch {
       return jsonString;
     }
+  }
+
+  function highlightJson(jsonString: string): string {
+    const formatted = formatJson(jsonString);
+    return hljs.highlight(formatted, { language: 'json' }).value;
   }
 
   function getRelativeTime(timestamp: number): string {
@@ -96,12 +116,12 @@
 
       <div class="mb-3">
         <strong>Headers:</strong>
-        <pre class="bg-light m-0 p-2 rounded small">{JSON.stringify(request.response.headers, null, 2)}</pre>
+        <pre class="bg-light m-0 p-2 rounded small hljs"><code>{@html highlightJson(JSON.stringify(request.response.headers, null, 2))}</code></pre>
       </div>
 
       <div class="mb-3">
         <strong>Body:</strong>
-        <pre class="bg-light m-0 p-2 rounded">{formatJson(request.response.body)}</pre>
+        <pre class="bg-light m-0 p-2 rounded hljs"><code>{@html highlightJson(request.response.body)}</code></pre>
       </div>
     </div>
   </div>
