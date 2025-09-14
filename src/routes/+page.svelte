@@ -8,12 +8,9 @@
   import Response from '$lib/components/Response.svelte';
   import NavigationBar from '$lib/components/NavigationBar.svelte';
   import RequestListItem from '$lib/components/RequestListItem.svelte';
-  import hljs from 'highlight.js/lib/core';
-  import javascript from 'highlight.js/lib/languages/javascript';
-  import bash from 'highlight.js/lib/languages/bash';
+  import { initHighlight, hljs } from '$lib/highlight.js';
   import 'highlight.js/styles/github.css';
   import 'highlightjs-copy/dist/highlightjs-copy.min.css';
-  import CopyButtonPlugin from 'highlightjs-copy';
 
   let searchQuery = '';
   let selectedScope = '';
@@ -310,13 +307,7 @@
   }
 
   onMount(() => {
-    hljs.registerLanguage('javascript', javascript);
-    hljs.registerLanguage('bash', bash);
-    hljs.addPlugin(
-      new CopyButtonPlugin({
-        autohide: false,
-      })
-    );
+    initHighlight();
 
     if (!$token) {
       // @ts-ignore - Bootstrap is loaded via CDN

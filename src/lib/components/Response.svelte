@@ -1,22 +1,15 @@
 <script lang="ts">
   import { onMount, afterUpdate } from 'svelte';
-  import hljs from 'highlight.js/lib/core';
-  import json from 'highlight.js/lib/languages/json';
+  import { initHighlight, hljs } from '../highlight.js';
   import 'highlight.js/styles/github.css';
   import 'highlightjs-copy/dist/highlightjs-copy.min.css';
-  import CopyButtonPlugin from 'highlightjs-copy';
   import type { ApiRequest } from '../types.js';
   import { getRelativeTime } from '../utils.js';
 
   export let request: ApiRequest | null = null;
 
   onMount(() => {
-    hljs.registerLanguage('json', json);
-    hljs.addPlugin(
-      new CopyButtonPlugin({
-        autohide: false,
-      })
-    );
+    initHighlight();
   });
 
   afterUpdate(() => {
