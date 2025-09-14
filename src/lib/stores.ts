@@ -37,7 +37,7 @@ export const token = createLocalStorageStore('freefeed-token', '');
 export const selectedInstance = createLocalStorageStore<FreeFeedInstance>('freefeed-instance', FREEFEED_INSTANCES[0]);
 export const requestHistory = createLocalStorageStore<ApiRequest[]>('freefeed-history', []);
 
-export const currentRequest = writable<ApiRequest | null>(null);
+export const currentRequest = createLocalStorageStore<ApiRequest | null>('freefeed-current-request', null);
 export const isLoading = writable(false);
 
 export function clearToken() {
