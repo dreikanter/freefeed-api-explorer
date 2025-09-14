@@ -6,7 +6,7 @@
   import Response from '$lib/components/Response.svelte';
   import NavigationBar from '$lib/components/NavigationBar.svelte';
   import MethodBadge from '$lib/components/MethodBadge.svelte';
-  import ListItem from '$lib/components/ListItem.svelte';
+  import RequestListItem from '$lib/components/RequestListItem.svelte';
 
   let selectedRequest: ApiRequest | null = null;
 
@@ -61,7 +61,7 @@
           {:else}
             <div class="list-group list-group-flush">
               {#each $requestHistory as request}
-                <ListItem
+                <RequestListItem
                   endpoint={request.endpoint}
                   isSelected={selectedRequest === request}
                   onClick={() => selectRequest(request)}
@@ -91,7 +91,7 @@
                       {new Date(request.timestamp).toLocaleTimeString()}
                     </small>
                   </div>
-                </ListItem>
+                </RequestListItem>
               {/each}
             </div>
           {/if}

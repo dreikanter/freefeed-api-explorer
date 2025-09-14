@@ -7,7 +7,7 @@
   import { token, selectedInstance, currentRequest, isLoading, addToHistory } from '$lib/stores.js';
   import Response from '$lib/components/Response.svelte';
   import NavigationBar from '$lib/components/NavigationBar.svelte';
-  import ListItem from '$lib/components/ListItem.svelte';
+  import RequestListItem from '$lib/components/RequestListItem.svelte';
 
   let searchQuery = '';
   let selectedScope = '';
@@ -283,7 +283,7 @@
           <!-- Endpoints List -->
           <div class="list-group list-group-flush border-top">
             {#each filteredEndpoints as endpoint}
-              <ListItem
+              <RequestListItem
                 {endpoint}
                 isSelected={selectedEndpoint === endpoint}
                 onClick={() => selectEndpoint(endpoint)}
@@ -291,7 +291,7 @@
                 methodBadgePathClass="font-monospace"
               >
                 <small class="text-muted" slot="footer">{endpoint.scope}</small>
-              </ListItem>
+              </RequestListItem>
             {/each}
           </div>
         </div>
@@ -386,8 +386,7 @@
             <h3>Welcome to FreeFeed API Explorer</h3>
             <p>Select an API endpoint from the sidebar to get started.</p>
             <p class="small">
-              This tool helps you explore and test the FreeFeed API. Your token and request history are stored locally
-              on your device.
+              This tool helps you explore and test the FreeFeed API. Your token and request history are stored locally on your device.
             </p>
           </div>
         </div>
