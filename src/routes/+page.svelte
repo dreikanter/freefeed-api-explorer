@@ -1,5 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { page } from '$app/stores';
+  import { goto } from '$app/navigation';
   import type { ApiEndpoint, ApiRequest, ApiResponse, FreeFeedInstance } from '$lib/types.js';
   import { API_ENDPOINTS, FREEFEED_INSTANCES } from '$lib/api-endpoints.js';
   import {
@@ -10,6 +12,10 @@
     clearToken,
     addToHistory,
   } from '$lib/stores.js';
+  import Response from '$lib/components/Response.svelte';
+  import NavigationBar from '$lib/components/NavigationBar.svelte';
+  import MethodBadge from '$lib/components/MethodBadge.svelte';
+  import ListItem from '$lib/components/ListItem.svelte';
 
   let searchQuery = '';
   let selectedScope = '';
@@ -32,6 +38,27 @@
 
   const scopes = [...new Set(API_ENDPOINTS.map((e) => e.scope))].sort();
 
+  // Watch for URL changes and update selected endpoint
+  $: {
+    const endpointParam = $page.url.searchParams.get('endpoint');
+    if (endpointParam && endpointParam.includes(':')) {
+      const [method, path] = endpointParam.split(':', 2);
+      const found = API_ENDPOINTS.find(ep => ep.method === method && ep.path === path);
+      if (found && found !== selectedEndpoint) {
+        selectedEndpoint = found;
+        parameters = {};
+        found.parameters?.forEach((param) => {
+          if (param.required) {
+            parameters[param.name] = param.example || '';
+          }
+        });
+        showCodeGeneration = false;
+      }
+    } else if (!endpointParam && selectedEndpoint) {
+      selectedEndpoint = null;
+    }
+  }
+
   function selectEndpoint(endpoint: ApiEndpoint) {
     selectedEndpoint = endpoint;
     parameters = {};
@@ -41,6 +68,11 @@
       }
     });
     showCodeGeneration = false;
+
+    // Update URL with selected endpoint
+    const url = new URL($page.url);
+    url.searchParams.set('endpoint', `${endpoint.method}:${endpoint.path}`);
+    goto(url.toString(), { replaceState: true });
   }
 
   function generateUrl(): string {
@@ -126,6 +158,7 @@
       };
 
       request.response = apiResponse;
+      $currentRequest = request;
       addToHistory(request);
     } catch (error) {
       const apiResponse: ApiResponse = {
@@ -135,6 +168,7 @@
         timestamp: Date.now(),
       };
       request.response = apiResponse;
+      $currentRequest = request;
       addToHistory(request);
     } finally {
       $isLoading = false;
@@ -210,79 +244,19 @@
   }
 
   function showCode(type: 'fetch' | 'curl') {
-    generatedCode = type === 'fetch' ? generateFetchCode() : generateCurlCode();
-    showCodeGeneration = true;
+    const newCode = type === 'fetch' ? generateFetchCode() : generateCurlCode();
+    if (showCodeGeneration && generatedCode === newCode) {
+      showCodeGeneration = false;
+    } else {
+      generatedCode = newCode;
+      showCodeGeneration = true;
+    }
   }
 
   function copyToClipboard(text: string) {
     navigator.clipboard.writeText(text);
   }
 
-  function formatJson(jsonString: string): string {
-    try {
-      return JSON.stringify(JSON.parse(jsonString), null, 2);
-    } catch {
-      return jsonString;
-    }
-  }
-
-  function getRelativeTime(timestamp: number): string {
-    const now = Date.now();
-    const diff = now - timestamp;
-    const minutes = Math.floor(diff / 60000);
-    const hours = Math.floor(diff / 3600000);
-    const days = Math.floor(diff / 86400000);
-
-    if (minutes < 1) return 'Just now';
-    if (minutes < 60) return `${minutes}m ago`;
-    if (hours < 24) return `${hours}h ago`;
-    return `${days}d ago`;
-  }
-
-  function getStatusText(status: number): string {
-    if (status === 0) return 'Network Error';
-    if (status >= 200 && status < 300) {
-      const statusTexts: Record<number, string> = {
-        200: 'OK',
-        201: 'Created',
-        202: 'Accepted',
-        204: 'No Content'
-      };
-      return statusTexts[status] || 'Success';
-    }
-    if (status >= 300 && status < 400) {
-      const statusTexts: Record<number, string> = {
-        301: 'Moved Permanently',
-        302: 'Found',
-        304: 'Not Modified'
-      };
-      return statusTexts[status] || 'Redirect';
-    }
-    if (status >= 400 && status < 500) {
-      const statusTexts: Record<number, string> = {
-        400: 'Bad Request',
-        401: 'Unauthorized',
-        403: 'Forbidden',
-        404: 'Not Found',
-        405: 'Method Not Allowed',
-        409: 'Conflict',
-        422: 'Unprocessable Entity',
-        429: 'Too Many Requests'
-      };
-      return statusTexts[status] || 'Client Error';
-    }
-    if (status >= 500) {
-      const statusTexts: Record<number, string> = {
-        500: 'Internal Server Error',
-        501: 'Not Implemented',
-        502: 'Bad Gateway',
-        503: 'Service Unavailable',
-        504: 'Gateway Timeout'
-      };
-      return statusTexts[status] || 'Server Error';
-    }
-    return 'Unknown';
-  }
 
   onMount(() => {
     if (!$token) {
@@ -297,38 +271,7 @@
   <title>FreeFeed API Explorer</title>
 </svelte:head>
 
-  <!-- Header -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
-    <div class="container-fluid">
-      <div class="d-flex align-items-center">
-        <span class="navbar-brand mb-0 h1">FreeFeed API Explorer</span>
-        <a href="/history" class="nav-link text-light ms-3">History</a>
-      </div>
-      <div class="navbar-nav ms-auto">
-        <div class="dropdown">
-          <button
-            class="btn btn-outline-light btn-sm dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-          >
-            {$selectedInstance.name}
-          </button>
-          <ul class="dropdown-menu">
-            {#each FREEFEED_INSTANCES as instance}
-              <li>
-                <button class="dropdown-item" on:click={() => ($selectedInstance = instance)}>
-                  {instance.name}
-                </button>
-              </li>
-            {/each}
-          </ul>
-        </div>
-        <button class="btn btn-outline-light btn-sm ms-2" on:click={clearToken}>
-          Reset Token
-        </button>
-      </div>
-    </div>
-  </nav>
+  <NavigationBar currentPage="home" />
 
 <div class="container-fluid mb-4">
   <div class="row">
@@ -356,31 +299,15 @@
           <!-- Endpoints List -->
           <div class="list-group list-group-flush border-top">
             {#each filteredEndpoints as endpoint}
-              <button
-                class="list-group-item list-group-item-action {selectedEndpoint === endpoint
-                  ? 'active'
-                  : ''}"
-                on:click={() => selectEndpoint(endpoint)}
+              <ListItem
+                {endpoint}
+                isSelected={selectedEndpoint === endpoint}
+                onClick={() => selectEndpoint(endpoint)}
+                layout="simple"
+                methodBadgePathClass="font-monospace"
               >
-                <div class="d-flex w-100 justify-content-between">
-                  <h6 class="mb-1">
-                    <span
-                      class="badge bg-{endpoint.method === 'GET'
-                        ? 'success'
-                        : endpoint.method === 'POST'
-                          ? 'primary'
-                          : endpoint.method === 'PUT'
-                            ? 'warning'
-                            : endpoint.method === 'DELETE'
-                              ? 'danger'
-                              : 'secondary'}">{endpoint.method}</span
-                    >
-                    {endpoint.path}
-                  </h6>
-                </div>
-                <p class="mb-1 small">{endpoint.description}</p>
-                <small class="text-muted">{endpoint.scope}</small>
-              </button>
+                <small class="text-muted" slot="footer">{endpoint.scope}</small>
+              </ListItem>
             {/each}
           </div>
         </div>
@@ -397,21 +324,6 @@
             <p>
               Scope: <span class="badge bg-info">{selectedEndpoint.scope}</span>
             </p>
-            <div class="mt-4">
-              <button
-                class="btn btn-success"
-                on:click={executeRequest}
-                disabled={$isLoading || !$token}
-              >
-                {$isLoading ? 'Executing...' : 'Execute'}
-              </button>
-              <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('fetch')}>
-                Generate fetch()
-              </button>
-              <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('curl')}>
-                Generate curl
-              </button>
-            </div>
 
             <!-- Parameters -->
             {#if selectedEndpoint.parameters && selectedEndpoint.parameters.length > 0}
@@ -457,6 +369,22 @@
                 </div>
               {/each}
             {/if}
+
+            <div class="mt-4">
+              <button
+                class="btn btn-success"
+                on:click={executeRequest}
+                disabled={$isLoading || !$token}
+              >
+                {$isLoading ? 'Executing...' : 'Execute'}
+              </button>
+              <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('fetch')}>
+                Generate fetch()
+              </button>
+              <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('curl')}>
+                Generate curl
+              </button>
+            </div>
           </div>
         </div>
 
@@ -464,7 +392,7 @@
         {#if showCodeGeneration}
           <div class="card mb-4">
             <div class="card-header d-flex justify-content-between align-items-center">
-              <h5 class="mb-0">Code Example</h5>
+              <h5>Code Example</h5>
               <button
                 class="btn btn-link btn-sm p-1 text-decoration-none"
                 on:click={() => copyToClipboard(generatedCode)}
@@ -483,42 +411,7 @@
         {/if}
 
         <!-- Response -->
-        {#if $currentRequest?.response}
-          <div class="card">
-            <h5 class="card-header">Response <span class="text-muted">(received {getRelativeTime($currentRequest.response.timestamp)})</span></h5>
-            <div class="card-body">
-              <div class="mb-3">
-                <strong>Status:</strong>
-                <span
-                  class="badge bg-{$currentRequest.response.status < 300
-                    ? 'success'
-                    : $currentRequest.response.status < 400
-                      ? 'warning'
-                      : 'danger'}"
-                >
-                  {$currentRequest.response.status}
-                </span>
-                <span class="text-muted ms-2">{getStatusText($currentRequest.response.status)}</span>
-              </div>
-
-              <div class="mb-3">
-                <strong>Headers:</strong>
-                <pre class="bg-light p-2 rounded small">{JSON.stringify(
-                    $currentRequest.response.headers,
-                    null,
-                    2
-                  )}</pre>
-              </div>
-
-              <div class="mb-3">
-                <strong>Body:</strong>
-                <pre class="bg-light p-3 rounded">{formatJson(
-                    $currentRequest.response.body
-                  )}</pre>
-              </div>
-            </div>
-          </div>
-        {/if}
+        <Response request={$currentRequest} />
       {:else}
         <div class="card">
           <div class="card-body text-center text-muted py-5">

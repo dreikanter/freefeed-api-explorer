@@ -13,7 +13,7 @@
            a 1,1 0 0 1 0,-3
            z" />
   </symbol>
-  <use xlink:href="#snake" fill="#d43e1b" x="0" y="0"/>
-  <use xlink:href="#snake" fill="#f9b616" x="-16" y="-16" transform="rotate(180)"/>
-  <rect fill="#d43e1b" x="2" y="10" width="5" height="3"/>
+  <use xlink:href="#snake" fill="#118ab2" x="0" y="0"/>
+  <use xlink:href="#snake" fill="#06d6a0" x="-16" y="-16" transform="rotate(180)"/>
+  <rect fill="#118ab2" x="2" y="10" width="5" height="3"/>
 </svg>
