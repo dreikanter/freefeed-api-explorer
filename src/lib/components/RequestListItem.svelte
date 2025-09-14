@@ -8,24 +8,17 @@
   export let methodBadgePathClass: string = '';
 
   $: selectedTextClass = isSelected ? 'text-light' : '';
-  $: descriptionClass = isSelected ? 'text-light' : 'text-muted';
 </script>
 
 <button class="list-group-item list-group-item-action {isSelected ? 'active' : ''}" on:click={onClick}>
   <div class="d-flex w-100 justify-content-between align-items-start">
     <div class="flex-grow-1">
-      <h6 class="mb-1">
-        <MethodBadge method={endpoint.method} />
-        {#if methodBadgePathClass}
-          <span class="{methodBadgePathClass} {selectedTextClass}">{endpoint.path}</span>
-        {:else}
-          <span class={selectedTextClass}>{endpoint.path}</span>
-        {/if}
-      </h6>
-      <p class="mb-1 small {descriptionClass}">{endpoint.description}</p>
-      <div class={selectedTextClass}>
-        <slot />
-      </div>
+      <p class="mb-1 font-monospace small {selectedTextClass}">
+        <strong>{endpoint.method}</strong>
+        {endpoint.path}
+      </p>
+      <p class="mb-1 small {selectedTextClass}">{endpoint.description}</p>
+      <p class="mb-0"><span class="badge bg-info">{endpoint.scope}</span></p>
     </div>
     <div class="text-end {selectedTextClass}">
       <slot name="side-content" />

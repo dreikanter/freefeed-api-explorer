@@ -108,14 +108,10 @@
                   endpoint={request.endpoint}
                   isSelected={selectedRequest === request}
                   onClick={() => selectRequest(request)}
-                  methodBadgePathClass="small ms-1"
                 >
-                  <small class="text-muted">
-                    {request.instance.name}
-                  </small>
                   <div slot="side-content">
                     {#if request.response}
-                      <div class="mb-1">
+                      <p class="mb-1">
                         <span
                           class="badge bg-{request.response.status < 300
                             ? 'success'
@@ -125,11 +121,11 @@
                         >
                           {request.response.status}
                         </span>
-                      </div>
+                      </p>
                     {/if}
-                    <small class="text-muted">
+                    <p class="mb-0 small">
                       {getRelativeTime(request.timestamp)}
-                    </small>
+                    </p>
                   </div>
                 </RequestListItem>
               {/each}
@@ -144,9 +140,9 @@
       {#if selectedRequest}
         <!-- Request Info -->
         <div class="card mb-4">
-          <h5 class="card-header">
-            <MethodBadge method={selectedRequest.endpoint.method} />
-            <span class="ms-2 font-monospace small">{generateFullUrl(selectedRequest)}</span>
+          <h5 class="card-header font-monospace">
+            <strong>{selectedRequest.endpoint.method}</strong>
+            {generateFullUrl(selectedRequest)}
           </h5>
           <div class="card-body">
             <p>
@@ -160,7 +156,7 @@
 
             <!-- Parameters -->
             {#if Object.keys(selectedRequest.parameters).length > 0}
-              <h6>Parameters Used:</h6>
+              <p><strong>Parameters Used:</strong></p>
               <ul class="list-unstyled ps-4">
                 {#each Object.entries(selectedRequest.parameters) as [key, value]}
                   <li class="mb-1">
