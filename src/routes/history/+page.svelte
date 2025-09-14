@@ -7,6 +7,7 @@
   import Response from '$lib/components/Response.svelte';
   import NavigationBar from '$lib/components/NavigationBar.svelte';
   import MethodBadge from '$lib/components/MethodBadge.svelte';
+  import ListItem from '$lib/components/ListItem.svelte';
 
   let selectedRequest: ApiRequest | null = null;
 
@@ -62,41 +63,34 @@
           {:else}
             <div class="list-group list-group-flush" style="max-height: 70vh; overflow-y: auto;">
               {#each $requestHistory as request}
-                <button
-                  class="list-group-item list-group-item-action {selectedRequest === request
-                    ? 'active'
-                    : ''}"
-                  on:click={() => selectRequest(request)}
+                <ListItem
+                  endpoint={request.endpoint}
+                  isSelected={selectedRequest === request}
+                  onClick={() => selectRequest(request)}
+                  layout="detailed"
+                  methodBadgePathClass="small ms-1"
                 >
-                  <div class="d-flex w-100 justify-content-between align-items-start">
-                    <div class="flex-grow-1">
-                      <h6 class="mb-1">
-                        <MethodBadge endpoint={request.endpoint} pathClass="small ms-1" />
-                      </h6>
-                      <p class="mb-1 small text-muted">{request.endpoint.description}</p>
-                      <small class="text-muted">{request.instance.name}</small>
-                    </div>
-                    <div class="text-end">
-                      {#if request.response}
-                        <div class="mb-1">
-                          <span
-                            class="badge bg-{request.response.status < 300
-                              ? 'success'
-                              : request.response.status < 400
-                                ? 'warning'
-                                : 'danger'}"
-                          >
-                            {request.response.status}
-                          </span>
-                        </div>
-                      {/if}
-                      <small class="text-muted">
-                        {new Date(request.timestamp).toLocaleDateString()}<br />
-                        {new Date(request.timestamp).toLocaleTimeString()}
-                      </small>
-                    </div>
+                  <small class="text-muted" slot="subtitle">{request.instance.name}</small>
+                  <div slot="side-content">
+                    {#if request.response}
+                      <div class="mb-1">
+                        <span
+                          class="badge bg-{request.response.status < 300
+                            ? 'success'
+                            : request.response.status < 400
+                              ? 'warning'
+                              : 'danger'}"
+                        >
+                          {request.response.status}
+                        </span>
+                      </div>
+                    {/if}
+                    <small class="text-muted">
+                      {new Date(request.timestamp).toLocaleDateString()}<br />
+                      {new Date(request.timestamp).toLocaleTimeString()}
+                    </small>
                   </div>
-                </button>
+                </ListItem>
               {/each}
             </div>
           {/if}
