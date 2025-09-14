@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
-  import { requestHistory, clearHistory } from '$lib/stores.js';
+  import { requestHistory } from '$lib/stores.js';
   import type { ApiRequest } from '$lib/types.js';
   import Response from '$lib/components/Response.svelte';
   import NavigationBar from '$lib/components/NavigationBar.svelte';

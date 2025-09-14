@@ -2,12 +2,11 @@
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
-  import type { ApiEndpoint, ApiRequest, ApiResponse, FreeFeedInstance } from '$lib/types.js';
+  import type { ApiEndpoint, ApiRequest, ApiResponse } from '$lib/types.js';
   import { API_ENDPOINTS, FREEFEED_INSTANCES } from '$lib/api-endpoints.js';
-  import { token, selectedInstance, currentRequest, isLoading, clearToken, addToHistory } from '$lib/stores.js';
+  import { token, selectedInstance, currentRequest, isLoading, addToHistory } from '$lib/stores.js';
   import Response from '$lib/components/Response.svelte';
   import NavigationBar from '$lib/components/NavigationBar.svelte';
-  import MethodBadge from '$lib/components/MethodBadge.svelte';
   import ListItem from '$lib/components/ListItem.svelte';
 
   let searchQuery = '';
@@ -246,10 +245,6 @@
       generatedCode = newCode;
       showCodeGeneration = true;
     }
-  }
-
-  function copyToClipboard(text: string) {
-    navigator.clipboard.writeText(text);
   }
 
   onMount(() => {
