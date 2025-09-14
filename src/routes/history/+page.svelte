@@ -15,6 +15,19 @@
       return jsonString;
     }
   }
+
+  function getRelativeTime(timestamp: number): string {
+    const now = Date.now();
+    const diff = now - timestamp;
+    const minutes = Math.floor(diff / 60000);
+    const hours = Math.floor(diff / 3600000);
+    const days = Math.floor(diff / 86400000);
+
+    if (minutes < 1) return 'Just now';
+    if (minutes < 60) return `${minutes}m ago`;
+    if (hours < 24) return `${hours}h ago`;
+    return `${days}d ago`;
+  }
 </script>
 
 <svelte:head>
@@ -171,9 +184,7 @@
         <!-- Response -->
         {#if selectedRequest.response}
           <div class="card">
-            <div class="card-header">
-              <h5 class="mb-0">Response</h5>
-            </div>
+            <h5 class="card-header">Response <span class="text-muted">(received {getRelativeTime(selectedRequest.response.timestamp)})</span></h5>
             <div class="card-body">
               <div class="row mb-3">
                 <div class="col-md-6">
