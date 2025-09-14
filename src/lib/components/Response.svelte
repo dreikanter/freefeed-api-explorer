@@ -12,7 +12,9 @@
 
   onMount(() => {
     hljs.registerLanguage('json', json);
-    hljs.addPlugin(new CopyButtonPlugin());
+    hljs.addPlugin(new CopyButtonPlugin({
+      autohide: false
+    }));
   });
 
   afterUpdate(() => {
