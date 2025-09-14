@@ -156,7 +156,7 @@
 
             <!-- Parameters -->
             {#if Object.keys(selectedRequest.parameters).length > 0}
-              <h6>Parameters Used:</h6>
+              <p><strong>Parameters Used:</strong></p>
               <ul class="list-unstyled ps-4">
                 {#each Object.entries(selectedRequest.parameters) as [key, value]}
                   <li class="mb-1">
