@@ -20,7 +20,7 @@
   {endpoint.method}
 </span>
 {#if pathClass}
-  <span class="{pathClass}">{endpoint.path}</span>
+  <span class={pathClass}>{endpoint.path}</span>
 {:else}
   {endpoint.path}
 {/if}

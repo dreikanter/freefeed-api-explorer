@@ -23,7 +23,7 @@
   $: {
     const requestId = $page.url.searchParams.get('request');
     if (requestId && $requestHistory.length > 0) {
-      const found = $requestHistory.find(req => req.id === requestId);
+      const found = $requestHistory.find((req) => req.id === requestId);
       if (found && found !== selectedRequest) {
         selectedRequest = found;
       } else if (!found && selectedRequest) {
@@ -37,7 +37,6 @@
       selectedRequest = null;
     }
   }
-
 </script>
 
 <svelte:head>
@@ -110,11 +109,17 @@
             <p class="card-text">{selectedRequest.endpoint.description}</p>
             <div class="row">
               <div class="col-md-6">
-                <p><strong>Scope:</strong> <span class="badge bg-info">{selectedRequest.endpoint.scope}</span></p>
+                <p>
+                  <strong>Scope:</strong>
+                  <span class="badge bg-info">{selectedRequest.endpoint.scope}</span>
+                </p>
                 <p><strong>Instance:</strong> {selectedRequest.instance.name}</p>
               </div>
               <div class="col-md-6">
-                <p><strong>Timestamp:</strong> {new Date(selectedRequest.timestamp).toLocaleString()}</p>
+                <p>
+                  <strong>Timestamp:</strong>
+                  {new Date(selectedRequest.timestamp).toLocaleString()}
+                </p>
               </div>
             </div>
 

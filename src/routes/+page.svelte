@@ -43,7 +43,7 @@
     const endpointParam = $page.url.searchParams.get('endpoint');
     if (endpointParam && endpointParam.includes(':')) {
       const [method, path] = endpointParam.split(':', 2);
-      const found = API_ENDPOINTS.find(ep => ep.method === method && ep.path === path);
+      const found = API_ENDPOINTS.find((ep) => ep.method === method && ep.path === path);
       if (found && found !== selectedEndpoint) {
         selectedEndpoint = found;
         parameters = {};
@@ -257,7 +257,6 @@
     navigator.clipboard.writeText(text);
   }
 
-
   onMount(() => {
     if (!$token) {
       // @ts-ignore - Bootstrap is loaded via CDN
@@ -271,7 +270,7 @@
   <title>FreeFeed API Explorer</title>
 </svelte:head>
 
-  <NavigationBar currentPage="home" />
+<NavigationBar currentPage="home" />
 
 <div class="container-fluid mb-4">
   <div class="row">
@@ -414,7 +413,6 @@
       {/if}
     </div>
   </div>
-
 </div>
 
 <!-- Token Modal -->
