@@ -4,7 +4,7 @@
   import { goto } from '$app/navigation';
   import type { ApiEndpoint, ApiRequest, ApiResponse } from '$lib/types.js';
   import { API_ENDPOINTS, FREEFEED_INSTANCES } from '$lib/api-endpoints.js';
-  import { token, selectedInstance, currentRequest, isLoading, addToHistory } from '$lib/stores.js';
+  import { token, selectedInstance, currentRequest, isLoading, addToHistory, requestHistory } from '$lib/stores.js';
   import Response from '$lib/components/Response.svelte';
   import NavigationBar from '$lib/components/NavigationBar.svelte';
   import RequestListItem from '$lib/components/RequestListItem.svelte';
