@@ -15,6 +15,7 @@
   import Response from '$lib/components/Response.svelte';
   import NavigationBar from '$lib/components/NavigationBar.svelte';
   import MethodBadge from '$lib/components/MethodBadge.svelte';
+  import ListItem from '$lib/components/ListItem.svelte';
 
   let searchQuery = '';
   let selectedScope = '';
@@ -298,20 +299,15 @@
           <!-- Endpoints List -->
           <div class="list-group list-group-flush border-top">
             {#each filteredEndpoints as endpoint}
-              <button
-                class="list-group-item list-group-item-action {selectedEndpoint === endpoint
-                  ? 'active'
-                  : ''}"
-                on:click={() => selectEndpoint(endpoint)}
+              <ListItem
+                {endpoint}
+                isSelected={selectedEndpoint === endpoint}
+                onClick={() => selectEndpoint(endpoint)}
+                layout="simple"
+                methodBadgePathClass="font-monospace"
               >
-                <h6 class="fw-normal">
-                  <strong>
-                    <MethodBadge {endpoint} pathClass="font-monospace" />
-                  </strong>
-                </h6>
-                <p class="mb-1 small">{endpoint.description}</p>
-                <small class="text-muted">{endpoint.scope}</small>
-              </button>
+                <small class="text-muted" slot="footer">{endpoint.scope}</small>
+              </ListItem>
             {/each}
           </div>
         </div>
