@@ -1,26 +1,24 @@
 <script lang="ts">
-  import type { ApiEndpoint } from '../types.js';
+  export let method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
-  export let endpoint: ApiEndpoint;
-  export let pathClass: string = '';
-  export let badgeClass: string = '';
+  const getMethodColor = (method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH') => {
+    switch (method) {
+      case 'GET':
+        return 'success';
+      case 'POST':
+        return 'primary';
+      case 'PUT':
+        return 'warning';
+      case 'PATCH':
+        return 'info';
+      case 'DELETE':
+        return 'danger';
+      default:
+        return 'secondary';
+    }
+  };
 </script>
 
-<span
-  class="badge bg-{endpoint.method === 'GET'
-    ? 'success'
-    : endpoint.method === 'POST'
-      ? 'primary'
-      : endpoint.method === 'PUT'
-        ? 'warning'
-        : endpoint.method === 'DELETE'
-          ? 'danger'
-          : 'secondary'} {badgeClass}"
->
-  {endpoint.method}
+<span class="badge bg-{getMethodColor(method)}">
+  {method}
 </span>
-{#if pathClass}
-  <span class={pathClass}>{endpoint.path}</span>
-{:else}
-  {endpoint.path}
-{/if}

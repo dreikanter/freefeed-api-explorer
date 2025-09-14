@@ -6,34 +6,77 @@
   import Response from '$lib/components/Response.svelte';
   import NavigationBar from '$lib/components/NavigationBar.svelte';
   import MethodBadge from '$lib/components/MethodBadge.svelte';
-  import ListItem from '$lib/components/ListItem.svelte';
+  import RequestListItem from '$lib/components/RequestListItem.svelte';
+  import { getRelativeTime } from '$lib/utils.js';
 
   let selectedRequest: ApiRequest | null = null;
 
+  let isNavigating = false;
+
   function selectRequest(request: ApiRequest) {
+    if (isNavigating) {
+      return;
+    }
+
     selectedRequest = request;
+    isNavigating = true;
+
     // Update URL with selected request ID
     const url = new URL($page.url);
     url.searchParams.set('request', request.id);
-    goto(url.toString(), { replaceState: true });
+    goto(url.toString(), { replaceState: true }).then(() => {
+      isNavigating = false;
+    });
+  }
+
+  function generateFullUrl(request: ApiRequest): string {
+    let path = request.endpoint.path;
+
+    // Replace path parameters with actual values
+    if (request.parameters) {
+      for (const [key, value] of Object.entries(request.parameters)) {
+        if (path.includes(`:${key}`)) {
+          path = path.replace(`:${key}`, encodeURIComponent(value));
+        }
+      }
+    }
+
+    // Construct full URL with instance domain
+    const fullUrl = new URL(path, request.instance.url);
+
+    // Add query parameters for GET requests
+    if (request.endpoint.method === 'GET' && request.parameters) {
+      for (const [key, value] of Object.entries(request.parameters)) {
+        if (!request.endpoint.path.includes(`:${key}`) && value) {
+          fullUrl.searchParams.set(key, value);
+        }
+      }
+    }
+
+    return fullUrl.toString();
   }
 
   // Watch for URL changes and update selected request
   $: {
-    const requestId = $page.url.searchParams.get('request');
-    if (requestId && $requestHistory.length > 0) {
-      const found = $requestHistory.find((req) => req.id === requestId);
-      if (found && found !== selectedRequest) {
-        selectedRequest = found;
-      } else if (!found && selectedRequest) {
-        // Request not found, clear URL parameter
-        const url = new URL($page.url);
-        url.searchParams.delete('request');
-        goto(url.toString(), { replaceState: true });
+    if (!isNavigating) {
+      const requestId = $page.url.searchParams.get('request');
+      if (requestId && $requestHistory.length > 0) {
+        const found = $requestHistory.find((req) => req.id === requestId);
+        if (found && found !== selectedRequest) {
+          selectedRequest = found;
+        } else if (!found && selectedRequest) {
+          // Request not found, clear URL parameter
+          isNavigating = true;
+          const url = new URL($page.url);
+          url.searchParams.delete('request');
+          goto(url.toString(), { replaceState: true }).then(() => {
+            isNavigating = false;
+          });
+          selectedRequest = null;
+        }
+      } else if (!requestId && selectedRequest) {
         selectedRequest = null;
       }
-    } else if (!requestId && selectedRequest) {
-      selectedRequest = null;
     }
   }
 </script>
@@ -61,14 +104,13 @@
           {:else}
             <div class="list-group list-group-flush">
               {#each $requestHistory as request}
-                <ListItem
+                <RequestListItem
                   endpoint={request.endpoint}
                   isSelected={selectedRequest === request}
                   onClick={() => selectRequest(request)}
-                  layout="detailed"
                   methodBadgePathClass="small ms-1"
                 >
-                  <small class="text-muted" slot="subtitle">
+                  <small class="text-muted">
                     {request.instance.name}
                   </small>
                   <div slot="side-content">
@@ -86,12 +128,10 @@
                       </div>
                     {/if}
                     <small class="text-muted">
-                      {new Date(request.timestamp).toLocaleDateString()}
-                      <br />
-                      {new Date(request.timestamp).toLocaleTimeString()}
+                      {getRelativeTime(request.timestamp)}
                     </small>
                   </div>
-                </ListItem>
+                </RequestListItem>
               {/each}
             </div>
           {/if}
@@ -105,50 +145,31 @@
         <!-- Request Info -->
         <div class="card mb-4">
           <h5 class="card-header">
-            <MethodBadge endpoint={selectedRequest.endpoint} badgeClass="me-2" />
+            <MethodBadge method={selectedRequest.endpoint.method} />
+            <span class="ms-2 font-monospace small">{generateFullUrl(selectedRequest)}</span>
           </h5>
           <div class="card-body">
-            <p class="card-text">{selectedRequest.endpoint.description}</p>
-            <div class="row">
-              <div class="col-md-6">
-                <p>
-                  <strong>Scope:</strong>
-                  <span class="badge bg-info">{selectedRequest.endpoint.scope}</span>
-                </p>
-                <p>
-                  <strong>Instance:</strong>
-                  {selectedRequest.instance.name}
-                </p>
-              </div>
-              <div class="col-md-6">
-                <p>
-                  <strong>Timestamp:</strong>
-                  {new Date(selectedRequest.timestamp).toLocaleString()}
-                </p>
-              </div>
-            </div>
+            <p>
+              <strong>Scope:</strong>
+              <span class="badge bg-info">{selectedRequest.endpoint.scope}</span>
+            </p>
+            <p>
+              <strong>Instance:</strong>
+              {selectedRequest.instance.name}
+            </p>
 
             <!-- Parameters -->
             {#if Object.keys(selectedRequest.parameters).length > 0}
               <h6>Parameters Used:</h6>
-              <div class="table-responsive">
-                <table class="table table-sm">
-                  <thead>
-                    <tr>
-                      <th>Parameter</th>
-                      <th>Value</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {#each Object.entries(selectedRequest.parameters) as [key, value]}
-                      <tr>
-                        <td><code>{key}</code></td>
-                        <td><code>{value}</code></td>
-                      </tr>
-                    {/each}
-                  </tbody>
-                </table>
-              </div>
+              <ul class="list-unstyled ps-4">
+                {#each Object.entries(selectedRequest.parameters) as [key, value]}
+                  <li class="mb-1">
+                    <code class="text-primary">{key}</code>
+                    :
+                    <code class="bg-light px-1">{value}</code>
+                  </li>
+                {/each}
+              </ul>
             {/if}
           </div>
         </div>

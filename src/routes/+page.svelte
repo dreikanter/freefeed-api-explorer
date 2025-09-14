@@ -4,10 +4,13 @@
   import { goto } from '$app/navigation';
   import type { ApiEndpoint, ApiRequest, ApiResponse } from '$lib/types.js';
   import { API_ENDPOINTS, FREEFEED_INSTANCES } from '$lib/api-endpoints.js';
-  import { token, selectedInstance, currentRequest, isLoading, addToHistory } from '$lib/stores.js';
+  import { token, selectedInstance, currentRequest, isLoading, addToHistory, requestHistory } from '$lib/stores.js';
   import Response from '$lib/components/Response.svelte';
   import NavigationBar from '$lib/components/NavigationBar.svelte';
-  import ListItem from '$lib/components/ListItem.svelte';
+  import RequestListItem from '$lib/components/RequestListItem.svelte';
+  import { initHighlight, hljs } from '$lib/highlight.js';
+  import 'highlight.js/styles/github.css';
+  import 'highlightjs-copy/dist/highlightjs-copy.min.css';
 
   let searchQuery = '';
   let selectedScope = '';
@@ -16,6 +19,14 @@
   let parameters: Record<string, string> = {};
   let showCodeGeneration = false;
   let generatedCode = '';
+  let codeLanguage = 'javascript';
+
+  // Find most recent response for the currently selected endpoint
+  $: endpointResponse = selectedEndpoint
+    ? $requestHistory.find(
+        (req) => req.endpoint.method === selectedEndpoint.method && req.endpoint.path === selectedEndpoint.path
+      )
+    : null;
 
   $: {
     filteredEndpoints = API_ENDPOINTS.filter((endpoint) => {
@@ -239,6 +250,7 @@
 
   function showCode(type: 'fetch' | 'curl') {
     const newCode = type === 'fetch' ? generateFetchCode() : generateCurlCode();
+    codeLanguage = type === 'fetch' ? 'javascript' : 'bash';
     if (showCodeGeneration && generatedCode === newCode) {
       showCodeGeneration = false;
     } else {
@@ -247,13 +259,73 @@
     }
   }
 
+  function showCodeFromRequest(type: 'fetch' | 'curl') {
+    if (!$currentRequest) return;
+
+    // Temporarily set selectedEndpoint and parameters from stored request
+    const tempEndpoint = $currentRequest.endpoint;
+    const tempParameters = $currentRequest.parameters;
+
+    // Store current values
+    const originalEndpoint = selectedEndpoint;
+    const originalParameters = parameters;
+
+    // Set temporary values
+    selectedEndpoint = tempEndpoint;
+    parameters = tempParameters;
+
+    // Generate code
+    const newCode = type === 'fetch' ? generateFetchCode() : generateCurlCode();
+    codeLanguage = type === 'fetch' ? 'javascript' : 'bash';
+
+    // Restore original values
+    selectedEndpoint = originalEndpoint;
+    parameters = originalParameters;
+
+    if (showCodeGeneration && generatedCode === newCode) {
+      showCodeGeneration = false;
+    } else {
+      generatedCode = newCode;
+      showCodeGeneration = true;
+    }
+  }
+
+  async function executeStoredRequest() {
+    if (!$currentRequest || !$token || !$selectedInstance) return;
+
+    // Temporarily set selectedEndpoint and parameters from stored request
+    const tempEndpoint = $currentRequest.endpoint;
+    const tempParameters = $currentRequest.parameters;
+
+    // Store current values
+    const originalEndpoint = selectedEndpoint;
+    const originalParameters = parameters;
+
+    // Set temporary values
+    selectedEndpoint = tempEndpoint;
+    parameters = tempParameters;
+
+    // Execute the request
+    await executeRequest();
+
+    // Restore original values (but keep the new response)
+    selectedEndpoint = originalEndpoint;
+    parameters = originalParameters;
+  }
+
   onMount(() => {
+    initHighlight();
+
     if (!$token) {
       // @ts-ignore - Bootstrap is loaded via CDN
       const modal = new window.bootstrap.Modal(document.getElementById('tokenModal'));
       modal.show();
     }
   });
+
+  function highlightCode(code: string, language: string): string {
+    return hljs.highlight(code, { language }).value;
+  }
 </script>
 
 <svelte:head>
@@ -283,15 +355,14 @@
           <!-- Endpoints List -->
           <div class="list-group list-group-flush border-top">
             {#each filteredEndpoints as endpoint}
-              <ListItem
+              <RequestListItem
                 {endpoint}
                 isSelected={selectedEndpoint === endpoint}
                 onClick={() => selectEndpoint(endpoint)}
-                layout="simple"
                 methodBadgePathClass="font-monospace"
               >
-                <small class="text-muted" slot="footer">{endpoint.scope}</small>
-              </ListItem>
+                <small class="text-muted">{endpoint.scope}</small>
+              </RequestListItem>
             {/each}
           </div>
         </div>
@@ -318,7 +389,7 @@
               {#each selectedEndpoint.parameters as param}
                 <div class="mb-3">
                   <label for="param-{param.name}" class="form-label">
-                    {param.name}
+                    <code class="px-1">{param.name}</code>
                     {#if param.required}<span class="text-danger">*</span>{/if}
                     {#if param.description}<small class="text-muted ms-1">{param.description}</small>{/if}
                   </label>
@@ -361,9 +432,11 @@
                 {$isLoading ? 'Executing...' : 'Execute'}
               </button>
               <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('fetch')}>
-                Generate fetch()
+                Generate fetch call
               </button>
-              <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('curl')}>Generate curl</button>
+              <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('curl')}>
+                Generate curl command
+              </button>
             </div>
           </div>
         </div>
@@ -373,14 +446,19 @@
           <div class="card mb-4">
             <h5 class="card-header">Code Example</h5>
             <div class="card-body">
-              <pre class="bg-light rounded mb-0"><code>{generatedCode}</code></pre>
+              <pre class="m-0 p-2 rounded small hljs"><code>{@html highlightCode(
+                    generatedCode,
+                    codeLanguage
+                  )}</code></pre>
             </div>
           </div>
         {/if}
 
         <!-- Response -->
-        <Response request={$currentRequest} />
-      {:else}
+        {#if endpointResponse}
+          <Response request={endpointResponse} />
+        {/if}
+      {:else if !endpointResponse && !$currentRequest}
         <div class="card">
           <div class="card-body text-center text-muted py-5">
             <h3>Welcome to FreeFeed API Explorer</h3>
@@ -391,6 +469,47 @@
             </p>
           </div>
         </div>
+      {/if}
+
+      <!-- Show response and code generation when no endpoint selected but have current request -->
+      {#if !selectedEndpoint && $currentRequest}
+        <div class="card mb-4">
+          <h5 class="card-header">
+            {$currentRequest.endpoint.method}
+            {$currentRequest.endpoint.path}
+          </h5>
+          <div class="card-body">
+            <p class="card-text">{$currentRequest.endpoint.description}</p>
+            <p>
+              Scope: <span class="badge bg-info">{$currentRequest.endpoint.scope}</span>
+            </p>
+
+            <div class="mt-4">
+              <button class="btn btn-success me-2" on:click={executeStoredRequest} disabled={$isLoading || !$token}>
+                {$isLoading ? 'Executing...' : 'Execute Again'}
+              </button>
+              <button class="btn btn-outline-secondary ms-2" on:click={() => showCodeFromRequest('fetch')}>
+                Generate fetch()
+              </button>
+              <button class="btn btn-outline-secondary ms-2" on:click={() => showCodeFromRequest('curl')}>
+                Generate curl
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Code Generation for stored request -->
+        {#if showCodeGeneration}
+          <div class="card mb-4">
+            <h5 class="card-header">Code Example</h5>
+            <div class="card-body">
+              <pre class="m-0 p-2 rounded small hljs"><code>{@html highlightCode(
+                    generatedCode,
+                    codeLanguage
+                  )}</code></pre>
+            </div>
+          </div>
+        {/if}
       {/if}
     </div>
   </div>
