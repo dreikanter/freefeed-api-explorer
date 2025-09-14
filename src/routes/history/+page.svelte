@@ -52,13 +52,6 @@
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
           <h5 class="mb-0">Request History</h5>
-          <button
-            class="btn btn-outline-danger btn-sm"
-            on:click={clearHistory}
-            disabled={$requestHistory.length === 0}
-          >
-            Clear All
-          </button>
         </div>
         <div class="card-body p-0">
           {#if $requestHistory.length === 0}
