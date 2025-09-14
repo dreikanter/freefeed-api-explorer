@@ -86,18 +86,18 @@
     <div class="card-body">
       <div class="mb-3">
         <strong>Status:</strong>
-          <span
-            class="badge bg-{request.response.status < 300
-              ? 'success'
-              : request.response.status < 400
-                ? 'warning'
-                : 'danger'}"
-          >
-            {request.response.status}
-          </span>
-          <span class="text-muted">
-            {getStatusText(request.response.status)}
-          </span>
+        <span
+          class="badge bg-{request.response.status < 300
+            ? 'success'
+            : request.response.status < 400
+              ? 'warning'
+              : 'danger'}"
+        >
+          {request.response.status}
+        </span>
+        <span class="text-muted">
+          {getStatusText(request.response.status)}
+        </span>
       </div>
 
       <div class="mb-3">
@@ -105,7 +105,9 @@
         <ul class="list-unstyled ps-4">
           {#each Object.entries(request.response.headers) as [key, value]}
             <li class="mb-1">
-              <code class="text-primary">{key}</code>: <code class="bg-light px-1">{value}</code>
+              <code class="text-primary">{key}</code>
+              :
+              <code class="bg-light px-1">{value}</code>
             </li>
           {/each}
         </ul>

@@ -434,7 +434,9 @@
               <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('fetch')}>
                 Generate fetch call
               </button>
-              <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('curl')}>Generate curl command</button>
+              <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('curl')}>
+                Generate curl command
+              </button>
             </div>
           </div>
         </div>

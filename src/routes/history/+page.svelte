@@ -164,7 +164,9 @@
               <ul class="list-unstyled ps-4">
                 {#each Object.entries(selectedRequest.parameters) as [key, value]}
                   <li class="mb-1">
-                    <code class="text-primary">{key}</code>: <code class="bg-light px-1">{value}</code>
+                    <code class="text-primary">{key}</code>
+                    :
+                    <code class="bg-light px-1">{value}</code>
                   </li>
                 {/each}
               </ul>

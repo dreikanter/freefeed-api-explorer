@@ -49,7 +49,7 @@
 
   /* Specifically target nested elements */
   .list-group-item.active div small,
-  .list-group-item.active [slot="side-content"] * {
+  .list-group-item.active [slot='side-content'] * {
     color: rgba(255, 255, 255, 0.9) !important;
   }
 </style>
