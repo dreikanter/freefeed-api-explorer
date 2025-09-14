@@ -14,6 +14,7 @@
   } from '$lib/stores.js';
   import Response from '$lib/components/Response.svelte';
   import NavigationBar from '$lib/components/NavigationBar.svelte';
+  import MethodBadge from '$lib/components/MethodBadge.svelte';
 
   let searchQuery = '';
   let selectedScope = '';
@@ -305,18 +306,7 @@
               >
                 <h6 class="fw-normal">
                   <strong>
-                    <span
-                      class="badge bg-{endpoint.method === 'GET'
-                        ? 'success'
-                        : endpoint.method === 'POST'
-                          ? 'primary'
-                          : endpoint.method === 'PUT'
-                            ? 'warning'
-                            : endpoint.method === 'DELETE'
-                              ? 'danger'
-                              : 'secondary'}">{endpoint.method}</span
-                    >
-                    <span class="font-monospace">{endpoint.path}</span>
+                    <MethodBadge {endpoint} pathClass="font-monospace" />
                   </strong>
                 </h6>
                 <p class="mb-1 small">{endpoint.description}</p>
