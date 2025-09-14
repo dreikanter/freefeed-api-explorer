@@ -14,7 +14,9 @@
   let isNavigating = false;
 
   function selectRequest(request: ApiRequest) {
-    if (isNavigating) return;
+    if (isNavigating) {
+      return;
+    }
 
     selectedRequest = request;
     isNavigating = true;
@@ -29,25 +31,25 @@
 
   // Watch for URL changes and update selected request
   $: {
-    if (isNavigating) return;
-
-    const requestId = $page.url.searchParams.get('request');
-    if (requestId && $requestHistory.length > 0) {
-      const found = $requestHistory.find((req) => req.id === requestId);
-      if (found && found !== selectedRequest) {
-        selectedRequest = found;
-      } else if (!found && selectedRequest) {
-        // Request not found, clear URL parameter
-        isNavigating = true;
-        const url = new URL($page.url);
-        url.searchParams.delete('request');
-        goto(url.toString(), { replaceState: true }).then(() => {
-          isNavigating = false;
-        });
+    if (!isNavigating) {
+      const requestId = $page.url.searchParams.get('request');
+      if (requestId && $requestHistory.length > 0) {
+        const found = $requestHistory.find((req) => req.id === requestId);
+        if (found && found !== selectedRequest) {
+          selectedRequest = found;
+        } else if (!found && selectedRequest) {
+          // Request not found, clear URL parameter
+          isNavigating = true;
+          const url = new URL($page.url);
+          url.searchParams.delete('request');
+          goto(url.toString(), { replaceState: true }).then(() => {
+            isNavigating = false;
+          });
+          selectedRequest = null;
+        }
+      } else if (!requestId && selectedRequest) {
         selectedRequest = null;
       }
-    } else if (!requestId && selectedRequest) {
-      selectedRequest = null;
     }
   }
 </script>
