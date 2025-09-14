@@ -395,9 +395,9 @@
           <div class="card-body">
             <p class="card-text">{selectedEndpoint.description}</p>
             <p>
-              <strong>Scope:</strong> <span class="badge bg-info">{selectedEndpoint.scope}</span>
+              Scope: <span class="badge bg-info">{selectedEndpoint.scope}</span>
             </p>
-            <div>
+            <div class="mt-4">
               <button
                 class="btn btn-success"
                 on:click={executeRequest}
@@ -415,7 +415,7 @@
 
             <!-- Parameters -->
             {#if selectedEndpoint.parameters && selectedEndpoint.parameters.length > 0}
-              <h6>Parameters:</h6>
+              <h6 class="mt-4 mb-2">Parameters:</h6>
               {#each selectedEndpoint.parameters as param}
                 <div class="mb-3">
                   <label for="param-{param.name}" class="form-label">
