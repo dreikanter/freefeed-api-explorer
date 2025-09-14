@@ -36,12 +36,20 @@
 <style>
   /* Override all text colors when item is active/selected */
   .list-group-item.active .text-muted,
-  .list-group-item.active .text-secondary {
-    color: var(--bs-gray-100) !important;
+  .list-group-item.active .text-secondary,
+  .list-group-item.active small,
+  .list-group-item.active .small {
+    color: rgba(255, 255, 255, 0.9) !important;
   }
 
   /* Ensure all text inside active items has good contrast */
-  .list-group-item.active * {
-    color: inherit !important;
+  .list-group-item.active *:not(.badge) {
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+
+  /* Specifically target nested elements */
+  .list-group-item.active div small,
+  .list-group-item.active [slot="side-content"] * {
+    color: rgba(255, 255, 255, 0.9) !important;
   }
 </style>
