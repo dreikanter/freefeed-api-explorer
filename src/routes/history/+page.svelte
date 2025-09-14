@@ -11,7 +11,6 @@
 
   let selectedRequest: ApiRequest | null = null;
 
-
   function selectRequest(request: ApiRequest) {
     selectedRequest = request;
     // Update URL with selected request ID
