@@ -7,8 +7,8 @@ import CopyButtonPlugin from 'highlightjs-copy';
 
 let initialized = false;
 
-export function initHighlight() {
-  if (initialized) return hljs;
+function init() {
+  if (initialized || typeof window === 'undefined') return;
 
   hljs.registerLanguage('javascript', javascript);
   hljs.registerLanguage('bash', bash);
@@ -18,7 +18,16 @@ export function initHighlight() {
   }));
 
   initialized = true;
+}
+
+export function initHighlight() {
+  init();
   return hljs;
+}
+
+// Initialize immediately when module is imported (client-side only)
+if (typeof window !== 'undefined') {
+  init();
 }
 
 export { hljs };
