@@ -134,12 +134,6 @@
                   {selectedRequest.instance.name}
                 </p>
               </div>
-              <div class="col-md-6">
-                <p>
-                  <strong>Timestamp:</strong>
-                  {getRelativeTime(selectedRequest.timestamp)}
-                </p>
-              </div>
             </div>
 
             <!-- Parameters -->
