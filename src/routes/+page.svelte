@@ -5,11 +5,9 @@
   import {
     token,
     selectedInstance,
-    requestHistory,
     currentRequest,
     isLoading,
     clearToken,
-    clearHistory,
     addToHistory,
   } from '$lib/stores.js';
 
@@ -18,7 +16,6 @@
   let filteredEndpoints: ApiEndpoint[] = API_ENDPOINTS;
   let selectedEndpoint: ApiEndpoint | null = null;
   let parameters: Record<string, string> = {};
-  let showHistory = false;
   let showCodeGeneration = false;
   let generatedCode = '';
 
@@ -245,14 +242,11 @@
   <!-- Header -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
     <div class="container-fluid">
-      <span class="navbar-brand mb-0 h1">FreeFeed API Explorer</span>
+      <div class="d-flex align-items-center">
+        <span class="navbar-brand mb-0 h1">FreeFeed API Explorer</span>
+        <a href="/history" class="nav-link text-light ms-3">History</a>
+      </div>
       <div class="navbar-nav ms-auto">
-        <button
-          class="btn btn-outline-light btn-sm me-2"
-          on:click={() => (showHistory = !showHistory)}
-        >
-          {showHistory ? 'Hide' : 'Show'} History
-        </button>
         <div class="dropdown">
           <button
             class="btn btn-outline-light btn-sm dropdown-toggle"
@@ -483,53 +477,6 @@
     </div>
   </div>
 
-  <!-- History Sidebar -->
-  {#if showHistory}
-    <div
-      class="offcanvas offcanvas-end show"
-      tabindex="-1"
-      style="position: fixed; visibility: visible;"
-    >
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title">Request History</h5>
-        <div>
-          <button class="btn btn-outline-danger btn-sm me-2" on:click={clearHistory}>
-            Clear History
-          </button>
-          <button type="button" class="btn-close" on:click={() => (showHistory = false)}></button>
-        </div>
-      </div>
-      <div class="offcanvas-body">
-        {#if $requestHistory.length === 0}
-          <p class="text-muted">No requests yet.</p>
-        {:else}
-          {#each $requestHistory as request}
-            <div class="card mb-2">
-              <div class="card-body p-2">
-                <h6 class="card-title small">
-                  <span class="badge bg-{request.endpoint.method === 'GET' ? 'success' : 'primary'}"
-                    >{request.endpoint.method}</span
-                  >
-                  {request.endpoint.path}
-                </h6>
-                <p class="card-text small text-muted">{request.instance.name}</p>
-                {#if request.response}
-                  <p class="card-text">
-                    <span class="badge bg-{request.response.status < 300 ? 'success' : 'danger'}"
-                      >{request.response.status}</span
-                    >
-                  </p>
-                {/if}
-                <p class="card-text">
-                  <small class="text-muted">{new Date(request.timestamp).toLocaleString()}</small>
-                </p>
-              </div>
-            </div>
-          {/each}
-        {/if}
-      </div>
-    </div>
-  {/if}
 </div>
 
 <!-- Token Modal -->
