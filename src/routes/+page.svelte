@@ -397,21 +397,6 @@
             <p>
               Scope: <span class="badge bg-info">{selectedEndpoint.scope}</span>
             </p>
-            <div class="mt-4">
-              <button
-                class="btn btn-success"
-                on:click={executeRequest}
-                disabled={$isLoading || !$token}
-              >
-                {$isLoading ? 'Executing...' : 'Execute'}
-              </button>
-              <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('fetch')}>
-                Generate fetch()
-              </button>
-              <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('curl')}>
-                Generate curl
-              </button>
-            </div>
 
             <!-- Parameters -->
             {#if selectedEndpoint.parameters && selectedEndpoint.parameters.length > 0}
@@ -457,6 +442,22 @@
                 </div>
               {/each}
             {/if}
+
+            <div class="mt-4">
+              <button
+                class="btn btn-success"
+                on:click={executeRequest}
+                disabled={$isLoading || !$token}
+              >
+                {$isLoading ? 'Executing...' : 'Execute'}
+              </button>
+              <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('fetch')}>
+                Generate fetch()
+              </button>
+              <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('curl')}>
+                Generate curl
+              </button>
+            </div>
           </div>
         </div>
 
