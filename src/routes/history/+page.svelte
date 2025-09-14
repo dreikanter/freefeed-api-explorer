@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { requestHistory, clearHistory } from '$lib/stores.js';
   import type { ApiRequest } from '$lib/types.js';
 
@@ -6,7 +7,24 @@
 
   function selectRequest(request: ApiRequest) {
     selectedRequest = request;
+    // Store selected request ID in localStorage
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('selected-history-request', request.id);
+    }
   }
+
+  // Restore selected request on page load
+  onMount(() => {
+    if (typeof localStorage !== 'undefined') {
+      const selectedId = localStorage.getItem('selected-history-request');
+      if (selectedId) {
+        const found = $requestHistory.find(req => req.id === selectedId);
+        if (found) {
+          selectedRequest = found;
+        }
+      }
+    }
+  });
 
   function formatJson(jsonString: string): string {
     try {
