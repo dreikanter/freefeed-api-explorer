@@ -373,7 +373,7 @@
           <div class="card mb-4">
             <h5 class="card-header">Code Example</h5>
             <div class="card-body">
-              <pre class="bg-light rounded mb-0"><code>{generatedCode}</code></pre>
+              <pre class="bg-light m-0 p-2 rounded small"><code>{generatedCode}</code></pre>
             </div>
           </div>
         {/if}
