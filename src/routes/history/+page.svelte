@@ -145,24 +145,13 @@
             <!-- Parameters -->
             {#if Object.keys(selectedRequest.parameters).length > 0}
               <h6>Parameters Used:</h6>
-              <div class="table-responsive">
-                <table class="table table-sm">
-                  <thead>
-                    <tr>
-                      <th>Parameter</th>
-                      <th>Value</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {#each Object.entries(selectedRequest.parameters) as [key, value]}
-                      <tr>
-                        <td><code>{key}</code></td>
-                        <td><code>{value}</code></td>
-                      </tr>
-                    {/each}
-                  </tbody>
-                </table>
-              </div>
+              <ul class="list-unstyled">
+                {#each Object.entries(selectedRequest.parameters) as [key, value]}
+                  <li class="mb-1">
+                    <code class="text-primary">{key}</code>: <code class="bg-light px-1">{value}</code>
+                  </li>
+                {/each}
+              </ul>
             {/if}
           </div>
         </div>
