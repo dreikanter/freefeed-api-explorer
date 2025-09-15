@@ -2,7 +2,7 @@
   import { FREEFEED_INSTANCES } from '$lib/api-endpoints.js';
   import { selectedInstance, clearToken, clearHistory } from '$lib/stores.js';
 
-  export let currentPage: 'home' | 'history' | 'requests' = 'home';
+  export let currentPage: 'home' | 'history' | 'requests' | 'about' = 'home';
 </script>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
@@ -11,6 +11,7 @@
       <a href="/" class="navbar-brand mb-0 h1 text-decoration-none">FreeFeed API Explorer</a>
       <a href="/requests" class="nav-link text-light ms-3 {currentPage === 'requests' ? 'active fw-bold' : ''}">Requests</a>
       <a href="/history" class="nav-link text-light ms-3 {currentPage === 'history' ? 'active fw-bold' : ''}">History</a>
+      <a href="/about" class="nav-link text-light ms-3 {currentPage === 'about' ? 'active fw-bold' : ''}">?</a>
     </div>
     <div class="navbar-nav ms-auto">
       <div class="dropdown">
