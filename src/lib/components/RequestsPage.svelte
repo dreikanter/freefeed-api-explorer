@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, afterUpdate } from 'svelte';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
   import type { ApiEndpoint, ApiRequest, ApiResponse } from '$lib/types.js';
@@ -8,6 +8,7 @@
   import Response from './Response.svelte';
   import RequestListItem from './RequestListItem.svelte';
   import { initHighlight, hljs } from '$lib/highlight.js';
+  import { endpointToId, idToEndpoint } from '$lib/utils.js';
   import 'highlight.js/styles/github.css';
   import 'highlightjs-copy/dist/highlightjs-copy.min.css';
 
@@ -40,12 +41,20 @@
 
   const scopes = [...new Set(API_ENDPOINTS.map((e) => e.scope))].sort();
 
+
   // Watch for URL changes and update selected endpoint
   $: {
     const endpointParam = $page.url.searchParams.get('endpoint');
-    if (endpointParam && endpointParam.includes(':')) {
-      const [method, path] = endpointParam.split(':', 2);
-      const found = API_ENDPOINTS.find((ep) => ep.method === method && ep.path === path);
+    if (endpointParam) {
+      // Try new URL-friendly format first
+      let found = idToEndpoint(endpointParam);
+
+      // Fall back to old format for backwards compatibility
+      if (!found && endpointParam.includes(':')) {
+        const [method, path] = endpointParam.split(':', 2);
+        found = API_ENDPOINTS.find((ep) => ep.method === method && ep.path === path);
+      }
+
       if (found && found !== selectedEndpoint) {
         selectedEndpoint = found;
         parameters = {};
@@ -71,9 +80,9 @@
     });
     showCodeGeneration = false;
 
-    // Update URL with selected endpoint
+    // Update URL with selected endpoint using URL-friendly ID
     const url = new URL($page.url);
-    url.searchParams.set('endpoint', `${endpoint.method}:${endpoint.path}`);
+    url.searchParams.set('endpoint', endpointToId(endpoint));
     goto(url.toString(), { replaceState: true });
   }
 
@@ -268,9 +277,13 @@
     }
   });
 
-  function highlightCode(code: string, language: string): string {
-    return hljs.highlight(code, { language }).value;
-  }
+  afterUpdate(() => {
+    // Highlight any new code blocks after updates
+    if (typeof window !== 'undefined') {
+      hljs.highlightAll();
+    }
+  });
+
 </script>
 
 <div class="container-fluid mb-4">
@@ -382,10 +395,7 @@
           <div class="card mb-4">
             <h5 class="card-header">Code Example</h5>
             <div class="card-body">
-              <pre class="m-0 p-2 rounded small hljs"><code>{@html highlightCode(
-                    generatedCode,
-                    codeLanguage
-                  )}</code></pre>
+              <pre class="m-0 p-2 rounded small"><code class="language-{codeLanguage}">{generatedCode}</code></pre>
             </div>
           </div>
         {/if}

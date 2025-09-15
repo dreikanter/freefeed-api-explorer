@@ -1,4 +1,4 @@
-import { getRelativeTime, getStatusInfo } from './utils';
+import { getRelativeTime, getStatusInfo, endpointToId, idToEndpoint } from './utils';
 
 describe('getRelativeTime', () => {
   const now = Date.now();
@@ -117,6 +117,78 @@ describe('getStatusInfo', () => {
       icon: 'x-circle-fill',
       color: 'text-danger',
       text: 'Error'
+    });
+  });
+});
+
+describe('endpointToId', () => {
+
+  const testEndpoints = [
+    { method: 'GET', path: '/v4/users/whoami' },
+    { method: 'POST', path: '/v1/posts' },
+    { method: 'DELETE', path: '/v2/posts/:postId' },
+    { method: 'PUT', path: '/v1/users/:userId/subscriptions/:username' },
+    { method: 'PATCH', path: '/v2/groups/:groupId' }
+  ];
+
+  test('converts GET endpoint to URL-friendly ID', () => {
+    const endpoint = { method: 'GET', path: '/v4/users/whoami' };
+    expect(endpointToId(endpoint)).toBe('get-v4-users-whoami');
+  });
+
+  test('converts POST endpoint to URL-friendly ID', () => {
+    const endpoint = { method: 'POST', path: '/v1/posts' };
+    expect(endpointToId(endpoint)).toBe('post-v1-posts');
+  });
+
+  test('converts DELETE endpoint with parameter to URL-friendly ID', () => {
+    const endpoint = { method: 'DELETE', path: '/v2/posts/:postId' };
+    expect(endpointToId(endpoint)).toBe('delete-v2-posts--postid');
+  });
+
+  test('converts complex endpoint with multiple parameters', () => {
+    const endpoint = { method: 'PUT', path: '/v1/users/:userId/subscriptions/:username' };
+    expect(endpointToId(endpoint)).toBe('put-v1-users--userid-subscriptions--username');
+  });
+
+  test('handles root path', () => {
+    const endpoint = { method: 'GET', path: '/' };
+    expect(endpointToId(endpoint)).toBe('get-');
+  });
+
+  test('idToEndpoint finds endpoint by ID', () => {
+    const id = 'get-v4-users-whoami';
+    const found = idToEndpoint(id, testEndpoints);
+    expect(found).toEqual({ method: 'GET', path: '/v4/users/whoami' });
+  });
+
+  test('idToEndpoint finds complex endpoint by ID', () => {
+    const id = 'put-v1-users--userid-subscriptions--username';
+    const found = idToEndpoint(id, testEndpoints);
+    expect(found).toEqual({ method: 'PUT', path: '/v1/users/:userId/subscriptions/:username' });
+  });
+
+  test('idToEndpoint returns null for non-existent ID', () => {
+    const id = 'nonexistent-endpoint';
+    const found = idToEndpoint(id, testEndpoints);
+    expect(found).toBeNull();
+  });
+
+  test('round-trip conversion works correctly', () => {
+    testEndpoints.forEach(endpoint => {
+      const id = endpointToId(endpoint);
+      const foundEndpoint = idToEndpoint(id, testEndpoints);
+      expect(foundEndpoint).toEqual(endpoint);
+    });
+  });
+
+  test('IDs are URL-safe (no special characters)', () => {
+    testEndpoints.forEach(endpoint => {
+      const id = endpointToId(endpoint);
+      // Check that ID only contains letters, numbers, and hyphens
+      expect(id).toMatch(/^[a-z0-9-]+$/);
+      // Check that ID doesn't need URL encoding
+      expect(encodeURIComponent(id)).toBe(id);
     });
   });
 });

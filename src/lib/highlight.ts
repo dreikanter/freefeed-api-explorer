@@ -30,6 +30,12 @@ export function initHighlight() {
 // Initialize immediately when module is imported (client-side only)
 if (typeof window !== 'undefined') {
   init();
+  // Auto-highlight all code blocks when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => hljs.highlightAll());
+  } else {
+    hljs.highlightAll();
+  }
 }
 
 export { hljs };
