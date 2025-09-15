@@ -455,7 +455,7 @@
         {#if endpointResponse}
           <Response request={endpointResponse} />
         {/if}
-      {:else if !endpointResponse && !$currentRequest}
+      {:else}
         <div class="card">
           <div class="card-body text-center text-muted py-5">
             <h3>API Requests</h3>
@@ -467,9 +467,15 @@
           </div>
         </div>
       {/if}
+    </div>
+  </div>
+</div>
 
-      <!-- Show response and code generation when no endpoint selected but have current request -->
-      {#if !selectedEndpoint && $currentRequest}
+<!-- Show response and code generation when no endpoint selected but have current request -->
+{#if !selectedEndpoint && $currentRequest}
+  <div class="container-fluid mb-4">
+    <div class="row">
+      <div class="col-md-8 offset-md-4">
         <div class="card mb-4">
           <h5 class="card-header font-monospace">
             <strong>{$currentRequest.endpoint.method}</strong>
@@ -507,10 +513,10 @@
             </div>
           </div>
         {/if}
-      {/if}
+      </div>
     </div>
   </div>
-</div>
+{/if}
 
 <!-- Token Modal -->
 <div class="modal fade" id="tokenModal" tabindex="-1">

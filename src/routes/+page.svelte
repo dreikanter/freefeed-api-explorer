@@ -455,7 +455,7 @@
         {#if endpointResponse}
           <Response request={endpointResponse} />
         {/if}
-      {:else if !endpointResponse && !$currentRequest}
+      {:else}
         <div class="card">
           <div class="card-body text-center text-muted py-5">
             <h3>Welcome to FreeFeed API Explorer</h3>
@@ -468,46 +468,6 @@
         </div>
       {/if}
 
-      <!-- Show response and code generation when no endpoint selected but have current request -->
-      {#if !selectedEndpoint && $currentRequest}
-        <div class="card mb-4">
-          <h5 class="card-header font-monospace">
-            <strong>{$currentRequest.endpoint.method}</strong>
-            {$currentRequest.endpoint.path}
-          </h5>
-          <div class="card-body">
-            <p class="card-text">{$currentRequest.endpoint.description}</p>
-            <p>
-              Scope: <span class="badge bg-info">{$currentRequest.endpoint.scope}</span>
-            </p>
-
-            <div class="mt-4">
-              <button class="btn btn-success me-2" on:click={executeStoredRequest} disabled={$isLoading || !$token}>
-                {$isLoading ? 'Executing...' : 'Execute'}
-              </button>
-              <button class="btn btn-outline-secondary ms-2" on:click={() => showCodeFromRequest('fetch')}>
-                Generate fetch()
-              </button>
-              <button class="btn btn-outline-secondary ms-2" on:click={() => showCodeFromRequest('curl')}>
-                Generate curl
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Code Generation for stored request -->
-        {#if showCodeGeneration}
-          <div class="card mb-4">
-            <h5 class="card-header">Code Example</h5>
-            <div class="card-body">
-              <pre class="m-0 p-2 rounded small hljs"><code>{@html highlightCode(
-                    generatedCode,
-                    codeLanguage
-                  )}</code></pre>
-            </div>
-          </div>
-        {/if}
-      {/if}
     </div>
   </div>
 </div>
