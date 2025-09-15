@@ -40,12 +40,28 @@
 
   const scopes = [...new Set(API_ENDPOINTS.map((e) => e.scope))].sort();
 
+  // Helper functions for URL-friendly endpoint IDs
+  function endpointToId(endpoint: ApiEndpoint): string {
+    return `${endpoint.method.toLowerCase()}-${endpoint.path.replace(/^\//, '').replace(/[/:]/g, '-')}`;
+  }
+
+  function idToEndpoint(id: string): ApiEndpoint | null {
+    return API_ENDPOINTS.find(endpoint => endpointToId(endpoint) === id) || null;
+  }
+
   // Watch for URL changes and update selected endpoint
   $: {
     const endpointParam = $page.url.searchParams.get('endpoint');
-    if (endpointParam && endpointParam.includes(':')) {
-      const [method, path] = endpointParam.split(':', 2);
-      const found = API_ENDPOINTS.find((ep) => ep.method === method && ep.path === path);
+    if (endpointParam) {
+      // Try new URL-friendly format first
+      let found = idToEndpoint(endpointParam);
+
+      // Fall back to old format for backwards compatibility
+      if (!found && endpointParam.includes(':')) {
+        const [method, path] = endpointParam.split(':', 2);
+        found = API_ENDPOINTS.find((ep) => ep.method === method && ep.path === path);
+      }
+
       if (found && found !== selectedEndpoint) {
         selectedEndpoint = found;
         parameters = {};
@@ -71,9 +87,9 @@
     });
     showCodeGeneration = false;
 
-    // Update URL with selected endpoint
+    // Update URL with selected endpoint using URL-friendly ID
     const url = new URL($page.url);
-    url.searchParams.set('endpoint', `${endpoint.method}:${endpoint.path}`);
+    url.searchParams.set('endpoint', endpointToId(endpoint));
     goto(url.toString(), { replaceState: true });
   }
 
