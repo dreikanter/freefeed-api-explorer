@@ -483,7 +483,7 @@
 
             <div class="mt-4">
               <button class="btn btn-success me-2" on:click={executeStoredRequest} disabled={$isLoading || !$token}>
-                {$isLoading ? 'Executing...' : 'Execute Again'}
+                {$isLoading ? 'Executing...' : 'Execute'}
               </button>
               <button class="btn btn-outline-secondary ms-2" on:click={() => showCodeFromRequest('fetch')}>
                 Generate fetch()
