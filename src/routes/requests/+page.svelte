@@ -329,7 +329,7 @@
 </script>
 
 <svelte:head>
-  <title>FreeFeed API Explorer</title>
+  <title>API Requests - FreeFeed API Explorer</title>
 </svelte:head>
 
 <NavigationBar currentPage="requests" />
@@ -458,7 +458,7 @@
       {:else if !endpointResponse && !$currentRequest}
         <div class="card">
           <div class="card-body text-center text-muted py-5">
-            <h3>Welcome to FreeFeed API Explorer</h3>
+            <h3>API Requests</h3>
             <p>Select an API endpoint from the sidebar to get started.</p>
             <p class="small">
               This tool helps you explore and test the FreeFeed API. Your token and request history are stored locally

@@ -1,11 +1,9 @@
 <script lang="ts">
   import type { ApiEndpoint } from '../types.js';
-  import MethodBadge from './MethodBadge.svelte';
 
   export let endpoint: ApiEndpoint;
   export let isSelected: boolean = false;
   export let onClick: () => void;
-  export let methodBadgePathClass: string = '';
 
   $: selectedTextClass = isSelected ? 'text-light' : '';
 </script>

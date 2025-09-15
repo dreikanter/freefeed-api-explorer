@@ -5,7 +5,6 @@
   import type { ApiRequest } from '$lib/types.js';
   import Response from '$lib/components/Response.svelte';
   import NavigationBar from '$lib/components/NavigationBar.svelte';
-  import MethodBadge from '$lib/components/MethodBadge.svelte';
   import RequestListItem from '$lib/components/RequestListItem.svelte';
   import { getRelativeTime } from '$lib/utils.js';
 
@@ -87,7 +86,7 @@
 
 <NavigationBar currentPage="history" />
 
-<div class="container-fluid">
+<div class="container-fluid mb-4">
   <div class="row">
     <!-- Left Sidebar: Request History -->
     <div class="col-md-4">
