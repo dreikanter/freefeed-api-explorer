@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, afterUpdate } from 'svelte';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
   import type { ApiEndpoint, ApiRequest, ApiResponse } from '$lib/types.js';
@@ -268,9 +268,13 @@
     }
   });
 
-  function highlightCode(code: string, language: string): string {
-    return hljs.highlight(code, { language }).value;
-  }
+  afterUpdate(() => {
+    // Highlight any new code blocks after updates
+    if (typeof window !== 'undefined') {
+      hljs.highlightAll();
+    }
+  });
+
 </script>
 
 <div class="container-fluid mb-4">
@@ -382,10 +386,7 @@
           <div class="card mb-4">
             <h5 class="card-header">Code Example</h5>
             <div class="card-body">
-              <pre class="m-0 p-2 rounded small hljs"><code>{@html highlightCode(
-                    generatedCode,
-                    codeLanguage
-                  )}</code></pre>
+              <pre class="m-0 p-2 rounded small"><code class="language-{codeLanguage}">{generatedCode}</code></pre>
             </div>
           </div>
         {/if}

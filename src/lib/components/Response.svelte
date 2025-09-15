@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, afterUpdate } from 'svelte';
   import { initHighlight, hljs } from '../highlight.js';
   import 'highlight.js/styles/github.css';
   import 'highlightjs-copy/dist/highlightjs-copy.min.css';
@@ -11,6 +11,13 @@
 
   onMount(() => {
     initHighlight();
+  });
+
+  afterUpdate(() => {
+    // Highlight any new code blocks after updates
+    if (typeof window !== 'undefined') {
+      hljs.highlightAll();
+    }
   });
 
   function formatJson(jsonString: string): string {
@@ -106,7 +113,7 @@
 
       <div class="mb-3">
         <p class="mb-3"><strong>Body:</strong></p>
-        <pre class="m-0 p-2 rounded hljs"><code>{@html highlightJson(request.response.body)}</code></pre>
+        <pre class="m-0 p-2 rounded"><code class="language-json">{formatJson(request.response.body)}</code></pre>
       </div>
     </div>
   </div>
