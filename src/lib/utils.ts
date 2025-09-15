@@ -38,3 +38,11 @@ export function getStatusInfo(status: number) {
     };
   }
 }
+
+export function endpointToId(endpoint: { method: string; path: string }): string {
+  return `${endpoint.method.toLowerCase()}-${endpoint.path.replace(/^\//, '').replace(/[/:]/g, '-').toLowerCase()}`;
+}
+
+export function idToEndpoint<T extends { method: string; path: string }>(id: string, endpoints: T[]): T | null {
+  return endpoints.find(endpoint => endpointToId(endpoint) === id) || null;
+}

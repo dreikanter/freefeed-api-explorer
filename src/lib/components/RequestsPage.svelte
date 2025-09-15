@@ -8,6 +8,7 @@
   import Response from './Response.svelte';
   import RequestListItem from './RequestListItem.svelte';
   import { initHighlight, hljs } from '$lib/highlight.js';
+  import { endpointToId, idToEndpoint } from '$lib/utils.js';
   import 'highlight.js/styles/github.css';
   import 'highlightjs-copy/dist/highlightjs-copy.min.css';
 
@@ -40,14 +41,6 @@
 
   const scopes = [...new Set(API_ENDPOINTS.map((e) => e.scope))].sort();
 
-  // Helper functions for URL-friendly endpoint IDs
-  function endpointToId(endpoint: ApiEndpoint): string {
-    return `${endpoint.method.toLowerCase()}-${endpoint.path.replace(/^\//, '').replace(/[/:]/g, '-')}`;
-  }
-
-  function idToEndpoint(id: string): ApiEndpoint | null {
-    return API_ENDPOINTS.find(endpoint => endpointToId(endpoint) === id) || null;
-  }
 
   // Watch for URL changes and update selected endpoint
   $: {
