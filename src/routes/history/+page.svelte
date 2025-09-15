@@ -6,6 +6,7 @@
   import Response from '$lib/components/Response.svelte';
   import NavigationBar from '$lib/components/NavigationBar.svelte';
   import RequestListItem from '$lib/components/RequestListItem.svelte';
+  import ResponseStatus from '$lib/components/ResponseStatus.svelte';
   import { getRelativeTime } from '$lib/utils.js';
 
   let selectedRequest: ApiRequest | null = null;
@@ -111,15 +112,7 @@
                   <div slot="side-content">
                     {#if request.response}
                       <p class="mb-1">
-                        <span
-                          class="badge bg-{request.response.status < 300
-                            ? 'success'
-                            : request.response.status < 400
-                              ? 'warning'
-                              : 'danger'}"
-                        >
-                          {request.response.status}
-                        </span>
+                        <ResponseStatus status={request.response.status} />
                       </p>
                     {/if}
                     <p class="mb-0 small">
