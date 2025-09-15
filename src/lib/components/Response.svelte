@@ -5,6 +5,7 @@
   import 'highlightjs-copy/dist/highlightjs-copy.min.css';
   import type { ApiRequest } from '../types.js';
   import { getRelativeTime } from '../utils.js';
+  import ResponseStatus from './ResponseStatus.svelte';
 
   export let request: ApiRequest | null = null;
 
@@ -86,18 +87,8 @@
     <div class="card-body">
       <div class="mb-3">
         <strong>Status:</strong>
-        <span
-          class="badge bg-{request.response.status < 300
-            ? 'success'
-            : request.response.status < 400
-              ? 'warning'
-              : 'danger'}"
-        >
-          {request.response.status}
-        </span>
-        <span class="text-muted">
-          {getStatusText(request.response.status)}
-        </span>
+        <ResponseStatus status={request.response.status} />
+        <span class="text-muted">- {getStatusText(request.response.status)}</span>
       </div>
 
       <div class="mb-3">
