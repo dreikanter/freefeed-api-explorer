@@ -87,7 +87,7 @@
 
 <NavigationBar currentPage="history" />
 
-<div class="container-fluid">
+<div class="container-fluid mb-4">
   <div class="row">
     <!-- Left Sidebar: Request History -->
     <div class="col-md-4">
