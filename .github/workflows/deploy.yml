@@ -1,4 +1,4 @@
-name: Deploy to Production (explorer.frf.im)
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -12,12 +12,15 @@ permissions:
   id-token: write
 
 concurrency:
-  group: 'pages-production'
+  group: 'pages-${{ github.repository }}'
   cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.env.outputs.environment }}
+      domain: ${{ steps.env.outputs.domain }}
 
     steps:
       - name: Checkout
@@ -38,28 +41,39 @@ jobs:
       - name: Run linter
         run: npm run lint
 
+      - name: Detect environment
+        id: env
+        run: |
+          if [[ "${{ github.repository }}" == *"-staging" ]]; then
+            echo "environment=staging" >> $GITHUB_OUTPUT
+            echo "domain=dev.explorer.frf.im" >> $GITHUB_OUTPUT
+          else
+            echo "environment=production" >> $GITHUB_OUTPUT
+            echo "domain=explorer.frf.im" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build application
         run: npm run build
         env:
-          PUBLIC_ENVIRONMENT: production
+          PUBLIC_ENVIRONMENT: ${{ steps.env.outputs.environment }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
-        if: github.ref == 'refs/heads/main'
+        if: github.event_name == 'push'
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: './build'
-        if: github.ref == 'refs/heads/main'
+        if: github.event_name == 'push'
 
   deploy:
     environment:
       name: github-pages
-      url: https://explorer.frf.im
+      url: https://${{ needs.build.outputs.domain }}
     runs-on: ubuntu-latest
     needs: build
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name == 'push'
 
     steps:
       - name: Deploy to GitHub Pages
