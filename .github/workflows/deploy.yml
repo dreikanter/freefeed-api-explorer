@@ -3,24 +3,19 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
-  pull_request:
+  pull_request: # remove fter testing
     branches: [main]
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: 'pages-${{ github.repository }}'
-  cancel-in-progress: false
+  contents: read # allows the workflow to read the repository (default)
+  pages: write # allows the workflow to deploy to GitHub Pages
+  id-token: write # enables OIDC authentication for secure deployments
 
 jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
       environment: ${{ steps.env.outputs.environment }}
-      domain: ${{ steps.env.outputs.domain }}
 
     steps:
       - name: Checkout
@@ -46,10 +41,8 @@ jobs:
         run: |
           if [[ "${{ github.repository }}" == *"-staging" ]]; then
             echo "environment=staging" >> $GITHUB_OUTPUT
-            echo "domain=dev.explorer.frf.im" >> $GITHUB_OUTPUT
           else
             echo "environment=production" >> $GITHUB_OUTPUT
-            echo "domain=explorer.frf.im" >> $GITHUB_OUTPUT
           fi
 
       - name: Build application
@@ -70,7 +63,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: https://${{ needs.build.outputs.domain }}
+      url: ${{ steps.deployment.outputs.page_url }} # shows a clickable link
     runs-on: ubuntu-latest
     needs: build
     if: github.event_name == 'push'
