@@ -2,7 +2,7 @@
   import { onMount, afterUpdate } from 'svelte';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
-  import type { ApiEndpoint, ApiRequest, ApiResponse } from '$lib/types.js';
+  import type { ApiEndpoint, ApiRequest, ApiResponse, ApiParameter } from '$lib/types.js';
   import { API_ENDPOINTS, FREEFEED_INSTANCES } from '$lib/api-endpoints.js';
   import { token, selectedInstance, currentRequest, isLoading, addToHistory, requestHistory } from '$lib/stores.js';
   import Response from './Response.svelte';
@@ -24,7 +24,7 @@
   // Find most recent response for the currently selected endpoint
   $: endpointResponse = selectedEndpoint
     ? $requestHistory.find(
-        (req) => req.endpoint.method === selectedEndpoint.method && req.endpoint.path === selectedEndpoint.path
+        (req) => req.endpoint.method === selectedEndpoint!.method && req.endpoint.path === selectedEndpoint!.path
       )
     : null;
 
@@ -47,18 +47,18 @@
     const endpointParam = $page.url.searchParams.get('endpoint');
     if (endpointParam) {
       // Try new URL-friendly format first
-      let found = idToEndpoint(endpointParam);
+      let found = idToEndpoint(endpointParam, API_ENDPOINTS);
 
       // Fall back to old format for backwards compatibility
       if (!found && endpointParam.includes(':')) {
         const [method, path] = endpointParam.split(':', 2);
-        found = API_ENDPOINTS.find((ep) => ep.method === method && ep.path === path);
+        found = API_ENDPOINTS.find((ep) => ep.method === method && ep.path === path) || null;
       }
 
       if (found && found !== selectedEndpoint) {
         selectedEndpoint = found;
         parameters = {};
-        found.parameters?.forEach((param) => {
+        found.parameters?.forEach((param: ApiParameter) => {
           if (param.required) {
             parameters[param.name] = param.example || '';
           }
