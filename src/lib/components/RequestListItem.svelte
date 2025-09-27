@@ -27,9 +27,7 @@
 <style>
   /* Override all text colors when item is active/selected */
   .list-group-item.active .text-muted,
-  .list-group-item.active .text-secondary,
-  .list-group-item.active small,
-  .list-group-item.active .small {
+  .list-group-item.active .text-secondary {
     color: rgba(255, 255, 255, 0.9) !important;
   }
 
@@ -39,7 +37,6 @@
   }
 
   /* Specifically target nested elements */
-  .list-group-item.active div small,
   .list-group-item.active [slot='side-content'] * {
     color: rgba(255, 255, 255, 0.9) !important;
   }
