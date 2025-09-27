@@ -28,15 +28,6 @@
     }
   }
 
-  function highlightJson(jsonString: string): string {
-    const formatted = formatJson(jsonString);
-    try {
-      return hljs.highlight(formatted, { language: 'json' }).value;
-    } catch (error) {
-      console.warn('JSON highlighting failed, returning unformatted text:', error);
-      return formatted;
-    }
-  }
 
   function getStatusText(status: number): string {
     if (status === 0) return 'Network Error';
