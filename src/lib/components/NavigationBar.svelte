@@ -1,6 +1,7 @@
 <script lang="ts">
   import { FREEFEED_INSTANCES } from '$lib/api-endpoints.js';
   import { selectedInstance, clearToken, clearHistory } from '$lib/stores.js';
+  import { PUBLIC_ENVIRONMENT } from '$env/static/public';
 
   export let currentPage: 'home' | 'history' | 'requests' | 'about' = 'home';
 </script>
@@ -9,6 +10,9 @@
   <div class="container-fluid">
     <div class="d-flex align-items-center">
       <a href="/" class="navbar-brand mb-0 h1 text-decoration-none">FreeFeed API Explorer</a>
+      {#if PUBLIC_ENVIRONMENT === 'staging'}
+        <span class="badge bg-warning text-dark ms-2">STAGING</span>
+      {/if}
       <a href="/requests" class="nav-link text-light ms-3 {currentPage === 'requests' ? 'active fw-bold' : ''}">Requests</a>
       <a href="/history" class="nav-link text-light ms-3 {currentPage === 'history' ? 'active fw-bold' : ''}">History</a>
       <a href="/about" class="nav-link text-light ms-3 {currentPage === 'about' ? 'active fw-bold' : ''}">?</a>
