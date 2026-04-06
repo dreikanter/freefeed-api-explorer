@@ -210,7 +210,7 @@ export const API_ENDPOINTS: ApiEndpoint[] = [
     scope: 'read-feeds',
     parameters: [
       {
-        name: 'q',
+        name: 'qs',
         type: 'string',
         required: true,
         description: 'Search query',
