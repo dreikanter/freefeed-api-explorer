@@ -17,28 +17,48 @@ endpoints:
 
   - method: GET
     path: /v2/allGroups
-    description: ""
+    description: "Get list of all groups"
     auth_required: true
     scopes: ["read-feeds"]
     parameters: []
 
   - method: GET
     path: "/v2/app-tokens"
-    description: ""
+    description: "List current user's app tokens"
     auth_required: true
     scopes: ["session-only"]
     parameters: []
 
   - method: POST
     path: "/v2/app-tokens"
-    description: ""
+    description: "Create a new app token"
     auth_required: true
     scopes: ["session-only"]
-    parameters: []
+    parameters:
+      - name: title
+        location: body
+        type: string
+        required: true
+        description: "Token title (1-250 chars)"
+      - name: scopes
+        location: body
+        type: string[]
+        required: false
+        description: "Access scopes (default: [])"
+      - name: expiresAt
+        location: body
+        type: string
+        required: false
+        description: "Expiry as Unix timestamp or ISO 8601 datetime"
+      - name: restrictions
+        location: body
+        type: object
+        required: true
+        description: "Access restrictions {origins: string[], netmasks: string[]}"
 
   - method: PUT
     path: "/v2/app-tokens/:tokenId"
-    description: ""
+    description: "Update an app token's title"
     auth_required: true
     scopes: ["session-only"]
     parameters:
@@ -46,11 +66,16 @@ endpoints:
         location: path
         type: string
         required: true
-        description: ""
+        description: "App token ID"
+      - name: title
+        location: body
+        type: string
+        required: true
+        description: "Updated title (1-250 chars)"
 
   - method: DELETE
     path: "/v2/app-tokens/:tokenId"
-    description: ""
+    description: "Deactivate (delete) an app token"
     auth_required: true
     scopes: ["session-only"]
     parameters:
@@ -58,11 +83,11 @@ endpoints:
         location: path
         type: string
         required: true
-        description: ""
+        description: "App token ID"
 
   - method: POST
     path: "/v2/app-tokens/:tokenId/reissue"
-    description: ""
+    description: "Regenerate a specific app token"
     auth_required: true
     scopes: ["session-only"]
     parameters:
@@ -70,49 +95,59 @@ endpoints:
         location: path
         type: string
         required: true
-        description: ""
+        description: "App token ID"
 
   - method: POST
     path: "/v2/app-tokens/activate"
-    description: ""
+    description: "Activate an app token using activation code"
     auth_required: true
     scopes: ["session-only"]
-    parameters: []
+    parameters:
+      - name: activationCode
+        location: body
+        type: string
+        required: true
+        description: "Activation code"
 
   - method: GET
     path: "/v2/app-tokens/current"
-    description: ""
+    description: "Get the current app token info"
     auth_required: true
     scopes: [any]
     parameters: []
 
   - method: POST
     path: "/v2/app-tokens/current/reissue"
-    description: ""
+    description: "Regenerate the current app token"
     auth_required: true
     scopes: [any]
     parameters: []
 
   - method: GET
     path: "/v2/app-tokens/scopes"
-    description: ""
+    description: "Get list of available token scopes and descriptions"
     auth_required: false
     scopes: ["session-only"]
     parameters: []
 
   - method: GET
     path: "/v2/archives-stats"
-    description: ""
+    description: "Get archive restoration statistics"
     auth_required: false
     scopes: ["session-only"]
     parameters: []
 
   - method: PUT
     path: /v2/archives/activities
-    description: ""
+    description: "Start activity restoration from archive"
     auth_required: true
     scopes: ["session-only"]
-    parameters: []
+    parameters:
+      - name: restore
+        location: body
+        type: boolean
+        required: true
+        description: "Must be true"
 
   - method: GET
     path: "/v2/archives/post-by-old-name/:name"
