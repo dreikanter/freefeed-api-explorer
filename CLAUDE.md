@@ -1,6 +1,6 @@
 # Project Memory
 
-Assume you have access to `../freefeed-api-explorer-references` for reference material.
+Reference material is in the `docs/` directory.
 
 ## Development Workflow
 
