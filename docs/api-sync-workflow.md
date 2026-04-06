@@ -3,6 +3,23 @@
 How to extract the current FreeFeed API state from server sources and keep the
 API reference (`docs/freefeed-api.yaml`) up to date.
 
+## What is the YAML reference?
+
+`docs/freefeed-api.yaml` is the structured API reference for the FreeFeed API
+Explorer application. It lists every public API endpoint with its HTTP method,
+path, description, required scopes, auth requirements, and parameters (with
+types, locations, and required flags).
+
+It serves two purposes:
+
+1. **Source of truth for the explorer app** — the application reads this file
+   (or a derivative) to know which endpoints exist, what parameters they
+   accept, and what scopes they require.
+2. **Diffable sync artifact** — when the FreeFeed server changes its API, we
+   extract a fresh endpoint list and diff it against this YAML to detect
+   added, removed, or changed endpoints. The diff drives updates to both
+   the YAML and `src/lib/api-endpoints.ts`.
+
 ## Overview
 
 The FreeFeed server has no OpenAPI spec or generated docs. The source of truth
