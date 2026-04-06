@@ -1,190 +1,104 @@
 # API Reference Sync Workflow
 
-How to extract the current FreeFeed API state from server sources and keep the
-API reference (`docs/freefeed-api.yaml`) up to date.
+How to check for FreeFeed API changes and keep `docs/freefeed-api.json` up
+to date.
 
-## What is the YAML reference?
+## What is the API reference?
 
-`docs/freefeed-api.yaml` is the structured API reference for the FreeFeed API
+`docs/freefeed-api.json` is the structured API reference for the FreeFeed API
 Explorer application. It lists every public API endpoint with its HTTP method,
 path, description, required scopes, auth requirements, and parameters (with
 types, locations, and required flags).
 
 It serves two purposes:
 
-1. **Source of truth for the explorer app** — the application reads this file
-   (or a derivative) to know which endpoints exist, what parameters they
-   accept, and what scopes they require.
+1. **Source of truth for the explorer app** — the application uses this file
+   to know which endpoints exist, what parameters they accept, and what
+   scopes they require.
 2. **Diffable sync artifact** — when the FreeFeed server changes its API, we
-   extract a fresh endpoint list and diff it against this YAML to detect
-   added, removed, or changed endpoints. The diff drives updates to both
-   the YAML and `src/lib/api-endpoints.ts`.
+   run the check script to detect added, removed, or changed endpoints.
+   The change report drives updates to both the reference and
+   `src/lib/api-endpoints.ts`.
 
-## Overview
+## How it works
 
-The FreeFeed server has no OpenAPI spec or generated docs. The source of truth
-for the public API is a single TypeScript file that maps every endpoint to its
-app-token scope:
+The FreeFeed server has no OpenAPI spec. The source of truth for the public
+API is a single TypeScript file that maps every endpoint to its app-token
+scope:
 
 [`app/models/auth-tokens/app-tokens-scopes.ts`](https://github.com/FreeFeed/freefeed-server/blob/stable/app/models/auth-tokens/app-tokens-scopes.ts)
 
 This file exports three arrays:
 
-- `alwaysAllowedRoutes` — endpoints accessible with any valid token (no
-  specific scope needed)
+- `alwaysAllowedRoutes` — endpoints accessible with any valid token
 - `alwaysDisallowedRoutes` — endpoints that require a session token (app
   tokens cannot access them)
 - `appTokensScopes` — named scopes, each listing the endpoint routes it
   grants access to
 
-The extraction script imports this module directly (it's pure data — no
-database or Redis connection needed) and outputs structured JSON.
-
-## Quick start
-
-Run from the root of this repository (freefeed-api-explorer):
-
-```bash
-./docs/run-extraction.sh
-```
-
-The output is `extracted.json` in the current directory.
-
-## What the script does
-
-1. Clones `FreeFeed/freefeed-server` (stable branch, shallow) into a temp
-   directory
-2. Copies `docs/extract-routes.mjs` into the server checkout
-3. Runs `node extract-routes.mjs` which imports the scopes module
-4. Writes `extracted.json` with all endpoints, scopes, and metadata
-5. Cleans up the temp directory
-
-No `npm install` is needed. The scopes file is pure TypeScript data (arrays
-of strings and objects). Node.js 22+ can import `.ts` files natively with
-type stripping. Node.js 20–21 requires the `--experimental-strip-types` flag.
+The extraction script (`docs/extract-routes.mjs`) imports this module
+directly — it's pure data, no database or Redis connection needed.
 
 ## Prerequisites
 
-- **Node.js 22+** (recommended) or Node.js 20+ with `--experimental-strip-types`
+- **Node.js 22+** (or Node.js 20+ with `--experimental-strip-types`)
 - **Git**
-- **Python 3** (for the change report script)
-- **jq** and/or **yq** (for ID diffing — optional if using the Python report)
+- **Python 3**
+- **jq**
 
 On macOS:
 
 ```bash
-brew install node git python3 jq yq
+brew install node git python3 jq
 ```
 
 On Ubuntu/Debian:
 
 ```bash
 sudo apt install -y nodejs git python3 jq
-pip install yq   # or: snap install yq
 ```
 
-Verify:
+## Usage
+
+Run from the repository root:
 
 ```bash
-node --version   # v22+ recommended
-git --version
-python3 --version
-jq --version
+./docs/check-api-changes.sh
 ```
 
-## Manual extraction (step by step)
+This does everything in one step:
 
-If you prefer to run each step yourself instead of using the wrapper script:
+1. Clones `FreeFeed/freefeed-server` (stable branch, shallow) into a temp dir
+2. Copies `docs/extract-routes.mjs` into the checkout and runs it
+3. Diffs the extracted endpoints against `docs/freefeed-api.json`
+4. Outputs a JSON change report to stdout
+5. Cleans up the temp dir
 
-```bash
-# 1. Clone server into a temp directory
-WORK_DIR=$(mktemp -d)
-git clone --branch stable --depth 1 \
-  https://github.com/FreeFeed/freefeed-server.git "$WORK_DIR"
-
-# 2. Copy extraction script into the server checkout
-cp docs/extract-routes.mjs "$WORK_DIR/"
-
-# 3. Run extraction
-cd "$WORK_DIR"
-SERVER_REV=$(git rev-parse HEAD) node extract-routes.mjs
-
-# 4. Copy result back
-cp extracted.json /path/to/freefeed-api-explorer/
-
-# 5. Clean up
-rm -rf "$WORK_DIR"
-```
-
-## Output format
-
-`extracted.json` structure:
+### Example output (no changes)
 
 ```json
 {
-  "meta": {
-    "server_repo": "FreeFeed/freefeed-server",
-    "server_branch": "stable",
-    "server_rev": "1e19100b81e2fba04ab176e6d80268c6556b6f2b",
-    "extracted_at": "2026-04-06",
-    "total_endpoints": 145
-  },
-  "scopes": [
-    { "name": "read-my-info", "title": "Read my user information" }
-  ],
-  "endpoints": [
-    { "method": "GET", "path": "/v2/allGroups", "scopes": ["read-feeds"] },
-    { "method": "GET", "path": "/v2/posts/:postId", "scopes": ["read-feeds", "manage-posts"] }
-  ]
+  "server_rev": "1e19100b...",
+  "reference_rev": "1e19100b...",
+  "added": [],
+  "removed": [],
+  "scope_changed": [],
+  "unchanged_count": 145,
+  "total_changes": 0
 }
 ```
 
-Each endpoint has:
-
-- `method` — HTTP method (GET, POST, PUT, PATCH, DELETE)
-- `path` — route path with `:param` placeholders, `/v2/` prefix
-- `scopes` — array of scope names. Special values:
-  - `"any"` — works with any valid token, no specific scope needed
-  - `"session-only"` — requires session token, app tokens cannot access
-
-Endpoints are sorted by path ascending, then method in the order
-GET > POST > PUT > PATCH > DELETE.
-
-## Detecting changes
-
-To check if the server API has changed since the last reference sync:
-
-### Quick diff (endpoint IDs only)
-
-```bash
-# Extract IDs from fresh extraction
-jq -r '.endpoints[] | "\(.method) \(.path)"' extracted.json | sort > /tmp/new_ids.txt
-
-# Extract IDs from current YAML reference
-yq -r '.endpoints[] | "\(.method) \(.path)"' docs/freefeed-api.yaml | sort > /tmp/current_ids.txt
-
-# Compare
-diff /tmp/current_ids.txt /tmp/new_ids.txt
-```
-
-Lines prefixed with `<` = removed from server. Lines prefixed with `>` =
-added to server.
-
-### Full change report (for agent consumption)
-
-```bash
-python3 docs/generate-change-report.py extracted.json docs/freefeed-api.yaml
-```
-
-This produces a JSON report:
+### Example output (with changes)
 
 ```json
 {
+  "server_rev": "abc1234...",
+  "reference_rev": "def5678...",
   "added": [
     { "id": "GET /v2/new-endpoint", "scopes": ["read-feeds"] }
   ],
   "removed": [
-    { "id": "GET /v2/deprecated-endpoint" }
+    { "id": "GET /v2/old-endpoint" }
   ],
   "scope_changed": [
     {
@@ -194,29 +108,26 @@ This produces a JSON report:
     }
   ],
   "unchanged_count": 143,
-  "server_rev": "abc1234...",
-  "current_rev": "def5678..."
+  "total_changes": 3
 }
 ```
 
 An agent reads this report and knows exactly which endpoints to add, remove,
-or update in both `docs/freefeed-api.yaml` and `src/lib/api-endpoints.ts`.
+or update in both `docs/freefeed-api.json` and `src/lib/api-endpoints.ts`.
 
-## Enriching with descriptions and parameters
+## Updating the reference after changes
 
-The extraction script produces `(method, path, scopes)` tuples. Descriptions
-and parameter details require reading the server's controller and validation
-code. This is where an LLM agent adds value:
+For each new or changed endpoint, an agent reads the server source (route
+file, controller, validation schemas) to determine:
 
-1. For each new or changed endpoint, the agent reads the server source
-   (route file, controller, validation schemas) to determine:
-   - Short description of what the endpoint does
-   - Path parameters (inferable from `:param` patterns)
-   - Query parameters (from controller logic)
-   - Request body parameters (from Joi/Zod schemas)
-   - Whether authentication is required
+- Short description of what the endpoint does
+- Path parameters (inferable from `:param` patterns)
+- Query parameters (from controller logic)
+- Request body parameters (from Joi/Zod schemas)
+- Whether authentication is required
 
-2. The agent writes these details into `docs/freefeed-api.yaml`.
+The agent then updates `docs/freefeed-api.json` with these details and
+updates `meta.server_rev` and `meta.synced_at`.
 
 ## Optional: Router validation
 

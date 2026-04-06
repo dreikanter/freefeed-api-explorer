@@ -1,0 +1,3441 @@
+{
+  "meta": {
+    "server_repo": "FreeFeed/freefeed-server",
+    "server_branch": "stable",
+    "server_rev": "1e19100b81e2fba04ab176e6d80268c6556b6f2b",
+    "synced_at": "2026-04-06",
+    "total_endpoints": 145,
+    "format_version": 1
+  },
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/v2/allGroups",
+      "description": "Get list of all groups.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "GET",
+      "path": "/v2/app-tokens",
+      "description": "List current user's app tokens.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "POST",
+      "path": "/v2/app-tokens",
+      "description": "Create a new app token.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "title",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Token title (1-250 chars, non-whitespace)"
+        },
+        {
+          "name": "scopes",
+          "location": "body",
+          "type": "string[]",
+          "required": false,
+          "description": "Access scopes (default: [])"
+        },
+        {
+          "name": "expiresAt",
+          "location": "body",
+          "type": "number or string",
+          "required": false,
+          "description": "Expiry as Unix timestamp or ISO 8601 datetime"
+        },
+        {
+          "name": "restrictions",
+          "location": "body",
+          "type": "object",
+          "required": true,
+          "description": "Access restrictions (default: {origins: [], netmasks: []})"
+        },
+        {
+          "name": "restrictions.origins",
+          "location": "body",
+          "type": "string[]",
+          "required": false,
+          "description": "Allowed origin URLs (default: [])"
+        },
+        {
+          "name": "restrictions.netmasks",
+          "location": "body",
+          "type": "string[]",
+          "required": false,
+          "description": "Allowed IP netmasks (default: [])"
+        }
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/v2/app-tokens/:tokenId",
+      "description": "Update an app token's title.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "tokenId",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "App token ID"
+        },
+        {
+          "name": "title",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Updated title (1-250 chars, non-whitespace)"
+        }
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/v2/app-tokens/:tokenId",
+      "description": "Deactivate (delete) an app token.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "tokenId",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "App token ID"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/app-tokens/:tokenId/reissue",
+      "description": "Regenerate a specific app token.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "tokenId",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "App token ID"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/app-tokens/activate",
+      "description": "Activate an app token using activation code.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "activationCode",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Activation code"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/app-tokens/current",
+      "description": "Get the current app token (when authenticated via app token).",
+      "auth_required": true,
+      "scopes": [
+        "any"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "POST",
+      "path": "/v2/app-tokens/current/reissue",
+      "description": "Regenerate the current app token.",
+      "auth_required": true,
+      "scopes": [
+        "any"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "GET",
+      "path": "/v2/app-tokens/scopes",
+      "description": "Get list of available token scopes and their descriptions.",
+      "auth_required": false,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "GET",
+      "path": "/v2/archives-stats",
+      "description": "Get archive restoration statistics.",
+      "auth_required": false,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "PUT",
+      "path": "/v2/archives/activities",
+      "description": "Start activity restoration from archive.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "restore",
+          "location": "body",
+          "type": "boolean",
+          "required": true,
+          "description": "Must be `true`"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/archives/post-by-old-name/:name",
+      "description": "Look up a post by its old FriendFeed name/URL.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "name",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Old FriendFeed post name"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/archives/restoration",
+      "description": "Start FriendFeed archive restoration.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "disable_comments",
+          "location": "body",
+          "type": "boolean",
+          "required": false,
+          "description": "Disable comments on restored posts (default: false)"
+        },
+        {
+          "name": "via_restore",
+          "location": "body",
+          "type": "string[]",
+          "required": false,
+          "description": "Via sources for restoration (default: [])"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/attachments",
+      "description": "Upload a new attachment (file).",
+      "auth_required": true,
+      "scopes": [
+        "manage-posts"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "GET",
+      "path": "/v2/attachments/:attId",
+      "description": "Get attachment metadata by ID.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "attId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Attachment ID"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/attachments/:attId/:type",
+      "description": "Get attachment preview/variant in specific format.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "attId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Attachment ID"
+        },
+        {
+          "name": "type",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Variant type: `original`, `image`, `video`, `audio`"
+        },
+        {
+          "name": "format",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "Image format: `webp`, `jpeg`, `avif`"
+        },
+        {
+          "name": "width",
+          "location": "query",
+          "type": "integer",
+          "required": false,
+          "description": "Desired width (positive)"
+        },
+        {
+          "name": "height",
+          "location": "query",
+          "type": "integer",
+          "required": false,
+          "description": "Desired height (positive)"
+        },
+        {
+          "name": "redirect",
+          "location": "query",
+          "type": "flag",
+          "required": false,
+          "description": "Redirect to file URL"
+        },
+        {
+          "name": "download",
+          "location": "query",
+          "type": "flag",
+          "required": false,
+          "description": "Force download disposition"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/attachments/byIds",
+      "description": "Get multiple attachments by their IDs.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "ids",
+          "location": "body",
+          "type": "UUID[]",
+          "required": true,
+          "description": "Array of attachment IDs (unique)"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/attachments/my",
+      "description": "List current user's uploaded attachments.",
+      "auth_required": true,
+      "scopes": [
+        "read-my-files"
+      ],
+      "parameters": [
+        {
+          "name": "limit",
+          "location": "query",
+          "type": "integer",
+          "required": false,
+          "description": "Max results (default: 30, max: 100)"
+        },
+        {
+          "name": "page",
+          "location": "query",
+          "type": "integer",
+          "required": false,
+          "description": "Page number (default: 1)"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/attachments/my/sanitize",
+      "description": "Sanitize metadata of uploaded files (strip EXIF etc.).",
+      "auth_required": true,
+      "scopes": [
+        "manage-my-files"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "GET",
+      "path": "/v2/attachments/my/stats",
+      "description": "Get upload statistics for current user.",
+      "auth_required": true,
+      "scopes": [
+        "read-my-files"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "GET",
+      "path": "/v2/bestof",
+      "description": "Get best-of posts (most liked).",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "offset",
+          "location": "query",
+          "type": "integer",
+          "required": false,
+          "description": "Number of posts to skip (default: 0)"
+        },
+        {
+          "name": "limit",
+          "location": "query",
+          "type": "integer",
+          "required": false,
+          "description": "Max posts to return (default: 30, max: 120)"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/bookmarklet",
+      "description": "Create a post from bookmarklet data.",
+      "auth_required": true,
+      "scopes": [
+        "manage-posts"
+      ],
+      "parameters": [
+        {
+          "name": "title",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Post body text (min 1 char, non-whitespace)"
+        },
+        {
+          "name": "comment",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Optional comment text (default: '')"
+        },
+        {
+          "name": "images",
+          "location": "body",
+          "type": "string[]",
+          "required": false,
+          "description": "Image URLs (default: [])"
+        },
+        {
+          "name": "image",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Single image URL (default: '')"
+        },
+        {
+          "name": "meta.feeds",
+          "location": "body",
+          "type": "string or string[]",
+          "required": false,
+          "description": "Destination feed names (default: [])"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/calendar/:username/:year",
+      "description": "Get days with posts in a given year.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username"
+        },
+        {
+          "name": "year",
+          "location": "path",
+          "type": "integer",
+          "required": true,
+          "description": "Year (e.g. 2024)"
+        },
+        {
+          "name": "tz",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "IANA timezone (e.g. `America/New_York`)"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/calendar/:username/:year/:month",
+      "description": "Get days with posts in a given month.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username"
+        },
+        {
+          "name": "year",
+          "location": "path",
+          "type": "integer",
+          "required": true,
+          "description": "Year"
+        },
+        {
+          "name": "month",
+          "location": "path",
+          "type": "integer",
+          "required": true,
+          "description": "Month (1-12)"
+        },
+        {
+          "name": "tz",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "IANA timezone"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/calendar/:username/:year/:month/:day",
+      "description": "Get posts for a specific date.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username"
+        },
+        {
+          "name": "year",
+          "location": "path",
+          "type": "integer",
+          "required": true,
+          "description": "Year"
+        },
+        {
+          "name": "month",
+          "location": "path",
+          "type": "integer",
+          "required": true,
+          "description": "Month (1-12)"
+        },
+        {
+          "name": "day",
+          "location": "path",
+          "type": "integer",
+          "required": true,
+          "description": "Day (1-31)"
+        },
+        {
+          "name": "offset",
+          "location": "query",
+          "type": "integer",
+          "required": false,
+          "description": "Number of posts to skip (default: 0)"
+        },
+        {
+          "name": "tz",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "IANA timezone"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/comments",
+      "description": "Create a new comment on a post.",
+      "auth_required": true,
+      "scopes": [
+        "manage-posts"
+      ],
+      "parameters": [
+        {
+          "name": "comment.body",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Comment text (min 1 char, must contain non-whitespace)"
+        },
+        {
+          "name": "comment.postId",
+          "location": "body",
+          "type": "UUID",
+          "required": true,
+          "description": "Post ID to comment on"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/comments/:commentId",
+      "description": "Get a single comment by ID.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "commentId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Comment ID"
+        },
+        {
+          "name": "unlock-banned",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "Unlock banned comment content"
+        }
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/v2/comments/:commentId",
+      "description": "Update an existing comment.",
+      "auth_required": true,
+      "scopes": [
+        "manage-posts"
+      ],
+      "parameters": [
+        {
+          "name": "commentId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Comment ID"
+        },
+        {
+          "name": "comment.body",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Updated comment text"
+        }
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/v2/comments/:commentId",
+      "description": "Delete a comment.",
+      "auth_required": true,
+      "scopes": [
+        "manage-posts"
+      ],
+      "parameters": [
+        {
+          "name": "commentId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Comment ID"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/comments/:commentId/like",
+      "description": "Like a comment.",
+      "auth_required": true,
+      "scopes": [
+        "manage-posts"
+      ],
+      "parameters": [
+        {
+          "name": "commentId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Comment ID"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/comments/:commentId/likes",
+      "description": "Get list of users who liked a comment.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds",
+        "manage-posts"
+      ],
+      "parameters": [
+        {
+          "name": "commentId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Comment ID"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/comments/:commentId/translated-body",
+      "description": "Get machine-translated comment body.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "commentId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Comment ID"
+        },
+        {
+          "name": "lang",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "Target language code (defaults to Accept-Language header)"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/comments/:commentId/unlike",
+      "description": "Remove like from a comment.",
+      "auth_required": true,
+      "scopes": [
+        "manage-posts"
+      ],
+      "parameters": [
+        {
+          "name": "commentId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Comment ID"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/comments/byIds",
+      "description": "Get multiple comments by their IDs.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "commentIds",
+          "location": "body",
+          "type": "UUID[]",
+          "required": true,
+          "description": "Array of comment IDs (max 100, unique)"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/cors-proxy",
+      "description": "Proxy a URL fetch to bypass CORS restrictions.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "url",
+          "location": "query",
+          "type": "string",
+          "required": true,
+          "description": "URL to proxy (must be on allowed list)"
+        },
+        {
+          "name": "id",
+          "location": "query",
+          "type": "UUID",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "body",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "userId",
+          "location": "query",
+          "type": "UUID",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "commentsCount",
+          "location": "query",
+          "type": "number",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "isPrivate",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "isPropagable",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "updatedAt",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "friendfeedUrl",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "### User"
+        },
+        {
+          "name": "id",
+          "location": "query",
+          "type": "UUID",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "screenName",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "description",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "isPrivate",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "profilePictureUuid",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "preferences",
+          "location": "query",
+          "type": "object",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "updatedAt",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "### User Preferences"
+        },
+        {
+          "name": "hideCommentsOfTypes",
+          "location": "query",
+          "type": "integer[]",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "sendDailyBestOfDigest",
+          "location": "query",
+          "type": "boolean",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "acceptDirectsFrom",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "notifyOfCommentsOnMyPosts",
+          "location": "query",
+          "type": "boolean",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "id",
+          "location": "query",
+          "type": "UUID",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "screenName",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "type",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "isProtected",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "administratorIds",
+          "location": "query",
+          "type": "UUID[]",
+          "required": false,
+          "description": "### Comment"
+        },
+        {
+          "name": "id",
+          "location": "query",
+          "type": "UUID",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "body",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "postId",
+          "location": "query",
+          "type": "UUID",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "hideType",
+          "location": "query",
+          "type": "integer",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "updatedAt",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "### Attachment"
+        },
+        {
+          "name": "id",
+          "location": "query",
+          "type": "UUID",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "fileSize",
+          "location": "query",
+          "type": "number",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "fileExtension",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "width",
+          "location": "query",
+          "type": "number or null",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "duration",
+          "location": "query",
+          "type": "number or null",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "title",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "postId",
+          "location": "query",
+          "type": "UUID or null",
+          "required": false,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/everything",
+      "description": "Get all public posts across the site.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "POST",
+      "path": "/v2/ext-auth/auth-finish",
+      "description": "Complete external authentication flow.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "provider",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Auth provider name (max 50 chars)"
+        },
+        {
+          "name": "query",
+          "location": "body",
+          "type": "object",
+          "required": true,
+          "description": "OAuth callback query parameters"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/ext-auth/auth-start",
+      "description": "Start external authentication flow (OAuth).",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "provider",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Auth provider name (max 50 chars)"
+        },
+        {
+          "name": "redirectURL",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Callback URL (max 250 chars, must start with http:// or https://)"
+        },
+        {
+          "name": "mode",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Auth mode: `connect` (link to existing account) or `sign-in`"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/ext-auth/profiles",
+      "description": "List linked external authentication profiles.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "DELETE",
+      "path": "/v2/ext-auth/profiles/:profileId",
+      "description": "Remove a linked external auth profile.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "profileId",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "External profile ID"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/groups",
+      "description": "Create a new group.",
+      "auth_required": true,
+      "scopes": [
+        "manage-groups"
+      ],
+      "parameters": [
+        {
+          "name": "group.username",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Group name (3-35 chars, alphanumeric+hyphens)"
+        },
+        {
+          "name": "group.screenName",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Display name"
+        },
+        {
+          "name": "group.description",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Group description"
+        },
+        {
+          "name": "group.isPrivate",
+          "location": "body",
+          "type": "boolean",
+          "required": false,
+          "description": "Private group"
+        },
+        {
+          "name": "group.isProtected",
+          "location": "body",
+          "type": "boolean",
+          "required": false,
+          "description": "Protected group"
+        },
+        {
+          "name": "group.isRestricted",
+          "location": "body",
+          "type": "boolean",
+          "required": false,
+          "description": "Only admins can post"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/groups/:groupName/acceptRequest/:userName",
+      "description": "Accept a user's request to join group.",
+      "auth_required": true,
+      "scopes": [
+        "manage-groups"
+      ],
+      "parameters": [
+        {
+          "name": "groupName",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Group name"
+        },
+        {
+          "name": "userName",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Requesting user's username"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/groups/:groupName/block/:userName",
+      "description": "Block a user from group.",
+      "auth_required": true,
+      "scopes": [
+        "manage-groups"
+      ],
+      "parameters": [
+        {
+          "name": "groupName",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Group name"
+        },
+        {
+          "name": "userName",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username to block"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/groups/:groupName/blockedUsers",
+      "description": "Get list of users blocked from group.",
+      "auth_required": true,
+      "scopes": [
+        "manage-groups"
+      ],
+      "parameters": [
+        {
+          "name": "groupName",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Group name"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/groups/:groupName/disableBans",
+      "description": "Disable bans in group (allow banned users to see group posts).",
+      "auth_required": true,
+      "scopes": [
+        "manage-my-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "groupName",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Group name"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/groups/:groupName/enableBans",
+      "description": "Enable bans in group.",
+      "auth_required": true,
+      "scopes": [
+        "manage-my-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "groupName",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Group name"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/groups/:groupName/rejectRequest/:userName",
+      "description": "Reject a user's request to join group.",
+      "auth_required": true,
+      "scopes": [
+        "manage-groups"
+      ],
+      "parameters": [
+        {
+          "name": "groupName",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Group name"
+        },
+        {
+          "name": "userName",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Requesting user's username"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/groups/:groupName/sendRequest",
+      "description": "Send request to join a group.",
+      "auth_required": true,
+      "scopes": [
+        "manage-groups"
+      ],
+      "parameters": [
+        {
+          "name": "groupName",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Group name"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/groups/:groupName/subscribers/:adminName/admin",
+      "description": "Promote a group subscriber to admin.",
+      "auth_required": true,
+      "scopes": [
+        "manage-groups"
+      ],
+      "parameters": [
+        {
+          "name": "groupName",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Group name"
+        },
+        {
+          "name": "adminName",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username to promote"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/groups/:groupName/subscribers/:adminName/unadmin",
+      "description": "Demote a group admin.",
+      "auth_required": true,
+      "scopes": [
+        "manage-groups"
+      ],
+      "parameters": [
+        {
+          "name": "groupName",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Group name"
+        },
+        {
+          "name": "adminName",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username to demote"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/groups/:groupName/unblock/:userName",
+      "description": "Unblock a user from group.",
+      "auth_required": true,
+      "scopes": [
+        "manage-groups"
+      ],
+      "parameters": [
+        {
+          "name": "groupName",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Group name"
+        },
+        {
+          "name": "userName",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username to unblock"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/groups/:groupName/unsubscribeFromGroup/:userName",
+      "description": "Remove a user from group.",
+      "auth_required": true,
+      "scopes": [
+        "manage-groups"
+      ],
+      "parameters": [
+        {
+          "name": "groupName",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Group name"
+        },
+        {
+          "name": "userName",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username to remove"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/groups/:groupName/updateProfilePicture",
+      "description": "Update group profile picture.",
+      "auth_required": true,
+      "scopes": [
+        "manage-profile"
+      ],
+      "parameters": [
+        {
+          "name": "groupName",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Group name"
+        },
+        {
+          "name": "file",
+          "location": "body",
+          "type": "file",
+          "required": false,
+          "description": "Image file upload"
+        },
+        {
+          "name": "url",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Image URL"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/groups/sudo",
+      "description": "Perform privileged operation (admin)",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "GET",
+      "path": "/v2/hashtags/sparseMatches",
+      "description": "Search hashtags by prefix (autocomplete).",
+      "auth_required": true,
+      "scopes": [
+        "read-users-info"
+      ],
+      "parameters": [
+        {
+          "name": "qs",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "Search query"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/invitations",
+      "description": "Create a new invitation.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "message",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Invitation message (non-empty)"
+        },
+        {
+          "name": "lang",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Language code (non-empty)"
+        },
+        {
+          "name": "singleUse",
+          "location": "body",
+          "type": "boolean",
+          "required": true,
+          "description": "Whether invitation can only be used once"
+        },
+        {
+          "name": "users",
+          "location": "body",
+          "type": "string[]",
+          "required": false,
+          "description": "Usernames to recommend following"
+        },
+        {
+          "name": "groups",
+          "location": "body",
+          "type": "string[]",
+          "required": false,
+          "description": "Group names to recommend joining"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/invitations/:secureId",
+      "description": "Get invitation details by secure ID.",
+      "auth_required": false,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "secureId",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Invitation secure ID"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/invitations/info",
+      "description": "Get invitation creation limits and info for current user.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "GET",
+      "path": "/v2/managedGroups",
+      "description": "Get groups managed by current user.",
+      "auth_required": true,
+      "scopes": [
+        "read-my-info"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "GET",
+      "path": "/v2/notifications",
+      "description": "Get notifications for current user.",
+      "auth_required": true,
+      "scopes": [
+        "manage-notifications"
+      ],
+      "parameters": [
+        {
+          "name": "offset",
+          "location": "query",
+          "type": "integer",
+          "required": false,
+          "description": "Number to skip (default: 0)"
+        },
+        {
+          "name": "limit",
+          "location": "query",
+          "type": "integer",
+          "required": false,
+          "description": "Max to return (default: 30)"
+        },
+        {
+          "name": "filter",
+          "location": "query",
+          "type": "string or string[]",
+          "required": false,
+          "description": "Event type filter: `mentions`, `comments`, `bans`, `subscriptions`, `groups`, `directs`"
+        },
+        {
+          "name": "startDate",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "ISO 8601 date/time lower bound"
+        },
+        {
+          "name": "endDate",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "ISO 8601 date/time upper bound"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/notifications/:notifId",
+      "description": "Get a specific notification.",
+      "auth_required": true,
+      "scopes": [
+        "manage-notifications"
+      ],
+      "parameters": [
+        {
+          "name": "notifId",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Notification ID"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/passwords",
+      "description": "Request password reset email.",
+      "auth_required": false,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "email",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Account email address"
+        }
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/v2/passwords/:resetPasswordToken",
+      "description": "Reset password using token from email.",
+      "auth_required": false,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "resetPasswordToken",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Token from reset email"
+        },
+        {
+          "name": "newPassword",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "New password"
+        },
+        {
+          "name": "passwordConfirmation",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Must match newPassword"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/posts",
+      "description": "Create a new post.",
+      "auth_required": true,
+      "scopes": [
+        "manage-posts"
+      ],
+      "parameters": [
+        {
+          "name": "post.body",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Post text content"
+        },
+        {
+          "name": "post.attachments",
+          "location": "body",
+          "type": "UUID[]",
+          "required": false,
+          "description": "Attachment IDs (default: [])"
+        },
+        {
+          "name": "meta.feeds",
+          "location": "body",
+          "type": "string or string[]",
+          "required": true,
+          "description": "Destination feed names (accountName)"
+        },
+        {
+          "name": "meta.commentsDisabled",
+          "location": "body",
+          "type": "boolean",
+          "required": false,
+          "description": "Disable comments (default: false)"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/posts-opengraph/:postId",
+      "description": "Get OpenGraph metadata for a post (used for link previews).",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "postId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Post ID"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/posts/:postId",
+      "description": "Get a single post with comments and likes.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds",
+        "manage-posts"
+      ],
+      "parameters": [
+        {
+          "name": "postId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Post ID"
+        },
+        {
+          "name": "maxComments",
+          "location": "query",
+          "type": "number",
+          "required": false,
+          "description": "Max comments to include in response"
+        },
+        {
+          "name": "maxLikes",
+          "location": "query",
+          "type": "number",
+          "required": false,
+          "description": "Max likes to include in response"
+        }
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/v2/posts/:postId",
+      "description": "Update an existing post.",
+      "auth_required": true,
+      "scopes": [
+        "manage-posts"
+      ],
+      "parameters": [
+        {
+          "name": "postId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Post ID"
+        },
+        {
+          "name": "post.body",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Updated post text"
+        },
+        {
+          "name": "post.attachments",
+          "location": "body",
+          "type": "UUID[]",
+          "required": false,
+          "description": "Updated attachment IDs"
+        },
+        {
+          "name": "post.feeds",
+          "location": "body",
+          "type": "string[]",
+          "required": false,
+          "description": "Updated destination feed names"
+        }
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/v2/posts/:postId",
+      "description": "Delete a post.",
+      "auth_required": true,
+      "scopes": [
+        "manage-posts"
+      ],
+      "parameters": [
+        {
+          "name": "postId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Post ID"
+        },
+        {
+          "name": "fromFeed",
+          "location": "query",
+          "type": "string or string[]",
+          "required": false,
+          "description": "Only remove from specific feed(s), not delete entirely"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/posts/:postId/backlinks",
+      "description": "Get posts that link to this post.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "postId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Post ID"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/posts/:postId/comments/:seqNumber",
+      "description": "Get a comment by its sequence number within a post.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "postId",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Post ID (UUID or short ID)"
+        },
+        {
+          "name": "seqNumber",
+          "location": "path",
+          "type": "integer",
+          "required": true,
+          "description": "Comment sequence number (1-based)"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/posts/:postId/comments/id/:commentId",
+      "description": "Get a comment by post ID and comment ID.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "postId",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Post ID (UUID or short ID)"
+        },
+        {
+          "name": "commentId",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Comment ID (UUID or short ID)"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/posts/:postId/disableComments",
+      "description": "Disable comments on your post.",
+      "auth_required": true,
+      "scopes": [
+        "manage-posts"
+      ],
+      "parameters": [
+        {
+          "name": "postId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Post ID"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/posts/:postId/enableComments",
+      "description": "Re-enable comments on your post.",
+      "auth_required": true,
+      "scopes": [
+        "manage-posts"
+      ],
+      "parameters": [
+        {
+          "name": "postId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Post ID"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/posts/:postId/hide",
+      "description": "Hide a post from your feed.",
+      "auth_required": true,
+      "scopes": [
+        "manage-my-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "postId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Post ID"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/posts/:postId/leave",
+      "description": "Leave a direct message conversation.",
+      "auth_required": true,
+      "scopes": [
+        "manage-posts"
+      ],
+      "parameters": [
+        {
+          "name": "postId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Post ID"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/posts/:postId/like",
+      "description": "Like a post.",
+      "auth_required": true,
+      "scopes": [
+        "manage-posts"
+      ],
+      "parameters": [
+        {
+          "name": "postId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Post ID"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/posts/:postId/notifyOfAllComments",
+      "description": "Toggle notifications for all comments on a post.",
+      "auth_required": true,
+      "scopes": [
+        "manage-notifications",
+        "manage-posts"
+      ],
+      "parameters": [
+        {
+          "name": "postId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Post ID"
+        },
+        {
+          "name": "enabled",
+          "location": "body",
+          "type": "boolean",
+          "required": true,
+          "description": "Enable or disable notifications"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/posts/:postId/pin",
+      "description": "Pin a post to a user or group feed.",
+      "auth_required": true,
+      "scopes": [
+        "manage-posts"
+      ],
+      "parameters": [
+        {
+          "name": "postId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Post ID"
+        },
+        {
+          "name": "target",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Target accountName (defaults to current user)"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/posts/:postId/save",
+      "description": "Save a post to your saved posts.",
+      "auth_required": true,
+      "scopes": [
+        "manage-my-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "postId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Post ID"
+        }
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/v2/posts/:postId/save",
+      "description": "Remove a post from saved posts.",
+      "auth_required": true,
+      "scopes": [
+        "manage-my-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "postId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Post ID"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/posts/:postId/translated-body",
+      "description": "Get machine-translated post body.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "postId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Post ID"
+        },
+        {
+          "name": "lang",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "Target language code (defaults to Accept-Language header)"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/posts/:postId/unhide",
+      "description": "Unhide a previously hidden post.",
+      "auth_required": true,
+      "scopes": [
+        "manage-my-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "postId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Post ID"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/posts/:postId/unlike",
+      "description": "Remove like from a post.",
+      "auth_required": true,
+      "scopes": [
+        "manage-posts"
+      ],
+      "parameters": [
+        {
+          "name": "postId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Post ID"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/posts/:postId/unpin",
+      "description": "Unpin a post.",
+      "auth_required": true,
+      "scopes": [
+        "manage-posts"
+      ],
+      "parameters": [
+        {
+          "name": "postId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Post ID"
+        },
+        {
+          "name": "target",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Target accountName (defaults to current user)"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/posts/byIds",
+      "description": "Get multiple posts by their IDs.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "postIds",
+          "location": "body",
+          "type": "UUID[]",
+          "required": true,
+          "description": "Array of post IDs (max 100, unique)"
+        },
+        {
+          "name": "maxComments",
+          "location": "query",
+          "type": "number",
+          "required": false,
+          "description": "Max comments per post"
+        },
+        {
+          "name": "maxLikes",
+          "location": "query",
+          "type": "number",
+          "required": false,
+          "description": "Max likes per post"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/requests/:followedUserName/revoke",
+      "description": "Revoke own outgoing subscription request.",
+      "auth_required": true,
+      "scopes": [
+        "manage-my-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "followedUserName",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username of user whose request to revoke"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/search",
+      "description": "Search posts and comments.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "qs",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "Search query string"
+        },
+        {
+          "name": "offset",
+          "location": "query",
+          "type": "integer",
+          "required": false,
+          "description": "Number of results to skip (default: 0)"
+        },
+        {
+          "name": "limit",
+          "location": "query",
+          "type": "integer",
+          "required": false,
+          "description": "Max results to return (default: 30, max: 120)"
+        },
+        {
+          "name": "sort",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "Sort order: `created` or `updated` (default: `updated`)"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/server-info",
+      "description": "Get server configuration info (text limits, supported features, etc.).",
+      "auth_required": false,
+      "scopes": [
+        "any"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "POST",
+      "path": "/v2/session",
+      "description": "Create session (sign in).",
+      "auth_required": false,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Username"
+        },
+        {
+          "name": "password",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Password"
+        }
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/v2/session",
+      "description": "Close current session (sign out).",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "GET",
+      "path": "/v2/session/list",
+      "description": "List active sessions.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "PATCH",
+      "path": "/v2/session/list",
+      "description": "Close specific sessions.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "close",
+          "location": "body",
+          "type": "UUID[]",
+          "required": false,
+          "description": "Session IDs to close (default: [])"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/session/reissue",
+      "description": "Reissue session token.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "GET",
+      "path": "/v2/stats",
+      "description": "Get site-wide statistics.",
+      "auth_required": false,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "data",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "Data type (default: `users`)"
+        },
+        {
+          "name": "start_date",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "Start date (min: 2015-05-04, FreeFeed launch date)"
+        },
+        {
+          "name": "end_date",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "End date (max: today)"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/summary/:days",
+      "description": "Get general site summary (most popular posts).",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "days",
+          "location": "path",
+          "type": "integer",
+          "required": true,
+          "description": "Number of days to summarize (1-30)"
+        },
+        {
+          "name": "limit",
+          "location": "query",
+          "type": "integer",
+          "required": false,
+          "description": "Max posts to return"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/summary/:username/:days",
+      "description": "Get user-specific summary.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username"
+        },
+        {
+          "name": "days",
+          "location": "path",
+          "type": "integer",
+          "required": true,
+          "description": "Number of days to summarize (1-30)"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/timelines-metatags/:username",
+      "description": "Get HTML meta tags for a user's timeline (for embedding/SEO).",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/timelines-rss/:username",
+      "description": "Get RSS feed for a user's posts.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/timelines/:username",
+      "description": "Get a user's posts timeline.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/timelines/:username/comments",
+      "description": "Get posts commented on by user.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/timelines/:username/likes",
+      "description": "Get posts liked by user.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/timelines/filter/directs",
+      "description": "Get direct messages.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "GET",
+      "path": "/v2/timelines/filter/discussions",
+      "description": "Get posts you've participated in (commented or liked).",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "GET",
+      "path": "/v2/timelines/filter/saves",
+      "description": "Get saved posts.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "GET",
+      "path": "/v2/timelines/home",
+      "description": "Get home feed (River of News) with local bumps.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "POST",
+      "path": "/v2/timelines/home",
+      "description": "Create a new custom home feed.",
+      "auth_required": true,
+      "scopes": [
+        "manage-my-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "title",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Feed title (1-250 chars, must contain non-whitespace)"
+        },
+        {
+          "name": "subscribedTo",
+          "location": "body",
+          "type": "UUID[]",
+          "required": false,
+          "description": "User/group IDs to include (default: [])"
+        }
+      ]
+    },
+    {
+      "method": "PATCH",
+      "path": "/v2/timelines/home",
+      "description": "Reorder home feeds.",
+      "auth_required": true,
+      "scopes": [
+        "manage-my-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "reorder",
+          "location": "body",
+          "type": "UUID[]",
+          "required": true,
+          "description": "Ordered list of feed IDs (min 1, unique)"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/timelines/home/:feedId",
+      "description": "Get info about a specific home feed.",
+      "auth_required": true,
+      "scopes": [
+        "manage-my-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "feedId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Home feed ID"
+        }
+      ]
+    },
+    {
+      "method": "PATCH",
+      "path": "/v2/timelines/home/:feedId",
+      "description": "Update a home feed.",
+      "auth_required": true,
+      "scopes": [
+        "manage-my-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "feedId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Home feed ID"
+        },
+        {
+          "name": "title",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Updated title (1-250 chars)"
+        },
+        {
+          "name": "subscribedTo",
+          "location": "body",
+          "type": "UUID[]",
+          "required": false,
+          "description": "Updated subscription list"
+        }
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/v2/timelines/home/:feedId",
+      "description": "Delete a home feed.",
+      "auth_required": true,
+      "scopes": [
+        "manage-my-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "feedId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Home feed ID to delete"
+        },
+        {
+          "name": "backupFeed",
+          "location": "body",
+          "type": "UUID",
+          "required": false,
+          "description": "Feed ID to move subscriptions to"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/timelines/home/:feedId/posts",
+      "description": "Get posts from a specific custom home feed.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "feedId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "Home feed ID"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/timelines/home/list",
+      "description": "List all home feeds for current user.",
+      "auth_required": true,
+      "scopes": [
+        "read-my-info",
+        "read-feeds"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "GET",
+      "path": "/v2/timelines/home/subscriptions",
+      "description": "List all subscription assignments to home feeds.",
+      "auth_required": true,
+      "scopes": [
+        "manage-my-feeds"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "POST",
+      "path": "/v2/undo/:subject",
+      "description": "Undo a recent action (post/comment deletion).",
+      "auth_required": true,
+      "scopes": [
+        "manage-posts"
+      ],
+      "parameters": [
+        {
+          "name": "subject",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Action type: `post-delete` or `comment-delete`"
+        },
+        {
+          "name": "token",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "JWT undo token (received in delete response)"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/users",
+      "description": "Create new user account.",
+      "auth_required": false,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Username (3-25 alphanumeric)"
+        },
+        {
+          "name": "screenName",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Display name"
+        },
+        {
+          "name": "email",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Email (required if email verification enabled)"
+        },
+        {
+          "name": "password",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Password (required unless externalProfileKey provided)"
+        },
+        {
+          "name": "captcha",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "reCAPTCHA token (required if captcha enabled)"
+        },
+        {
+          "name": "invitation",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Invitation code"
+        },
+        {
+          "name": "cancel_subscription",
+          "location": "body",
+          "type": "boolean",
+          "required": false,
+          "description": "Cancel default subscription (default: false)"
+        },
+        {
+          "name": "externalProfileKey",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "External auth profile key"
+        },
+        {
+          "name": "emailVerificationCode",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Email verification code"
+        },
+        {
+          "name": "profilePictureURL",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Profile picture URL (must start with http:// or https://)"
+        },
+        {
+          "name": "isPrivate",
+          "location": "body",
+          "type": "boolean",
+          "required": false,
+          "description": "Make feed private (default: false)"
+        },
+        {
+          "name": "isProtected",
+          "location": "body",
+          "type": "boolean",
+          "required": false,
+          "description": "Make feed protected (default: false)"
+        }
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/v2/users/:userId",
+      "description": "Update user or group profile. Delegates to user or group controller based on feed type.",
+      "auth_required": true,
+      "scopes": [
+        "manage-profile"
+      ],
+      "parameters": [
+        {
+          "name": "userId",
+          "location": "path",
+          "type": "UUID",
+          "required": true,
+          "description": "User or group ID"
+        },
+        {
+          "name": "user.screenName",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Display name"
+        },
+        {
+          "name": "user.isPrivate",
+          "location": "body",
+          "type": "boolean",
+          "required": false,
+          "description": "Private feed"
+        },
+        {
+          "name": "user.isProtected",
+          "location": "body",
+          "type": "boolean",
+          "required": false,
+          "description": "Protected feed"
+        },
+        {
+          "name": "user.description",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Profile description"
+        },
+        {
+          "name": "user.frontendPreferences",
+          "location": "body",
+          "type": "object",
+          "required": false,
+          "description": "Frontend display preferences"
+        },
+        {
+          "name": "user.preferences",
+          "location": "body",
+          "type": "object",
+          "required": false,
+          "description": "User preferences (see Preferences)"
+        },
+        {
+          "name": "user.email",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Email (full-access tokens only)"
+        },
+        {
+          "name": "emailVerificationCode",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Required when changing email"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/users/:username",
+      "description": "Get user profile.",
+      "auth_required": true,
+      "scopes": [
+        "read-users-info"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/users/:username/ban",
+      "description": "Ban a user.",
+      "auth_required": true,
+      "scopes": [
+        "manage-my-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username to ban"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/users/:username/sendRequest",
+      "description": "Send subscription request to private user or group.",
+      "auth_required": true,
+      "scopes": [
+        "manage-my-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username"
+        },
+        {
+          "name": "homeFeeds",
+          "location": "body",
+          "type": "UUID[]",
+          "required": false,
+          "description": "Home feed IDs (default: [])"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/users/:username/statistics",
+      "description": "Get user statistics (post count, like count, etc.).",
+      "auth_required": true,
+      "scopes": [
+        "read-users-info"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/users/:username/subscribe",
+      "description": "Subscribe to user or group.",
+      "auth_required": true,
+      "scopes": [
+        "manage-my-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username to subscribe to"
+        },
+        {
+          "name": "homeFeeds",
+          "location": "body",
+          "type": "UUID[]",
+          "required": false,
+          "description": "Home feed IDs to add subscription to (default: [])"
+        }
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/v2/users/:username/subscribe",
+      "description": "Update subscription (change home feed assignment).",
+      "auth_required": true,
+      "scopes": [
+        "manage-my-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username"
+        },
+        {
+          "name": "homeFeeds",
+          "location": "body",
+          "type": "UUID[]",
+          "required": true,
+          "description": "Home feed IDs for this subscription"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/users/:username/subscribers",
+      "description": "Get user's subscribers list.",
+      "auth_required": true,
+      "scopes": [
+        "read-users-info"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/users/:username/subscriptions",
+      "description": "Get user's subscriptions list.",
+      "auth_required": true,
+      "scopes": [
+        "read-users-info"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/users/:username/unban",
+      "description": "Unban a user.",
+      "auth_required": true,
+      "scopes": [
+        "manage-my-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username to unban"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/users/:username/unsubscribe",
+      "description": "Unsubscribe from user or group.",
+      "auth_required": true,
+      "scopes": [
+        "manage-my-feeds"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Username to unsubscribe from"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/users/:username/unsubscribeFromMe",
+      "description": "Remove a subscriber from your feed.",
+      "auth_required": true,
+      "scopes": [
+        "manage-subscription-requests"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Subscriber's username"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/users/acceptRequest/:username",
+      "description": "Accept incoming subscription request.",
+      "auth_required": true,
+      "scopes": [
+        "manage-subscription-requests"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Requesting user's username"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/users/blockedByMe",
+      "description": "Get list of users blocked by current user.",
+      "auth_required": true,
+      "scopes": [
+        "read-my-info"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "GET",
+      "path": "/v2/users/getUnreadDirectsNumber",
+      "description": "Get count of unread direct messages.",
+      "auth_required": true,
+      "scopes": [
+        "read-feeds"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "GET",
+      "path": "/v2/users/getUnreadNotificationsNumber",
+      "description": "Get count of unread notifications.",
+      "auth_required": true,
+      "scopes": [
+        "manage-notifications"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "GET",
+      "path": "/v2/users/markAllDirectsAsRead",
+      "description": "Mark all direct messages as read.",
+      "auth_required": true,
+      "scopes": [
+        "manage-posts"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "POST",
+      "path": "/v2/users/markAllNotificationsAsRead",
+      "description": "Mark all notifications as read.",
+      "auth_required": true,
+      "scopes": [
+        "manage-notifications"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "GET",
+      "path": "/v2/users/me",
+      "description": "Get current user profile (basic).",
+      "auth_required": true,
+      "scopes": [
+        "any"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "POST",
+      "path": "/v2/users/pause-me",
+      "description": "Pause own account temporarily.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "password",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Current password for confirmation"
+        },
+        {
+          "name": "message",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Pause message to display"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/users/rejectRequest/:username",
+      "description": "Reject incoming subscription request.",
+      "auth_required": true,
+      "scopes": [
+        "manage-subscription-requests"
+      ],
+      "parameters": [
+        {
+          "name": "username",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Requesting user's username"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/users/resume-me",
+      "description": "Resume paused account.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "resumeToken",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "JWT resume token"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/users/sparseMatches",
+      "description": "Search users by prefix (autocomplete).",
+      "auth_required": true,
+      "scopes": [
+        "read-users-info"
+      ],
+      "parameters": [
+        {
+          "name": "qs",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "Search query (min 2 chars, lowercase alphanumeric+hyphen)"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/users/sudo",
+      "description": "Perform privileged operation (admin)",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": []
+    },
+    {
+      "method": "POST",
+      "path": "/v2/users/suspend-me",
+      "description": "Suspend own account permanently.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "password",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Current password for confirmation"
+        }
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/v2/users/updatePassword",
+      "description": "Update current user password.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "currentPassword",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Current password"
+        },
+        {
+          "name": "password",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "New password"
+        },
+        {
+          "name": "passwordConfirmation",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Must match new password"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/users/updateProfilePicture",
+      "description": "Update profile picture.",
+      "auth_required": true,
+      "scopes": [
+        "manage-profile"
+      ],
+      "parameters": [
+        {
+          "name": "file",
+          "location": "body",
+          "type": "file",
+          "required": false,
+          "description": "Image file upload"
+        },
+        {
+          "name": "url",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "Image URL"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v2/users/verifyEmail",
+      "description": "Send email verification code.",
+      "auth_required": true,
+      "scopes": [
+        "session-only"
+      ],
+      "parameters": [
+        {
+          "name": "email",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Email address"
+        },
+        {
+          "name": "mode",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": "`sign-up` or `update`"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v2/users/whoami",
+      "description": "Get current user profile (detailed, v2 format).",
+      "auth_required": true,
+      "scopes": [
+        "read-my-info"
+      ],
+      "parameters": []
+    }
+  ]
+}
