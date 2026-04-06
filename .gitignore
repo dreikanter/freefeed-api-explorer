@@ -1,6 +1,7 @@
 node_modules
 
 # Output
+extracted.json
 .output
 .vercel
 .netlify
