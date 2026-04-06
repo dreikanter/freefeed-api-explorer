@@ -813,258 +813,6 @@
           "type": "string",
           "required": true,
           "description": "URL to proxy (must be on allowed list)"
-        },
-        {
-          "name": "id",
-          "location": "query",
-          "type": "UUID",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "body",
-          "location": "query",
-          "type": "string",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "userId",
-          "location": "query",
-          "type": "UUID",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "commentsCount",
-          "location": "query",
-          "type": "number",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "isPrivate",
-          "location": "query",
-          "type": "string",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "isPropagable",
-          "location": "query",
-          "type": "string",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "updatedAt",
-          "location": "query",
-          "type": "string",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "friendfeedUrl",
-          "location": "query",
-          "type": "string",
-          "required": false,
-          "description": "### User"
-        },
-        {
-          "name": "id",
-          "location": "query",
-          "type": "UUID",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "screenName",
-          "location": "query",
-          "type": "string",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "description",
-          "location": "query",
-          "type": "string",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "isPrivate",
-          "location": "query",
-          "type": "string",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "profilePictureUuid",
-          "location": "query",
-          "type": "string",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "preferences",
-          "location": "query",
-          "type": "object",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "updatedAt",
-          "location": "query",
-          "type": "string",
-          "required": false,
-          "description": "### User Preferences"
-        },
-        {
-          "name": "hideCommentsOfTypes",
-          "location": "query",
-          "type": "integer[]",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "sendDailyBestOfDigest",
-          "location": "query",
-          "type": "boolean",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "acceptDirectsFrom",
-          "location": "query",
-          "type": "string",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "notifyOfCommentsOnMyPosts",
-          "location": "query",
-          "type": "boolean",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "id",
-          "location": "query",
-          "type": "UUID",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "screenName",
-          "location": "query",
-          "type": "string",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "type",
-          "location": "query",
-          "type": "string",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "isProtected",
-          "location": "query",
-          "type": "string",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "administratorIds",
-          "location": "query",
-          "type": "UUID[]",
-          "required": false,
-          "description": "### Comment"
-        },
-        {
-          "name": "id",
-          "location": "query",
-          "type": "UUID",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "body",
-          "location": "query",
-          "type": "string",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "postId",
-          "location": "query",
-          "type": "UUID",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "hideType",
-          "location": "query",
-          "type": "integer",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "updatedAt",
-          "location": "query",
-          "type": "string",
-          "required": false,
-          "description": "### Attachment"
-        },
-        {
-          "name": "id",
-          "location": "query",
-          "type": "UUID",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "fileSize",
-          "location": "query",
-          "type": "number",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "fileExtension",
-          "location": "query",
-          "type": "string",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "width",
-          "location": "query",
-          "type": "number or null",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "duration",
-          "location": "query",
-          "type": "number or null",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "title",
-          "location": "query",
-          "type": "string",
-          "required": false,
-          "description": ""
-        },
-        {
-          "name": "postId",
-          "location": "query",
-          "type": "UUID or null",
-          "required": false,
-          "description": ""
         }
       ]
     },
@@ -1905,7 +1653,7 @@
         {
           "name": "postId",
           "location": "path",
-          "type": "string",
+          "type": "UUID",
           "required": true,
           "description": "Post ID (UUID or short ID)"
         },
@@ -1930,14 +1678,14 @@
         {
           "name": "postId",
           "location": "path",
-          "type": "string",
+          "type": "UUID",
           "required": true,
           "description": "Post ID (UUID or short ID)"
         },
         {
           "name": "commentId",
           "location": "path",
-          "type": "string",
+          "type": "UUID",
           "required": true,
           "description": "Comment ID (UUID or short ID)"
         }

@@ -44,26 +44,13 @@ directly — it's pure data, no database or Redis connection needed.
 - **Node.js 22+** (or Node.js 20+ with `--experimental-strip-types`)
 - **Git**
 - **Python 3**
-- **jq**
-
-On macOS:
-
-```bash
-brew install node git python3 jq
-```
-
-On Ubuntu/Debian:
-
-```bash
-sudo apt install -y nodejs git python3 jq
-```
 
 ## Usage
 
 Run from the repository root:
 
 ```bash
-./docs/check-api-changes.sh
+python3 docs/check-api-changes.py
 ```
 
 This does everything in one step:
@@ -131,19 +118,26 @@ updates `meta.server_rev` and `meta.synced_at`.
 
 ## Optional: Router validation
 
-For extra confidence, cross-validate scopes against the live Koa router.
-This requires installing server dependencies:
+For extra confidence, cross-validate the scopes data against the live Koa
+router. This requires a full server checkout with dependencies:
 
 ```bash
+git clone --branch stable https://github.com/FreeFeed/freefeed-server.git /tmp/freefeed-server
 cd /tmp/freefeed-server
 npm install --legacy-peer-deps
-node --import ./loaders/register.js extract-routes.mjs
 ```
 
-This walks `@koa/router`'s `router.stack` and checks every non-admin route
-has a matching scopes entry. When tested (2026-04-06), both sources matched
-perfectly: 145 endpoints from scopes, 159 from the router (14 extra are
-`/api/admin/*` routes outside the app-token scope system).
+Then write a script that imports `createRouter()` from `app/routes.js` and
+walks `router.stack` (each `Layer` has `.methods` and `.path`), comparing
+against the scopes data. Run with the server's module loaders:
+
+```bash
+node --import ./loaders/register.js your-validation-script.mjs
+```
+
+When tested (2026-04-06), both sources matched perfectly: 145 endpoints from
+scopes, 159 from the router (14 extra are `/api/admin/*` routes outside the
+app-token scope system).
 
 Note: Server module imports trigger a Redis connection side effect. The
 script must call `process.exit(0)` after writing output to prevent a
