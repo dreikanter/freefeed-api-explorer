@@ -1,0 +1,1520 @@
+# FreeFeed API Reference
+#
+# Structured endpoint catalog for the FreeFeed API Explorer.
+# Generated from FreeFeed server's app-tokens-scopes.ts.
+#
+# Endpoints sorted by: path ascending, then method GET > POST > PUT > PATCH > DELETE
+
+meta:
+  server_repo: "FreeFeed/freefeed-server"
+  server_branch: "stable"
+  server_rev: "1e19100b81e2fba04ab176e6d80268c6556b6f2b"
+  synced_at: "2026-04-06"
+  total_endpoints: 145
+  format_version: 1
+
+endpoints:
+
+  - method: GET
+    path: /v2/allGroups
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters: []
+
+  - method: GET
+    path: "/v2/app-tokens"
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: POST
+    path: "/v2/app-tokens"
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: PUT
+    path: "/v2/app-tokens/:tokenId"
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters:
+      - name: tokenId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: DELETE
+    path: "/v2/app-tokens/:tokenId"
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters:
+      - name: tokenId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/app-tokens/:tokenId/reissue"
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters:
+      - name: tokenId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/app-tokens/activate"
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: GET
+    path: "/v2/app-tokens/current"
+    description: ""
+    auth_required: true
+    scopes: [any]
+    parameters: []
+
+  - method: POST
+    path: "/v2/app-tokens/current/reissue"
+    description: ""
+    auth_required: true
+    scopes: [any]
+    parameters: []
+
+  - method: GET
+    path: "/v2/app-tokens/scopes"
+    description: ""
+    auth_required: false
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: GET
+    path: "/v2/archives-stats"
+    description: ""
+    auth_required: false
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: PUT
+    path: /v2/archives/activities
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: GET
+    path: "/v2/archives/post-by-old-name/:name"
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters:
+      - name: name
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: /v2/archives/restoration
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: POST
+    path: /v2/attachments
+    description: ""
+    auth_required: true
+    scopes: ["manage-posts"]
+    parameters: []
+
+  - method: GET
+    path: "/v2/attachments/:attId"
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters:
+      - name: attId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/attachments/:attId/:type"
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters:
+      - name: attId
+        location: path
+        type: string
+        required: true
+        description: ""
+      - name: type
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: /v2/attachments/byIds
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters: []
+
+  - method: GET
+    path: /v2/attachments/my
+    description: ""
+    auth_required: true
+    scopes: ["read-my-files"]
+    parameters: []
+
+  - method: POST
+    path: /v2/attachments/my/sanitize
+    description: ""
+    auth_required: true
+    scopes: ["manage-my-files"]
+    parameters: []
+
+  - method: GET
+    path: /v2/attachments/my/stats
+    description: ""
+    auth_required: true
+    scopes: ["read-my-files"]
+    parameters: []
+
+  - method: GET
+    path: /v2/bestof
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters: []
+
+  - method: POST
+    path: /v2/bookmarklet
+    description: ""
+    auth_required: true
+    scopes: ["manage-posts"]
+    parameters: []
+
+  - method: GET
+    path: "/v2/calendar/:username/:year"
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+      - name: year
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/calendar/:username/:year/:month"
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+      - name: year
+        location: path
+        type: string
+        required: true
+        description: ""
+      - name: month
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/calendar/:username/:year/:month/:day"
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+      - name: year
+        location: path
+        type: string
+        required: true
+        description: ""
+      - name: month
+        location: path
+        type: string
+        required: true
+        description: ""
+      - name: day
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: /v2/comments
+    description: ""
+    auth_required: true
+    scopes: ["manage-posts"]
+    parameters: []
+
+  - method: GET
+    path: "/v2/comments/:commentId"
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters:
+      - name: commentId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: PUT
+    path: "/v2/comments/:commentId"
+    description: ""
+    auth_required: true
+    scopes: ["manage-posts"]
+    parameters:
+      - name: commentId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: DELETE
+    path: "/v2/comments/:commentId"
+    description: ""
+    auth_required: true
+    scopes: ["manage-posts"]
+    parameters:
+      - name: commentId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/comments/:commentId/like"
+    description: ""
+    auth_required: true
+    scopes: ["manage-posts"]
+    parameters:
+      - name: commentId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/comments/:commentId/likes"
+    description: ""
+    auth_required: true
+    scopes:
+      - "read-feeds"
+      - "manage-posts"
+    parameters:
+      - name: commentId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/comments/:commentId/translated-body"
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters:
+      - name: commentId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/comments/:commentId/unlike"
+    description: ""
+    auth_required: true
+    scopes: ["manage-posts"]
+    parameters:
+      - name: commentId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: /v2/comments/byIds
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters: []
+
+  - method: GET
+    path: "/v2/cors-proxy"
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: GET
+    path: /v2/everything
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters: []
+
+  - method: POST
+    path: "/v2/ext-auth/auth-finish"
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: POST
+    path: "/v2/ext-auth/auth-start"
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: GET
+    path: "/v2/ext-auth/profiles"
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: DELETE
+    path: "/v2/ext-auth/profiles/:profileId"
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters:
+      - name: profileId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: /v2/groups
+    description: ""
+    auth_required: true
+    scopes: ["manage-groups"]
+    parameters: []
+
+  - method: POST
+    path: "/v2/groups/:groupName/acceptRequest/:userName"
+    description: ""
+    auth_required: true
+    scopes: ["manage-groups"]
+    parameters:
+      - name: groupName
+        location: path
+        type: string
+        required: true
+        description: ""
+      - name: userName
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/groups/:groupName/block/:userName"
+    description: ""
+    auth_required: true
+    scopes: ["manage-groups"]
+    parameters:
+      - name: groupName
+        location: path
+        type: string
+        required: true
+        description: ""
+      - name: userName
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/groups/:groupName/blockedUsers"
+    description: ""
+    auth_required: true
+    scopes: ["manage-groups"]
+    parameters:
+      - name: groupName
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/groups/:groupName/disableBans"
+    description: ""
+    auth_required: true
+    scopes: ["manage-my-feeds"]
+    parameters:
+      - name: groupName
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/groups/:groupName/enableBans"
+    description: ""
+    auth_required: true
+    scopes: ["manage-my-feeds"]
+    parameters:
+      - name: groupName
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/groups/:groupName/rejectRequest/:userName"
+    description: ""
+    auth_required: true
+    scopes: ["manage-groups"]
+    parameters:
+      - name: groupName
+        location: path
+        type: string
+        required: true
+        description: ""
+      - name: userName
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/groups/:groupName/sendRequest"
+    description: ""
+    auth_required: true
+    scopes: ["manage-groups"]
+    parameters:
+      - name: groupName
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/groups/:groupName/subscribers/:adminName/admin"
+    description: ""
+    auth_required: true
+    scopes: ["manage-groups"]
+    parameters:
+      - name: groupName
+        location: path
+        type: string
+        required: true
+        description: ""
+      - name: adminName
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/groups/:groupName/subscribers/:adminName/unadmin"
+    description: ""
+    auth_required: true
+    scopes: ["manage-groups"]
+    parameters:
+      - name: groupName
+        location: path
+        type: string
+        required: true
+        description: ""
+      - name: adminName
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/groups/:groupName/unblock/:userName"
+    description: ""
+    auth_required: true
+    scopes: ["manage-groups"]
+    parameters:
+      - name: groupName
+        location: path
+        type: string
+        required: true
+        description: ""
+      - name: userName
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/groups/:groupName/unsubscribeFromGroup/:userName"
+    description: ""
+    auth_required: true
+    scopes: ["manage-groups"]
+    parameters:
+      - name: groupName
+        location: path
+        type: string
+        required: true
+        description: ""
+      - name: userName
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/groups/:groupName/updateProfilePicture"
+    description: ""
+    auth_required: true
+    scopes: ["manage-profile"]
+    parameters:
+      - name: groupName
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: /v2/groups/sudo
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: GET
+    path: /v2/hashtags/sparseMatches
+    description: ""
+    auth_required: true
+    scopes: ["read-users-info"]
+    parameters: []
+
+  - method: POST
+    path: /v2/invitations
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: GET
+    path: "/v2/invitations/:secureId"
+    description: ""
+    auth_required: false
+    scopes: ["session-only"]
+    parameters:
+      - name: secureId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: /v2/invitations/info
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: GET
+    path: /v2/managedGroups
+    description: ""
+    auth_required: true
+    scopes: ["read-my-info"]
+    parameters: []
+
+  - method: GET
+    path: /v2/notifications
+    description: ""
+    auth_required: true
+    scopes: ["manage-notifications"]
+    parameters: []
+
+  - method: GET
+    path: "/v2/notifications/:notifId"
+    description: ""
+    auth_required: true
+    scopes: ["manage-notifications"]
+    parameters:
+      - name: notifId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: /v2/passwords
+    description: ""
+    auth_required: false
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: PUT
+    path: "/v2/passwords/:resetPasswordToken"
+    description: ""
+    auth_required: false
+    scopes: ["session-only"]
+    parameters:
+      - name: resetPasswordToken
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: /v2/posts
+    description: ""
+    auth_required: true
+    scopes: ["manage-posts"]
+    parameters: []
+
+  - method: GET
+    path: "/v2/posts-opengraph/:postId"
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters:
+      - name: postId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/posts/:postId"
+    description: ""
+    auth_required: true
+    scopes:
+      - "read-feeds"
+      - "manage-posts"
+    parameters:
+      - name: postId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: PUT
+    path: "/v2/posts/:postId"
+    description: ""
+    auth_required: true
+    scopes: ["manage-posts"]
+    parameters:
+      - name: postId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: DELETE
+    path: "/v2/posts/:postId"
+    description: ""
+    auth_required: true
+    scopes: ["manage-posts"]
+    parameters:
+      - name: postId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/posts/:postId/backlinks"
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters:
+      - name: postId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/posts/:postId/comments/:seqNumber"
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters:
+      - name: postId
+        location: path
+        type: string
+        required: true
+        description: ""
+      - name: seqNumber
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/posts/:postId/comments/id/:commentId"
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters:
+      - name: postId
+        location: path
+        type: string
+        required: true
+        description: ""
+      - name: commentId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/posts/:postId/disableComments"
+    description: ""
+    auth_required: true
+    scopes: ["manage-posts"]
+    parameters:
+      - name: postId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/posts/:postId/enableComments"
+    description: ""
+    auth_required: true
+    scopes: ["manage-posts"]
+    parameters:
+      - name: postId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/posts/:postId/hide"
+    description: ""
+    auth_required: true
+    scopes: ["manage-my-feeds"]
+    parameters:
+      - name: postId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/posts/:postId/leave"
+    description: ""
+    auth_required: true
+    scopes: ["manage-posts"]
+    parameters:
+      - name: postId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/posts/:postId/like"
+    description: ""
+    auth_required: true
+    scopes: ["manage-posts"]
+    parameters:
+      - name: postId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/posts/:postId/notifyOfAllComments"
+    description: ""
+    auth_required: true
+    scopes:
+      - "manage-notifications"
+      - "manage-posts"
+    parameters:
+      - name: postId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/posts/:postId/pin"
+    description: ""
+    auth_required: true
+    scopes: ["manage-posts"]
+    parameters:
+      - name: postId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/posts/:postId/save"
+    description: ""
+    auth_required: true
+    scopes: ["manage-my-feeds"]
+    parameters:
+      - name: postId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: DELETE
+    path: "/v2/posts/:postId/save"
+    description: ""
+    auth_required: true
+    scopes: ["manage-my-feeds"]
+    parameters:
+      - name: postId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/posts/:postId/translated-body"
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters:
+      - name: postId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/posts/:postId/unhide"
+    description: ""
+    auth_required: true
+    scopes: ["manage-my-feeds"]
+    parameters:
+      - name: postId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/posts/:postId/unlike"
+    description: ""
+    auth_required: true
+    scopes: ["manage-posts"]
+    parameters:
+      - name: postId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/posts/:postId/unpin"
+    description: ""
+    auth_required: true
+    scopes: ["manage-posts"]
+    parameters:
+      - name: postId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: /v2/posts/byIds
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters: []
+
+  - method: POST
+    path: "/v2/requests/:followedUserName/revoke"
+    description: ""
+    auth_required: true
+    scopes: ["manage-my-feeds"]
+    parameters:
+      - name: followedUserName
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: /v2/search
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters: []
+
+  - method: GET
+    path: "/v2/server-info"
+    description: ""
+    auth_required: false
+    scopes: [any]
+    parameters: []
+
+  - method: POST
+    path: /v2/session
+    description: ""
+    auth_required: false
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: DELETE
+    path: /v2/session
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: GET
+    path: /v2/session/list
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: PATCH
+    path: /v2/session/list
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: POST
+    path: /v2/session/reissue
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: GET
+    path: /v2/stats
+    description: ""
+    auth_required: false
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: GET
+    path: "/v2/summary/:days"
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters:
+      - name: days
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/summary/:username/:days"
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+      - name: days
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/timelines-metatags/:username"
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/timelines-rss/:username"
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/timelines/:username"
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/timelines/:username/comments"
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/timelines/:username/likes"
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: /v2/timelines/filter/directs
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters: []
+
+  - method: GET
+    path: /v2/timelines/filter/discussions
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters: []
+
+  - method: GET
+    path: /v2/timelines/filter/saves
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters: []
+
+  - method: GET
+    path: /v2/timelines/home
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters: []
+
+  - method: POST
+    path: /v2/timelines/home
+    description: ""
+    auth_required: true
+    scopes: ["manage-my-feeds"]
+    parameters: []
+
+  - method: PATCH
+    path: /v2/timelines/home
+    description: ""
+    auth_required: true
+    scopes: ["manage-my-feeds"]
+    parameters: []
+
+  - method: GET
+    path: "/v2/timelines/home/:feedId"
+    description: ""
+    auth_required: true
+    scopes: ["manage-my-feeds"]
+    parameters:
+      - name: feedId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: PATCH
+    path: "/v2/timelines/home/:feedId"
+    description: ""
+    auth_required: true
+    scopes: ["manage-my-feeds"]
+    parameters:
+      - name: feedId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: DELETE
+    path: "/v2/timelines/home/:feedId"
+    description: ""
+    auth_required: true
+    scopes: ["manage-my-feeds"]
+    parameters:
+      - name: feedId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/timelines/home/:feedId/posts"
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters:
+      - name: feedId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: /v2/timelines/home/list
+    description: ""
+    auth_required: true
+    scopes:
+      - "read-my-info"
+      - "read-feeds"
+    parameters: []
+
+  - method: GET
+    path: /v2/timelines/home/subscriptions
+    description: ""
+    auth_required: true
+    scopes: ["manage-my-feeds"]
+    parameters: []
+
+  - method: POST
+    path: "/v2/undo/:subject"
+    description: ""
+    auth_required: true
+    scopes: ["manage-posts"]
+    parameters:
+      - name: subject
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: /v2/users
+    description: ""
+    auth_required: false
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: PUT
+    path: "/v2/users/:userId"
+    description: ""
+    auth_required: true
+    scopes: ["manage-profile"]
+    parameters:
+      - name: userId
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/users/:username"
+    description: ""
+    auth_required: true
+    scopes: ["read-users-info"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/users/:username/ban"
+    description: ""
+    auth_required: true
+    scopes: ["manage-my-feeds"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/users/:username/sendRequest"
+    description: ""
+    auth_required: true
+    scopes: ["manage-my-feeds"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/users/:username/statistics"
+    description: ""
+    auth_required: true
+    scopes: ["read-users-info"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/users/:username/subscribe"
+    description: ""
+    auth_required: true
+    scopes: ["manage-my-feeds"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: PUT
+    path: "/v2/users/:username/subscribe"
+    description: ""
+    auth_required: true
+    scopes: ["manage-my-feeds"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/users/:username/subscribers"
+    description: ""
+    auth_required: true
+    scopes: ["read-users-info"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: "/v2/users/:username/subscriptions"
+    description: ""
+    auth_required: true
+    scopes: ["read-users-info"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/users/:username/unban"
+    description: ""
+    auth_required: true
+    scopes: ["manage-my-feeds"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/users/:username/unsubscribe"
+    description: ""
+    auth_required: true
+    scopes: ["manage-my-feeds"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/users/:username/unsubscribeFromMe"
+    description: ""
+    auth_required: true
+    scopes: ["manage-subscription-requests"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/users/acceptRequest/:username"
+    description: ""
+    auth_required: true
+    scopes: ["manage-subscription-requests"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: GET
+    path: /v2/users/blockedByMe
+    description: ""
+    auth_required: true
+    scopes: ["read-my-info"]
+    parameters: []
+
+  - method: GET
+    path: /v2/users/getUnreadDirectsNumber
+    description: ""
+    auth_required: true
+    scopes: ["read-feeds"]
+    parameters: []
+
+  - method: GET
+    path: /v2/users/getUnreadNotificationsNumber
+    description: ""
+    auth_required: true
+    scopes: ["manage-notifications"]
+    parameters: []
+
+  - method: GET
+    path: /v2/users/markAllDirectsAsRead
+    description: ""
+    auth_required: true
+    scopes: ["manage-posts"]
+    parameters: []
+
+  - method: POST
+    path: /v2/users/markAllNotificationsAsRead
+    description: ""
+    auth_required: true
+    scopes: ["manage-notifications"]
+    parameters: []
+
+  - method: GET
+    path: /v2/users/me
+    description: ""
+    auth_required: true
+    scopes: [any]
+    parameters: []
+
+  - method: POST
+    path: "/v2/users/pause-me"
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: POST
+    path: "/v2/users/rejectRequest/:username"
+    description: ""
+    auth_required: true
+    scopes: ["manage-subscription-requests"]
+    parameters:
+      - name: username
+        location: path
+        type: string
+        required: true
+        description: ""
+
+  - method: POST
+    path: "/v2/users/resume-me"
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: GET
+    path: /v2/users/sparseMatches
+    description: ""
+    auth_required: true
+    scopes: ["read-users-info"]
+    parameters: []
+
+  - method: POST
+    path: /v2/users/sudo
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: POST
+    path: "/v2/users/suspend-me"
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: PUT
+    path: /v2/users/updatePassword
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: POST
+    path: /v2/users/updateProfilePicture
+    description: ""
+    auth_required: true
+    scopes: ["manage-profile"]
+    parameters: []
+
+  - method: POST
+    path: /v2/users/verifyEmail
+    description: ""
+    auth_required: true
+    scopes: ["session-only"]
+    parameters: []
+
+  - method: GET
+    path: /v2/users/whoami
+    description: ""
+    auth_required: true
+    scopes: ["read-my-info"]
+    parameters: []
+
