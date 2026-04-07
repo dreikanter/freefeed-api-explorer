@@ -4,7 +4,7 @@
   import { goto } from '$app/navigation';
   import type { ApiEndpoint, ApiRequest, ApiResponse, ApiParameter } from '$lib/types.js';
   import { API_ENDPOINTS, FREEFEED_INSTANCES } from '$lib/api-endpoints.js';
-  import { token, selectedInstance, currentRequest, isLoading, addToHistory, requestHistory } from '$lib/stores.js';
+  import { token, selectedInstance, currentRequest, isLoading, addToHistory, requestHistory, searchQuery, selectedScope } from '$lib/stores.js';
   import Response from './Response.svelte';
   import RequestListItem from './RequestListItem.svelte';
   import { initHighlight, hljs } from '$lib/highlight.js';
@@ -12,8 +12,6 @@
   import 'highlight.js/styles/github.css';
   import 'highlightjs-copy/dist/highlightjs-copy.min.css';
 
-  let searchQuery = '';
-  let selectedScope = '';
   let filteredEndpoints: ApiEndpoint[] = API_ENDPOINTS;
   let selectedEndpoint: ApiEndpoint | null = null;
   let parameters: Record<string, string> = {};
@@ -31,10 +29,10 @@
   $: {
     filteredEndpoints = API_ENDPOINTS.filter((endpoint) => {
       const matchesSearch =
-        !searchQuery ||
-        endpoint.path.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        endpoint.description.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesScope = !selectedScope || endpoint.scopes.includes(selectedScope);
+        !$searchQuery ||
+        endpoint.path.toLowerCase().includes($searchQuery.toLowerCase()) ||
+        endpoint.description.toLowerCase().includes($searchQuery.toLowerCase());
+      const matchesScope = !$selectedScope || endpoint.scopes.includes($selectedScope);
       return matchesSearch && matchesScope;
     });
   }
@@ -298,8 +296,8 @@
       <div class="scrollable-column">
         <!-- Search and Filter -->
         <div class="p-3 border-bottom">
-          <input type="text" class="form-control mb-2" placeholder="Search endpoints..." bind:value={searchQuery} />
-          <select class="form-select" bind:value={selectedScope}>
+          <input type="text" class="form-control mb-2" placeholder="Search endpoints..." bind:value={$searchQuery} />
+          <select class="form-select" bind:value={$selectedScope}>
             <option value="">All Scopes</option>
             {#each scopes as scope}
               <option value={scope}>{scope}</option>
@@ -432,8 +430,8 @@
   </div>
   <div class="offcanvas-body p-0">
     <div class="p-3">
-      <input type="text" class="form-control mb-2" placeholder="Search endpoints..." bind:value={searchQuery} />
-      <select class="form-select" bind:value={selectedScope}>
+      <input type="text" class="form-control mb-2" placeholder="Search endpoints..." bind:value={$searchQuery} />
+      <select class="form-select" bind:value={$selectedScope}>
         <option value="">All Scopes</option>
         {#each scopes as scope}
           <option value={scope}>{scope}</option>
