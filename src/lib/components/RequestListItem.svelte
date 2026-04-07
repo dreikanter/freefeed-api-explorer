@@ -16,7 +16,7 @@
         {endpoint.path}
       </p>
       <p class="mb-1 small {selectedTextClass}">{endpoint.description}</p>
-      <p class="mb-0"><span class="badge bg-info">{endpoint.scope}</span></p>
+      <p class="mb-0">{#each endpoint.scopes as s}<span class="badge bg-info me-1">{s}</span>{/each}</p>
     </div>
     <div class="text-end {selectedTextClass}">
       <slot name="side-content" />

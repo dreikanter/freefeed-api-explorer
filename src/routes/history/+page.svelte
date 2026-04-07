@@ -139,7 +139,7 @@
           <div class="card-body">
             <p>
               <strong>Scope:</strong>
-              <span class="badge bg-info">{selectedRequest.endpoint.scope}</span>
+              {#each selectedRequest.endpoint.scopes || [] as s}<span class="badge bg-info me-1">{s}</span>{/each}
             </p>
             <p>
               <strong>Instance:</strong>
