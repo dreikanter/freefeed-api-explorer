@@ -13,9 +13,29 @@
         border-radius: 0;
       }
 
-      /* Independently scrollable columns */
+      /* Full-height layout: navbar + scrollable columns fill the viewport */
+      html, body, main {
+        height: 100dvh;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      main {
+        display: flex;
+        flex-direction: column;
+      }
+
+      main > .container-fluid {
+        flex: 1;
+        min-height: 0;
+      }
+
+      main > .container-fluid > .row {
+        height: 100%;
+      }
+
       .scrollable-column {
-        height: calc(100vh - 72px); /* viewport minus navbar height */
+        height: 100%;
         overflow-y: auto;
         padding-bottom: 2rem;
       }
