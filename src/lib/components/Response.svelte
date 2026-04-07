@@ -6,13 +6,13 @@
 
   export let request: ApiRequest | null = null;
 
-  function parseJson(jsonString: string): unknown | null {
+  $: parsedResponseBody = (() => {
     try {
-      return JSON.parse(jsonString);
+      return JSON.parse(request?.response?.body ?? '');
     } catch {
       return null;
     }
-  }
+  })();
 
 
   function getStatusText(status: number): string {
@@ -90,9 +90,9 @@
 
       <div class="mb-3">
         <p class="mb-3"><strong>Body:</strong></p>
-        {#if parseJson(request.response.body) !== null}
+        {#if parsedResponseBody !== null}
           <div class="json-viewer-wrapper p-2 rounded bg-light">
-            <JsonView json={parseJson(request.response.body)} depth={1} />
+            <JsonView json={parsedResponseBody} depth={1} />
           </div>
         {:else}
           <pre class="m-0 p-2 rounded"><code>{request.response.body}</code></pre>
