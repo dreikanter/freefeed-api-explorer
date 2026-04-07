@@ -22,7 +22,7 @@ BRANCH = "stable"
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = SCRIPT_DIR.parent
-REFERENCE = SCRIPT_DIR / "freefeed-api.json"
+REFERENCE = PROJECT_DIR / "docs" / "freefeed-api.json"
 EXTRACT_SCRIPT = SCRIPT_DIR / "extract-routes.mjs"
 
 
