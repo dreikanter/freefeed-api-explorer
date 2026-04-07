@@ -94,9 +94,9 @@
 
 <div class="split-layout">
   <!-- Left Sidebar: Request History -->
-  <div class="split-sidebar">
-    <div class="card">
-      <div class="card-header d-flex justify-content-between align-items-center">
+  <div class="split-sidebar border-end">
+    <div class="scrollable-column">
+      <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
         <h5 class="mb-0">Request History</h5>
         {#if $requestHistory.length > 0}
           <button
@@ -108,35 +108,34 @@
           </button>
         {/if}
       </div>
-      <div class="card-body p-0">
-        {#if $requestHistory.length === 0}
-          <div class="p-3 text-center text-muted">
-            <p>No requests yet.</p>
-            <a href="/" class="btn btn-primary">Start exploring the API</a>
-          </div>
-        {:else}
-          <div class="list-group list-group-flush">
-            {#each $requestHistory as request}
-              <RequestListItem
-                endpoint={request.endpoint}
-                isSelected={selectedRequest === request}
-                onClick={() => selectRequest(request)}
-              >
-                <div slot="side-content">
-                  {#if request.response}
-                    <p class="mb-1">
-                      <ResponseStatus status={request.response.status} />
-                    </p>
-                  {/if}
-                  <p class="mb-0 small">
-                    {getRelativeTime(request.timestamp)}
+
+      {#if $requestHistory.length === 0}
+        <div class="p-3 text-center text-muted">
+          <p>No requests yet.</p>
+          <a href="/" class="btn btn-primary">Start exploring the API</a>
+        </div>
+      {:else}
+        <div class="list-group list-group-flush">
+          {#each $requestHistory as request}
+            <RequestListItem
+              endpoint={request.endpoint}
+              isSelected={selectedRequest === request}
+              onClick={() => selectRequest(request)}
+            >
+              <div slot="side-content">
+                {#if request.response}
+                  <p class="mb-1">
+                    <ResponseStatus status={request.response.status} />
                   </p>
-                </div>
-              </RequestListItem>
-            {/each}
-          </div>
-        {/if}
-      </div>
+                {/if}
+                <p class="mb-0 small">
+                  {getRelativeTime(request.timestamp)}
+                </p>
+              </div>
+            </RequestListItem>
+          {/each}
+        </div>
+      {/if}
     </div>
   </div>
 
