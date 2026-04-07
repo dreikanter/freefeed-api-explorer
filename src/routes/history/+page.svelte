@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
-  import { requestHistory } from '$lib/stores.js';
+  import { requestHistory, clearHistory } from '$lib/stores.js';
   import type { ApiRequest } from '$lib/types.js';
   import Response from '$lib/components/Response.svelte';
   import NavigationBar from '$lib/components/NavigationBar.svelte';
@@ -93,6 +93,15 @@
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0">Request History</h5>
+        {#if $requestHistory.length > 0}
+          <button
+            class="btn btn-outline-secondary btn-sm"
+            on:click={clearHistory}
+            title="Clear History"
+          >
+            <i class="bi bi-trash"></i>
+          </button>
+        {/if}
       </div>
       <div class="card-body p-0">
         {#if $requestHistory.length === 0}

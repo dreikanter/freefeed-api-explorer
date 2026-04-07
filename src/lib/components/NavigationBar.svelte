@@ -1,6 +1,6 @@
 <script lang="ts">
   import { FREEFEED_INSTANCES } from '$lib/api-endpoints.js';
-  import { selectedInstance, clearToken, clearHistory } from '$lib/stores.js';
+  import { selectedInstance, clearToken } from '$lib/stores.js';
   import { env } from '$env/dynamic/public';
 
   export let currentPage: 'home' | 'history' | 'requests' | 'about' = 'home';
@@ -44,7 +44,6 @@
           {/each}
         </ul>
       </div>
-      <button class="btn btn-outline-light btn-sm ms-2" on:click={clearHistory}>Clear History</button>
       <button class="btn btn-outline-light btn-sm ms-2" on:click={clearToken}>Reset Token</button>
     </div>
   </div>
