@@ -1,11 +1,11 @@
 # API Reference Sync Workflow
 
-How to check for FreeFeed API changes and keep `docs/freefeed-api.json` up
+How to check for FreeFeed API changes and keep `src/lib/freefeed-api.json` up
 to date.
 
 ## What is the API reference?
 
-`docs/freefeed-api.json` is the structured API reference for the FreeFeed API
+`src/lib/freefeed-api.json` is the structured API reference for the FreeFeed API
 Explorer application. It lists every public API endpoint with its HTTP method,
 path, description, required scopes, auth requirements, and parameters (with
 types, locations, and required flags).
@@ -57,7 +57,7 @@ This does everything in one step:
 
 1. Clones `FreeFeed/freefeed-server` (stable branch, shallow) into a temp dir
 2. Copies `scripts/extract-routes.mjs` into the checkout and runs it
-3. Diffs the extracted endpoints against `docs/freefeed-api.json`
+3. Diffs the extracted endpoints against `src/lib/freefeed-api.json`
 4. Outputs a JSON change report to stdout
 5. Cleans up the temp dir
 
@@ -100,7 +100,7 @@ This does everything in one step:
 ```
 
 An agent reads this report and knows exactly which endpoints to add, remove,
-or update in both `docs/freefeed-api.json` and `src/lib/api-endpoints.ts`.
+or update in `src/lib/freefeed-api.json`.
 
 ## Updating the reference after changes
 
@@ -113,7 +113,7 @@ file, controller, validation schemas) to determine:
 - Request body parameters (from Joi/Zod schemas)
 - Whether authentication is required
 
-The agent then updates `docs/freefeed-api.json` with these details and
+The agent then updates `src/lib/freefeed-api.json` with these details and
 updates `meta.server_rev` and `meta.synced_at`.
 
 ## Optional: Router validation
