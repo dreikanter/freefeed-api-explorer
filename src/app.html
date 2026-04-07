@@ -25,19 +25,48 @@
         flex-direction: column;
       }
 
-      main > .container-fluid {
+      /* Two-column split layout */
+      .split-layout {
+        display: flex;
         flex: 1;
         min-height: 0;
       }
 
-      main > .container-fluid > .row {
-        height: 100%;
+      .split-sidebar {
+        flex-shrink: 0;
+        width: 33.333%;
+      }
+
+      .split-main {
+        flex: 1;
+        min-width: 0;
       }
 
       .scrollable-column {
         height: 100%;
         overflow-y: auto;
         padding-bottom: 2rem;
+      }
+
+      /* Responsive: stack columns on mobile */
+      @media (max-width: 767.98px) {
+        .split-layout {
+          flex-direction: column;
+        }
+
+        .split-sidebar {
+          width: auto;
+        }
+
+        .hide-below-md {
+          display: none;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .show-below-md {
+          display: none;
+        }
       }
     </style>
     %sveltekit.head%
