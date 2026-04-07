@@ -8,16 +8,17 @@ export interface ApiEndpoint {
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   path: string;
   description: string;
-  scope: string;
-  parameters?: ApiParameter[];
+  auth_required: boolean;
+  scopes: string[];
+  parameters: ApiParameter[];
 }
 
 export interface ApiParameter {
   name: string;
-  type: 'string' | 'number' | 'boolean' | 'file';
+  location: 'path' | 'query' | 'body';
+  type: string;
   required: boolean;
   description?: string;
-  example?: string;
 }
 
 export interface ApiRequest {

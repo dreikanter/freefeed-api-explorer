@@ -33,7 +33,7 @@ describe('stores', () => {
       id: 'test-123',
       timestamp: Date.now(),
       instance: { name: 'Test', url: 'http://test.com', description: 'Test instance' },
-      endpoint: { method: 'GET', path: '/test', description: 'Test endpoint', scope: 'public', parameters: [] },
+      endpoint: { method: 'GET', path: '/test', description: 'Test endpoint', auth_required: false, scopes: ['public'], parameters: [] },
       parameters: {},
     };
 

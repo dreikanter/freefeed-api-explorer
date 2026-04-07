@@ -24,10 +24,10 @@ scripts/
   extract-routes.mjs    # Extract API routes from freefeed-server source
 docs/
   api-sync-workflow.md  # How to sync API reference
-  freefeed-api.json     # Structured API endpoint reference
 src/
   lib/
-    api-endpoints.ts    # API endpoint definitions
+    freefeed-api.json   # Structured API endpoint reference (source of truth)
+    api-endpoints.ts    # Loads endpoints from JSON, exports app constants
     stores.ts          # Svelte stores for app state
     types.ts           # TypeScript interfaces
   routes/

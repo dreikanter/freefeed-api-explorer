@@ -34,12 +34,12 @@
         !searchQuery ||
         endpoint.path.toLowerCase().includes(searchQuery.toLowerCase()) ||
         endpoint.description.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesScope = !selectedScope || endpoint.scope === selectedScope;
+      const matchesScope = !selectedScope || endpoint.scopes.includes(selectedScope);
       return matchesSearch && matchesScope;
     });
   }
 
-  const scopes = [...new Set(API_ENDPOINTS.map((e) => e.scope))].sort();
+  const scopes = [...new Set(API_ENDPOINTS.flatMap((e) => e.scopes))].sort();
 
 
   // Watch for URL changes and update selected endpoint
@@ -60,7 +60,7 @@
         parameters = {};
         found.parameters?.forEach((param: ApiParameter) => {
           if (param.required) {
-            parameters[param.name] = param.example || '';
+            parameters[param.name] = '';
           }
         });
         showCodeGeneration = false;
@@ -75,7 +75,7 @@
     parameters = {};
     endpoint.parameters?.forEach((param) => {
       if (param.required) {
-        parameters[param.name] = param.example || '';
+        parameters[param.name] = '';
       }
     });
     showCodeGeneration = false;
@@ -90,21 +90,17 @@
     if (!selectedEndpoint || !$selectedInstance) return '';
 
     let path = selectedEndpoint.path;
-    if (selectedEndpoint.parameters) {
-      for (const param of selectedEndpoint.parameters) {
-        if (path.includes(`:${param.name}`)) {
-          path = path.replace(`:${param.name}`, encodeURIComponent(parameters[param.name] || ''));
-        }
+    for (const param of selectedEndpoint.parameters) {
+      if (param.location === 'path') {
+        path = path.replace(`:${param.name}`, encodeURIComponent(parameters[param.name] || ''));
       }
     }
 
     const url = new URL(path, $selectedInstance.url);
 
-    if (selectedEndpoint.method === 'GET' && selectedEndpoint.parameters) {
-      for (const param of selectedEndpoint.parameters) {
-        if (!path.includes(`:${param.name}`) && parameters[param.name]) {
-          url.searchParams.set(param.name, parameters[param.name]);
-        }
+    for (const param of selectedEndpoint.parameters) {
+      if (param.location === 'query' && parameters[param.name]) {
+        url.searchParams.set(param.name, parameters[param.name]);
       }
     }
 
@@ -136,10 +132,10 @@
       };
 
       let body: string | undefined;
-      if (selectedEndpoint.method !== 'GET' && selectedEndpoint.parameters) {
+      if (selectedEndpoint.method !== 'GET') {
         const bodyParams: Record<string, string> = {};
         for (const param of selectedEndpoint.parameters) {
-          if (!selectedEndpoint.path.includes(`:${param.name}`) && parameters[param.name]) {
+          if (param.location === 'body' && parameters[param.name]) {
             bodyParams[param.name] = parameters[param.name];
           }
         }
@@ -199,10 +195,10 @@
     };
 
     let body: string | undefined;
-    if (selectedEndpoint.method !== 'GET' && selectedEndpoint.parameters) {
+    if (selectedEndpoint.method !== 'GET') {
       const bodyParams: Record<string, string> = {};
       for (const param of selectedEndpoint.parameters) {
-        if (!selectedEndpoint.path.includes(`:${param.name}`) && parameters[param.name]) {
+        if (param.location === 'body' && parameters[param.name]) {
           bodyParams[param.name] = parameters[param.name];
         }
       }
@@ -236,10 +232,10 @@
   -H "Accept: application/json" \\
   -H "User-Agent: FreeFeed-API-Explorer"`;
 
-    if (selectedEndpoint.method !== 'GET' && selectedEndpoint.parameters) {
+    if (selectedEndpoint.method !== 'GET') {
       const bodyParams: Record<string, string> = {};
       for (const param of selectedEndpoint.parameters) {
-        if (!selectedEndpoint.path.includes(`:${param.name}`) && parameters[param.name]) {
+        if (param.location === 'body' && parameters[param.name]) {
           bodyParams[param.name] = parameters[param.name];
         }
       }
@@ -329,7 +325,7 @@
           <div class="card-body">
             <p class="card-text">{selectedEndpoint.description}</p>
             <p>
-              Scope: <span class="badge bg-info">{selectedEndpoint.scope}</span>
+              Scope: {#each selectedEndpoint.scopes as s}<span class="badge bg-info me-1">{s}</span>{/each}
             </p>
 
             <!-- Parameters -->
@@ -348,7 +344,7 @@
                       type="number"
                       class="form-control"
                       bind:value={parameters[param.name]}
-                      placeholder={param.example || ''}
+                      placeholder={''}
                       required={param.required}
                     />
                   {:else if param.type === 'boolean'}
@@ -368,7 +364,7 @@
                       type="text"
                       class="form-control"
                       bind:value={parameters[param.name]}
-                      placeholder={param.example || ''}
+                      placeholder={''}
                       required={param.required}
                     />
                   {/if}
