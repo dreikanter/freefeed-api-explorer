@@ -12,7 +12,7 @@
   <div class="container-fluid">
     <div class="d-flex align-items-center">
       <button
-        class="btn text-light d-md-none me-2 p-1"
+        class="btn text-light show-below-md me-2 p-1"
         type="button"
         data-bs-toggle="offcanvas"
         data-bs-target="#sidebarOffcanvas"
