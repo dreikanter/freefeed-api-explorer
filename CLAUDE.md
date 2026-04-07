@@ -13,14 +13,14 @@ npm run preview      # Preview production build
 npm run check        # Type-check with Svelte
 npm run lint         # Run ESLint
 npm run format       # Format code with Prettier
-npm run api:check    # Check for FreeFeed API changes (requires Python 3, Node 22+, Git)
+npm run api:check    # Check for FreeFeed API changes (requires Node 22+, Git)
 ```
 
 ## Project Structure
 
 ```
 scripts/
-  check-api-changes.py  # Detect FreeFeed API endpoint changes (see docs/api-sync-workflow.md)
+  check-api-changes.mjs # Detect FreeFeed API endpoint changes (see docs/api-sync-workflow.md)
   extract-routes.mjs    # Extract API routes from freefeed-server source
 docs/
   api-sync-workflow.md  # How to sync API reference
