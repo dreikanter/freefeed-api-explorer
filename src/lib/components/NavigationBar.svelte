@@ -16,6 +16,7 @@
         type="button"
         data-bs-toggle="offcanvas"
         data-bs-target="#sidebarOffcanvas"
+        aria-controls="sidebarOffcanvas"
         aria-label="Browse endpoints"
       >
         <i class="bi bi-list fs-4"></i>

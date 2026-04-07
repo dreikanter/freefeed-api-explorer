@@ -423,9 +423,9 @@
 </div>
 
 <!-- Mobile Offcanvas Sidebar -->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarOffcanvas">
+<div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title">API Endpoints</h5>
+    <h5 class="offcanvas-title" id="sidebarOffcanvasLabel">API Endpoints</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body p-0">
