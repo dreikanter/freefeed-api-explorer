@@ -1,30 +1,16 @@
 <script lang="ts">
-  import { onMount, afterUpdate } from 'svelte';
-  import { initHighlight, hljs } from '../highlight.js';
-  import 'highlight.js/styles/github.css';
-  import 'highlightjs-copy/dist/highlightjs-copy.min.css';
+  import { JsonView } from '@zerodevx/svelte-json-view';
   import type { ApiRequest } from '../types.js';
   import { getRelativeTime } from '../utils.js';
   import ResponseStatus from './ResponseStatus.svelte';
 
   export let request: ApiRequest | null = null;
 
-  onMount(() => {
-    initHighlight();
-  });
-
-  afterUpdate(() => {
-    // Highlight any new code blocks after updates
-    if (typeof window !== 'undefined') {
-      hljs.highlightAll();
-    }
-  });
-
-  function formatJson(jsonString: string): string {
+  function parseJson(jsonString: string): unknown | null {
     try {
-      return JSON.stringify(JSON.parse(jsonString), null, 2);
+      return JSON.parse(jsonString);
     } catch {
-      return jsonString;
+      return null;
     }
   }
 
@@ -104,8 +90,22 @@
 
       <div class="mb-3">
         <p class="mb-3"><strong>Body:</strong></p>
-        <pre class="m-0 p-2 rounded"><code class="language-json">{formatJson(request.response.body)}</code></pre>
+        {#if parseJson(request.response.body) !== null}
+          <div class="json-viewer-wrapper p-2 rounded bg-light">
+            <JsonView json={parseJson(request.response.body)} depth={1} />
+          </div>
+        {:else}
+          <pre class="m-0 p-2 rounded"><code>{request.response.body}</code></pre>
+        {/if}
       </div>
     </div>
   </div>
 {/if}
+
+<style>
+  .json-viewer-wrapper {
+    font-family: var(--bs-font-monospace);
+    font-size: 0.875rem;
+    overflow-x: auto;
+  }
+</style>
