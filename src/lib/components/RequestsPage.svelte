@@ -307,32 +307,27 @@
   <div class="row g-0">
     <!-- Left Sidebar: API Endpoints (desktop) -->
     <div class="col-md-4 d-none d-md-block">
-      <div class="scrollable-column px-2 pt-2">
-        <div class="card">
-          <h5 class="card-header">API Endpoints</h5>
-          <div class="card-body p-0">
-            <!-- Search and Filter -->
-            <div class="p-3">
-              <input type="text" class="form-control mb-2" placeholder="Search endpoints..." bind:value={searchQuery} />
-              <select class="form-select" bind:value={selectedScope}>
-                <option value="">All Scopes</option>
-                {#each scopes as scope}
-                  <option value={scope}>{scope}</option>
-                {/each}
-              </select>
-            </div>
+      <div class="scrollable-column">
+        <!-- Search and Filter -->
+        <div class="p-3 border-bottom">
+          <input type="text" class="form-control mb-2" placeholder="Search endpoints..." bind:value={searchQuery} />
+          <select class="form-select" bind:value={selectedScope}>
+            <option value="">All Scopes</option>
+            {#each scopes as scope}
+              <option value={scope}>{scope}</option>
+            {/each}
+          </select>
+        </div>
 
-            <!-- Endpoints List -->
-            <div class="list-group list-group-flush border-top">
-              {#each filteredEndpoints as endpoint}
-                <RequestListItem
-                  {endpoint}
-                  isSelected={selectedEndpoint === endpoint}
-                  onClick={() => selectEndpoint(endpoint)}
-                />
-              {/each}
-            </div>
-          </div>
+        <!-- Endpoints List -->
+        <div class="list-group list-group-flush">
+          {#each filteredEndpoints as endpoint}
+            <RequestListItem
+              {endpoint}
+              isSelected={selectedEndpoint === endpoint}
+              onClick={() => selectEndpoint(endpoint)}
+            />
+          {/each}
         </div>
       </div>
     </div>
