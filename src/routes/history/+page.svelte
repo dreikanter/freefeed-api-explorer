@@ -87,10 +87,9 @@
 
 <NavigationBar currentPage="history" />
 
-<div class="container-fluid mb-4">
-  <div class="row">
-    <!-- Left Sidebar: Request History -->
-    <div class="col-md-4">
+<div class="split-layout">
+  <!-- Left Sidebar: Request History -->
+  <div class="split-sidebar">
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
           <h5 class="mb-0">Request History</h5>
@@ -127,8 +126,8 @@
       </div>
     </div>
 
-    <!-- Main Content: Request Details -->
-    <div class="col-md-8">
+  <!-- Main Content: Request Details -->
+  <div class="split-main">
       {#if selectedRequest}
         <!-- Request Info -->
         <div class="card mb-4">
@@ -180,4 +179,3 @@
       {/if}
     </div>
   </div>
-</div>
