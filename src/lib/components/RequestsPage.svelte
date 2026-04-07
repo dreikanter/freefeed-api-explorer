@@ -409,10 +409,6 @@
           <div class="card-body text-center text-muted py-5">
             <h3>Welcome to FreeFeed API Explorer</h3>
             <p>Select an API endpoint from the sidebar to get started.</p>
-            <p class="small">
-              This tool helps you explore and test the FreeFeed API. Your token and request history are stored locally
-              on your device.
-            </p>
           </div>
         </div>
       {/if}
