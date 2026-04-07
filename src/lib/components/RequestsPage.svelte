@@ -289,11 +289,10 @@
 
 </script>
 
-<div class="container-fluid px-0">
-  <div class="row g-0">
-    <!-- Left Sidebar: API Endpoints (desktop) -->
-    <div class="col-md-4 d-none d-md-block border-end">
-      <div class="scrollable-column">
+<div class="split-layout">
+  <!-- Left Sidebar: API Endpoints (desktop) -->
+  <div class="split-sidebar hide-below-md border-end">
+    <div class="scrollable-column">
         <!-- Search and Filter -->
         <div class="p-3 border-bottom">
           <input type="text" class="form-control mb-2" placeholder="Search endpoints..." bind:value={$searchQuery} />
@@ -316,11 +315,11 @@
           {/each}
         </div>
       </div>
-    </div>
+  </div>
 
-    <!-- Main Content -->
-    <div class="col-md-8">
-      <div class="scrollable-column px-2 pt-2">
+  <!-- Main Content -->
+  <div class="split-main">
+    <div class="scrollable-column px-2 pt-2">
         {#if selectedEndpoint}
           <div class="card mb-4">
             <h5 class="card-header font-monospace">
@@ -420,7 +419,6 @@
       </div>
     </div>
   </div>
-</div>
 
 <!-- Mobile Offcanvas Sidebar -->
 <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
