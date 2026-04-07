@@ -51,7 +51,7 @@ See `docs/api-sync-workflow.md` for the full workflow.
 
 ## Contributing
 
-This project is open for contributions! Keeping the API endpoints reference up to date is especialy welcome (see `src/lib/api-endpoints.ts`).
+This project is open for contributions! Keeping the API endpoints reference up to date is especially welcome (see `src/lib/freefeed-api.json`).
 
 ## FreeFeed Resources
 

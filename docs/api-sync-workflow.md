@@ -17,8 +17,7 @@ It serves two purposes:
    scopes they require.
 2. **Diffable sync artifact** — when the FreeFeed server changes its API, we
    run the check script to detect added, removed, or changed endpoints.
-   The change report drives updates to both the reference and
-   `src/lib/api-endpoints.ts`.
+   The change report drives updates to the reference file.
 
 ## How it works
 
