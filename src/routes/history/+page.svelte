@@ -24,7 +24,7 @@
     // Update URL with selected request ID
     const url = new URL($page.url);
     url.searchParams.set('request', request.id);
-    goto(url.toString(), { replaceState: true }).then(() => {
+    goto(url.toString(), { replaceState: true }).finally(() => {
       isNavigating = false;
     });
   }
@@ -33,7 +33,7 @@
     isNavigating = true;
     const url = new URL($page.url);
     url.searchParams.delete('request');
-    goto(url.toString(), { replaceState: true }).then(() => {
+    goto(url.toString(), { replaceState: true }).finally(() => {
       isNavigating = false;
     });
     selectedRequest = null;
@@ -70,15 +70,13 @@
   $: {
     if (!isNavigating) {
       const requestId = $page.url.searchParams.get('request');
-      if (requestId && $requestHistory.length > 0) {
+      if (requestId) {
         const found = $requestHistory.find((req) => req.id === requestId);
-        if (found && found !== selectedRequest) {
+        if (found && found.id !== selectedRequest?.id) {
           selectedRequest = found;
         } else if (!found) {
           clearSelectedRequest();
         }
-      } else if (requestId && $requestHistory.length === 0) {
-        clearSelectedRequest();
       } else if (!requestId && selectedRequest) {
         selectedRequest = null;
       }
@@ -116,10 +114,10 @@
         </div>
       {:else}
         <div class="list-group list-group-flush">
-          {#each $requestHistory as request}
+          {#each $requestHistory as request (request.id)}
             <RequestListItem
               endpoint={request.endpoint}
-              isSelected={selectedRequest === request}
+              isSelected={selectedRequest?.id === request.id}
               onClick={() => selectRequest(request)}
             >
               <div slot="side-content">
