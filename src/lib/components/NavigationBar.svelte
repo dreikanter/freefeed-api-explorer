@@ -11,6 +11,15 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
     <div class="d-flex align-items-center">
+      <button
+        class="btn text-light d-md-none me-2 p-1"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#sidebarOffcanvas"
+        aria-label="Browse endpoints"
+      >
+        <i class="bi bi-list fs-4"></i>
+      </button>
       <a href="/" class="navbar-brand mb-0 me-0 h1 text-decoration-none">FreeFeed API Explorer</a>
       {#if environment === 'staging'}
         <span class="badge bg-warning text-dark ms-2">STAGING</span>

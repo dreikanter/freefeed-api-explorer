@@ -292,18 +292,6 @@
 </script>
 
 <div class="container-fluid">
-  <!-- Mobile sidebar toggle -->
-  <div class="d-md-none mb-3">
-    <button
-      class="btn btn-outline-primary w-100"
-      type="button"
-      data-bs-toggle="offcanvas"
-      data-bs-target="#sidebarOffcanvas"
-    >
-      <i class="bi bi-list"></i> Browse Endpoints
-    </button>
-  </div>
-
   <div class="row g-0">
     <!-- Left Sidebar: API Endpoints (desktop) -->
     <div class="col-md-4 d-none d-md-block">
