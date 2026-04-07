@@ -2,6 +2,10 @@
 
 Reference material is in the `docs/` directory. Automation scripts are in `scripts/`.
 
+## Pull Requests
+
+Keep PR descriptions concise. Focus on the conceptual level when it makes sense, without diving into less meaningful parts of the diff.
+
 ## Development Workflow
 
 ## Available Scripts
