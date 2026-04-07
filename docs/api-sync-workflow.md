@@ -42,14 +42,13 @@ directly — it's pure data, no database or Redis connection needed.
 
 - **Node.js 22+** (or Node.js 20+ with `--experimental-strip-types`)
 - **Git**
-- **Python 3**
 
 ## Usage
 
 Run from the repository root:
 
 ```bash
-python3 scripts/check-api-changes.py
+node scripts/check-api-changes.mjs
 ```
 
 This does everything in one step:
