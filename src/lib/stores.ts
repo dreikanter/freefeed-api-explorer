@@ -40,6 +40,9 @@ export const requestHistory = createLocalStorageStore<ApiRequest[]>('freefeed-hi
 export const currentRequest = createLocalStorageStore<ApiRequest | null>('freefeed-current-request', null);
 export const isLoading = writable(false);
 
+export const searchQuery = createLocalStorageStore('freefeed-search-query', '');
+export const selectedScope = createLocalStorageStore('freefeed-selected-scope', '');
+
 export function clearToken() {
   token.set('');
 }
