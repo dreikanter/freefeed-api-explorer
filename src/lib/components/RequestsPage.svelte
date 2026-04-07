@@ -291,10 +291,10 @@
 
 </script>
 
-<div class="container-fluid">
+<div class="container-fluid ps-0">
   <div class="row g-0">
     <!-- Left Sidebar: API Endpoints (desktop) -->
-    <div class="col-md-4 d-none d-md-block">
+    <div class="col-md-4 d-none d-md-block border-end">
       <div class="scrollable-column">
         <!-- Search and Filter -->
         <div class="p-3 border-bottom">
