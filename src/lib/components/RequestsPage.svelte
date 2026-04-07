@@ -70,6 +70,15 @@
     }
   }
 
+  function closeOffcanvas() {
+    if (typeof window !== 'undefined') {
+      const el = document.getElementById('sidebarOffcanvas');
+      // @ts-ignore - Bootstrap is loaded via CDN
+      const offcanvas = window.bootstrap.Offcanvas.getInstance(el);
+      offcanvas?.hide();
+    }
+  }
+
   function selectEndpoint(endpoint: ApiEndpoint) {
     selectedEndpoint = endpoint;
     parameters = {};
@@ -282,33 +291,47 @@
 
 </script>
 
-<div class="container-fluid mb-4">
-  <div class="row">
-    <!-- Left Sidebar: API Endpoints -->
-    <div class="col-md-4">
-      <div class="card">
-        <h5 class="card-header">API Endpoints</h5>
-        <div class="card-body p-0">
-          <!-- Search and Filter -->
-          <div class="p-3">
-            <input type="text" class="form-control mb-2" placeholder="Search endpoints..." bind:value={searchQuery} />
-            <select class="form-select" bind:value={selectedScope}>
-              <option value="">All Scopes</option>
-              {#each scopes as scope}
-                <option value={scope}>{scope}</option>
-              {/each}
-            </select>
-          </div>
+<div class="container-fluid">
+  <!-- Mobile sidebar toggle -->
+  <div class="d-md-none mb-3">
+    <button
+      class="btn btn-outline-primary w-100"
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#sidebarOffcanvas"
+    >
+      <i class="bi bi-list"></i> Browse Endpoints
+    </button>
+  </div>
 
-          <!-- Endpoints List -->
-          <div class="list-group list-group-flush border-top">
-            {#each filteredEndpoints as endpoint}
-              <RequestListItem
-                {endpoint}
-                isSelected={selectedEndpoint === endpoint}
-                onClick={() => selectEndpoint(endpoint)}
-              />
-            {/each}
+  <div class="row g-0">
+    <!-- Left Sidebar: API Endpoints (desktop) -->
+    <div class="col-md-4 d-none d-md-block">
+      <div class="scrollable-column px-2 pt-2">
+        <div class="card">
+          <h5 class="card-header">API Endpoints</h5>
+          <div class="card-body p-0">
+            <!-- Search and Filter -->
+            <div class="p-3">
+              <input type="text" class="form-control mb-2" placeholder="Search endpoints..." bind:value={searchQuery} />
+              <select class="form-select" bind:value={selectedScope}>
+                <option value="">All Scopes</option>
+                {#each scopes as scope}
+                  <option value={scope}>{scope}</option>
+                {/each}
+              </select>
+            </div>
+
+            <!-- Endpoints List -->
+            <div class="list-group list-group-flush border-top">
+              {#each filteredEndpoints as endpoint}
+                <RequestListItem
+                  {endpoint}
+                  isSelected={selectedEndpoint === endpoint}
+                  onClick={() => selectEndpoint(endpoint)}
+                />
+              {/each}
+            </div>
           </div>
         </div>
       </div>
@@ -316,102 +339,132 @@
 
     <!-- Main Content -->
     <div class="col-md-8">
-      {#if selectedEndpoint}
-        <div class="card mb-4">
-          <h5 class="card-header font-monospace">
-            <strong>{selectedEndpoint.method}</strong>
-            {selectedEndpoint.path}
-          </h5>
-          <div class="card-body">
-            <p class="card-text">{selectedEndpoint.description}</p>
-            <p>
-              Scope: {#each selectedEndpoint.scopes as s}<span class="badge bg-info me-1">{s}</span>{/each}
-            </p>
-
-            <!-- Parameters -->
-            {#if selectedEndpoint.parameters && selectedEndpoint.parameters.length > 0}
-              <h6 class="mt-4 mb-2">Parameters:</h6>
-              {#each selectedEndpoint.parameters as param}
-                <div class="mb-3">
-                  <label for="param-{param.name}" class="form-label">
-                    <code class="px-1">{param.name}</code>
-                    {#if param.required}<span class="text-danger">*</span>{/if}
-                    {#if param.description}<small class="text-muted ms-1">{param.description}</small>{/if}
-                  </label>
-                  {#if param.type === 'number'}
-                    <input
-                      id="param-{param.name}"
-                      type="number"
-                      class="form-control"
-                      bind:value={parameters[param.name]}
-                      placeholder={''}
-                      required={param.required}
-                    />
-                  {:else if param.type === 'boolean'}
-                    <select
-                      id="param-{param.name}"
-                      class="form-select"
-                      bind:value={parameters[param.name]}
-                      required={param.required}
-                    >
-                      <option value="">Select...</option>
-                      <option value="true">true</option>
-                      <option value="false">false</option>
-                    </select>
-                  {:else}
-                    <input
-                      id="param-{param.name}"
-                      type="text"
-                      class="form-control"
-                      bind:value={parameters[param.name]}
-                      placeholder={''}
-                      required={param.required}
-                    />
-                  {/if}
-                </div>
-              {/each}
-            {/if}
-
-            <div class="mt-4">
-              <button class="btn btn-success" on:click={executeRequest} disabled={$isLoading || !$token}>
-                {$isLoading ? 'Executing...' : 'Execute'}
-              </button>
-              <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('fetch')}>
-                Generate fetch call
-              </button>
-              <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('curl')}>
-                Generate curl command
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Code Generation -->
-        {#if showCodeGeneration}
+      <div class="scrollable-column px-2 pt-2">
+        {#if selectedEndpoint}
           <div class="card mb-4">
-            <h5 class="card-header">Code Example</h5>
+            <h5 class="card-header font-monospace">
+              <strong>{selectedEndpoint.method}</strong>
+              {selectedEndpoint.path}
+            </h5>
             <div class="card-body">
-              <pre class="m-0 p-2 rounded small"><code class="language-{codeLanguage}">{generatedCode}</code></pre>
+              <p class="card-text">{selectedEndpoint.description}</p>
+              <p>
+                Scope: {#each selectedEndpoint.scopes as s}<span class="badge bg-info me-1">{s}</span>{/each}
+              </p>
+
+              <!-- Parameters -->
+              {#if selectedEndpoint.parameters && selectedEndpoint.parameters.length > 0}
+                <h6 class="mt-4 mb-2">Parameters:</h6>
+                {#each selectedEndpoint.parameters as param}
+                  <div class="mb-3">
+                    <label for="param-{param.name}" class="form-label">
+                      <code class="px-1">{param.name}</code>
+                      {#if param.required}<span class="text-danger">*</span>{/if}
+                      {#if param.description}<small class="text-muted ms-1">{param.description}</small>{/if}
+                    </label>
+                    {#if param.type === 'number'}
+                      <input
+                        id="param-{param.name}"
+                        type="number"
+                        class="form-control"
+                        bind:value={parameters[param.name]}
+                        placeholder={''}
+                        required={param.required}
+                      />
+                    {:else if param.type === 'boolean'}
+                      <select
+                        id="param-{param.name}"
+                        class="form-select"
+                        bind:value={parameters[param.name]}
+                        required={param.required}
+                      >
+                        <option value="">Select...</option>
+                        <option value="true">true</option>
+                        <option value="false">false</option>
+                      </select>
+                    {:else}
+                      <input
+                        id="param-{param.name}"
+                        type="text"
+                        class="form-control"
+                        bind:value={parameters[param.name]}
+                        placeholder={''}
+                        required={param.required}
+                      />
+                    {/if}
+                  </div>
+                {/each}
+              {/if}
+
+              <div class="mt-4">
+                <button class="btn btn-success" on:click={executeRequest} disabled={$isLoading || !$token}>
+                  {$isLoading ? 'Executing...' : 'Execute'}
+                </button>
+                <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('fetch')}>
+                  Generate fetch call
+                </button>
+                <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('curl')}>
+                  Generate curl command
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Code Generation -->
+          {#if showCodeGeneration}
+            <div class="card mb-4">
+              <h5 class="card-header">Code Example</h5>
+              <div class="card-body">
+                <pre class="m-0 p-2 rounded small"><code class="language-{codeLanguage}">{generatedCode}</code></pre>
+              </div>
+            </div>
+          {/if}
+
+          <!-- Response -->
+          {#if endpointResponse}
+            <Response request={endpointResponse} />
+          {/if}
+        {:else}
+          <div class="card">
+            <div class="card-body text-center text-muted py-5">
+              <h3>Welcome to FreeFeed API Explorer</h3>
+              <p>Select an API endpoint from the sidebar to get started.</p>
+              <p class="small">
+                This tool helps you explore and test the FreeFeed API. Your token and request history are stored locally
+                on your device.
+              </p>
             </div>
           </div>
         {/if}
+      </div>
+    </div>
+  </div>
+</div>
 
-        <!-- Response -->
-        {#if endpointResponse}
-          <Response request={endpointResponse} />
-        {/if}
-      {:else}
-        <div class="card">
-          <div class="card-body text-center text-muted py-5">
-            <h3>Welcome to FreeFeed API Explorer</h3>
-            <p>Select an API endpoint from the sidebar to get started.</p>
-            <p class="small">
-              This tool helps you explore and test the FreeFeed API. Your token and request history are stored locally
-              on your device.
-            </p>
-          </div>
-        </div>
-      {/if}
+<!-- Mobile Offcanvas Sidebar -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarOffcanvas">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">API Endpoints</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body p-0">
+    <div class="p-3">
+      <input type="text" class="form-control mb-2" placeholder="Search endpoints..." bind:value={searchQuery} />
+      <select class="form-select" bind:value={selectedScope}>
+        <option value="">All Scopes</option>
+        {#each scopes as scope}
+          <option value={scope}>{scope}</option>
+        {/each}
+      </select>
+    </div>
+    <div class="list-group list-group-flush border-top">
+      {#each filteredEndpoints as endpoint}
+        <RequestListItem
+          {endpoint}
+          isSelected={selectedEndpoint === endpoint}
+          onClick={() => { selectEndpoint(endpoint); closeOffcanvas(); }}
+        />
+      {/each}
     </div>
   </div>
 </div>
