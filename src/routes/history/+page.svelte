@@ -95,7 +95,7 @@
         <h5 class="mb-0">Request History</h5>
         {#if $requestHistory.length > 0}
           <button
-            class="btn btn-outline-secondary btn-sm"
+            class="btn btn-sm text-secondary"
             on:click={clearHistory}
             title="Clear History"
           >
