@@ -5,7 +5,7 @@ Check for FreeFeed API changes against the current reference.
 Clones the server, extracts routes, diffs against docs/freefeed-api.json,
 and outputs a JSON change report to stdout.
 
-Usage: python3 docs/check-api-changes.py
+Usage: python3 scripts/check-api-changes.py
 Output: JSON report to stdout, progress to stderr
 """
 
