@@ -291,7 +291,7 @@
 
 </script>
 
-<div class="container-fluid ps-0">
+<div class="container-fluid px-0">
   <div class="row g-0">
     <!-- Left Sidebar: API Endpoints (desktop) -->
     <div class="col-md-4 d-none d-md-block border-end">
