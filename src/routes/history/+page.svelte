@@ -141,6 +141,7 @@
 
   <!-- Main Content: Request Details -->
   <div class="split-main">
+    <div class="scrollable-column px-2 pt-2">
     {#if selectedRequest}
       <!-- Request Info -->
       <div class="card mb-4">
@@ -190,5 +191,6 @@
         </div>
       </div>
     {/if}
+    </div>
   </div>
 </div>
