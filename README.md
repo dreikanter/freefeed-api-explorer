@@ -37,6 +37,18 @@ Open http://localhost:5173 in your browser.
 - **No Third-Party Tracking**: No analytics or tracking services are included.
 - **Direct API Communication**: Requests go directly from your browser to FreeFeed.
 
+## Checking for API Changes
+
+The project includes a script that detects when the FreeFeed server adds, removes, or changes API endpoints. It clones the [freefeed-server](https://github.com/FreeFeed/freefeed-server) `stable` branch, extracts the endpoint list from the server source code, and diffs it against the local reference file (`docs/freefeed-api.json`). The output is a JSON report showing added, removed, and scope-changed endpoints.
+
+**Requirements:** Python 3, Node.js 22+, Git.
+
+```bash
+npm run api:check
+```
+
+See `docs/api-sync-workflow.md` for the full workflow.
+
 ## Contributing
 
 This project is open for contributions! Keeping the API endpoints reference up to date is especialy welcome (see `src/lib/api-endpoints.ts`).

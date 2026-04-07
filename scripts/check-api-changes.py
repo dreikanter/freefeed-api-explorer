@@ -5,7 +5,7 @@ Check for FreeFeed API changes against the current reference.
 Clones the server, extracts routes, diffs against docs/freefeed-api.json,
 and outputs a JSON change report to stdout.
 
-Usage: python3 docs/check-api-changes.py
+Usage: python3 scripts/check-api-changes.py
 Output: JSON report to stdout, progress to stderr
 """
 
@@ -22,7 +22,7 @@ BRANCH = "stable"
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = SCRIPT_DIR.parent
-REFERENCE = SCRIPT_DIR / "freefeed-api.json"
+REFERENCE = PROJECT_DIR / "docs" / "freefeed-api.json"
 EXTRACT_SCRIPT = SCRIPT_DIR / "extract-routes.mjs"
 
 

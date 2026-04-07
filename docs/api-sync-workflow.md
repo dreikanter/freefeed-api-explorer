@@ -36,7 +36,7 @@ This file exports three arrays:
 - `appTokensScopes` — named scopes, each listing the endpoint routes it
   grants access to
 
-The extraction script (`docs/extract-routes.mjs`) imports this module
+The extraction script (`scripts/extract-routes.mjs`) imports this module
 directly — it's pure data, no database or Redis connection needed.
 
 ## Prerequisites
@@ -50,13 +50,13 @@ directly — it's pure data, no database or Redis connection needed.
 Run from the repository root:
 
 ```bash
-python3 docs/check-api-changes.py
+python3 scripts/check-api-changes.py
 ```
 
 This does everything in one step:
 
 1. Clones `FreeFeed/freefeed-server` (stable branch, shallow) into a temp dir
-2. Copies `docs/extract-routes.mjs` into the checkout and runs it
+2. Copies `scripts/extract-routes.mjs` into the checkout and runs it
 3. Diffs the extracted endpoints against `docs/freefeed-api.json`
 4. Outputs a JSON change report to stdout
 5. Cleans up the temp dir

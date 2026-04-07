@@ -1,6 +1,6 @@
 # Project Memory
 
-Reference material is in the `docs/` directory.
+Reference material is in the `docs/` directory. Automation scripts are in `scripts/`.
 
 ## Development Workflow
 
@@ -13,11 +13,18 @@ npm run preview      # Preview production build
 npm run check        # Type-check with Svelte
 npm run lint         # Run ESLint
 npm run format       # Format code with Prettier
+npm run api:check    # Check for FreeFeed API changes (requires Python 3, Node 22+, Git)
 ```
 
 ## Project Structure
 
 ```
+scripts/
+  check-api-changes.py  # Detect FreeFeed API endpoint changes (see docs/api-sync-workflow.md)
+  extract-routes.mjs    # Extract API routes from freefeed-server source
+docs/
+  api-sync-workflow.md  # How to sync API reference
+  freefeed-api.json     # Structured API endpoint reference
 src/
   lib/
     api-endpoints.ts    # API endpoint definitions

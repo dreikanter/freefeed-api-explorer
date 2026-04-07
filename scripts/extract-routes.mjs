@@ -5,7 +5,7 @@
  * It imports the scopes module directly (pure data, no DB/Redis needed).
  *
  * Usage:
- *   cp docs/extract-routes.mjs /tmp/freefeed-server/
+ *   cp scripts/extract-routes.mjs /tmp/freefeed-server/
  *   cd /tmp/freefeed-server
  *   SERVER_REV=$(git rev-parse HEAD) node extract-routes.mjs
  *
