@@ -29,6 +29,16 @@
     });
   }
 
+  function clearSelectedRequest() {
+    isNavigating = true;
+    const url = new URL($page.url);
+    url.searchParams.delete('request');
+    goto(url.toString(), { replaceState: true }).then(() => {
+      isNavigating = false;
+    });
+    selectedRequest = null;
+  }
+
   function generateFullUrl(request: ApiRequest): string {
     let path = request.endpoint.path;
 
@@ -64,16 +74,11 @@
         const found = $requestHistory.find((req) => req.id === requestId);
         if (found && found !== selectedRequest) {
           selectedRequest = found;
-        } else if (!found && selectedRequest) {
-          // Request not found, clear URL parameter
-          isNavigating = true;
-          const url = new URL($page.url);
-          url.searchParams.delete('request');
-          goto(url.toString(), { replaceState: true }).then(() => {
-            isNavigating = false;
-          });
-          selectedRequest = null;
+        } else if (!found) {
+          clearSelectedRequest();
         }
+      } else if (requestId && $requestHistory.length === 0) {
+        clearSelectedRequest();
       } else if (!requestId && selectedRequest) {
         selectedRequest = null;
       }
