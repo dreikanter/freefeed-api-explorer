@@ -37,8 +37,17 @@ export interface ApiResponse {
   timestamp: number;
 }
 
+export interface SavedToken {
+  id: string;
+  label: string;
+  value: string;
+  instance: FreeFeedInstance;
+  createdAt: number;
+}
+
 export interface AppSettings {
-  token: string;
+  tokens: SavedToken[];
+  activeTokenId: string;
   selectedInstance: FreeFeedInstance;
   requestHistory: ApiRequest[];
 }
