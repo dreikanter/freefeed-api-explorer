@@ -1,5 +1,8 @@
 <script lang="ts">
-  import { tokens, activeTokenId, setActiveToken } from '$lib/stores.js';
+  import { tokens, activeTokenId, setActiveToken, removeToken } from '$lib/stores.js';
+  import TokenModal from './TokenModal.svelte';
+
+  let tokenModal: TokenModal;
 
   function maskToken(value: string): string {
     if (value.length <= 8) return '****';
@@ -19,13 +22,14 @@
   <div class="row justify-content-center">
     <div class="col-lg-8">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header d-flex justify-content-between align-items-center">
           <h3 class="mb-0">Tokens</h3>
+          <button class="btn btn-primary btn-sm" on:click={() => tokenModal.show()}>Create Token</button>
         </div>
         <div class="card-body">
           {#if $tokens.length === 0}
             <p class="text-center text-muted py-4 mb-0">
-              No tokens saved yet. Add a token from the <a href="/requests">Requests</a> page to get started.
+              No tokens saved yet. Click <strong>Create Token</strong> to get started.
             </p>
           {:else}
             <div class="table-responsive">
@@ -37,6 +41,7 @@
                     <th>Token</th>
                     <th>Instance</th>
                     <th>Created</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -59,6 +64,13 @@
                       <td><code>{maskToken(token.value)}</code></td>
                       <td>{token.instance.name}</td>
                       <td>{formatDate(token.createdAt)}</td>
+                      <td>
+                        <button
+                          class="btn btn-outline-danger btn-sm"
+                          on:click|stopPropagation={() => removeToken(token.id)}
+                          title="Delete token"
+                        >Delete</button>
+                      </td>
                     </tr>
                   {/each}
                 </tbody>
@@ -70,6 +82,8 @@
     </div>
   </div>
 </div>
+
+<TokenModal bind:this={tokenModal} />
 
 <style>
   .cursor-pointer {
