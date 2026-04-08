@@ -176,7 +176,7 @@
       <!-- Response -->
       <Response request={selectedRequest} />
     {:else}
-      <div class="card">
+      <div class="card d-none d-md-block">
         <div class="card-body text-center text-muted py-5">
           <h3>Request History</h3>
           <p>Select a request from the sidebar to view its details.</p>
