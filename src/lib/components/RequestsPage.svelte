@@ -4,7 +4,7 @@
   import { goto } from '$app/navigation';
   import type { ApiEndpoint, ApiRequest, ApiResponse, ApiParameter } from '$lib/types.js';
   import { API_ENDPOINTS, FREEFEED_INSTANCES } from '$lib/api-endpoints.js';
-  import { token, selectedInstance, currentRequest, isLoading, addToHistory, requestHistory, searchQuery, selectedScope } from '$lib/stores.js';
+  import { activeToken, tokens, activeTokenId, selectedInstance, currentRequest, isLoading, addToHistory, requestHistory, searchQuery, selectedScope } from '$lib/stores.js';
   import Response from './Response.svelte';
   import RequestListItem from './RequestListItem.svelte';
   import { initHighlight, hljs } from '$lib/highlight.js';
@@ -18,6 +18,21 @@
   let showCodeGeneration = false;
   let generatedCode = '';
   let codeLanguage = 'javascript';
+  let tokenInput = '';
+
+  function saveToken() {
+    if (!tokenInput) return;
+    const newToken = {
+      id: crypto.randomUUID(),
+      label: 'API token',
+      value: tokenInput,
+      instance: $selectedInstance,
+      createdAt: Date.now(),
+    };
+    tokens.update((list) => [...list, newToken]);
+    activeTokenId.set(newToken.id);
+    tokenInput = '';
+  }
 
   // Find most recent response for the currently selected endpoint
   $: endpointResponse = selectedEndpoint
@@ -115,7 +130,7 @@
   }
 
   async function executeRequest() {
-    if (!selectedEndpoint || !$token || !$selectedInstance) return;
+    if (!selectedEndpoint || !$activeToken?.value || !$selectedInstance) return;
 
     const requestId = crypto.randomUUID();
     const url = generateUrl();
@@ -133,7 +148,7 @@
 
     try {
       const headers: Record<string, string> = {
-        Authorization: `Bearer ${$token}`,
+        Authorization: `Bearer ${$activeToken!.value}`,
         Accept: 'application/json',
         'User-Agent': 'FreeFeed-API-Explorer',
       };
@@ -273,7 +288,7 @@
   onMount(() => {
     initHighlight();
 
-    if (!$token) {
+    if (!$activeToken?.value) {
       // @ts-ignore - Bootstrap is loaded via CDN
       const modal = new window.bootstrap.Modal(document.getElementById('tokenModal'));
       modal.show();
@@ -377,7 +392,7 @@
             {/if}
 
             <div class="mt-4">
-              <button class="btn btn-success" on:click={executeRequest} disabled={$isLoading || !$token}>
+              <button class="btn btn-success" on:click={executeRequest} disabled={$isLoading || !$activeToken?.value}>
                 {$isLoading ? 'Executing...' : 'Execute'}
               </button>
               <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('fetch')}>
@@ -463,7 +478,7 @@
             id="token-input"
             type="password"
             class="form-control"
-            bind:value={$token}
+            bind:value={tokenInput}
             placeholder="Enter your FreeFeed API token..."
           />
         </div>
@@ -479,7 +494,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" disabled={!$token}>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" disabled={!tokenInput} on:click={saveToken}>
           Save Configuration
         </button>
       </div>

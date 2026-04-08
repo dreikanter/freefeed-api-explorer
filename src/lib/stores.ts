@@ -1,5 +1,5 @@
-import { writable } from 'svelte/store';
-import type { FreeFeedInstance, ApiRequest, AppSettings } from './types.js';
+import { writable, derived } from 'svelte/store';
+import type { FreeFeedInstance, ApiRequest, SavedToken } from './types.js';
 import { FREEFEED_INSTANCES } from './api-endpoints.js';
 
 function createLocalStorageStore<T>(key: string, defaultValue: T) {
@@ -33,7 +33,16 @@ function createLocalStorageStore<T>(key: string, defaultValue: T) {
   return store;
 }
 
-export const token = createLocalStorageStore('freefeed-token', '');
+// --- Multi-token stores ---
+
+export const tokens = createLocalStorageStore<SavedToken[]>('freefeed-tokens', []);
+export const activeTokenId = createLocalStorageStore<string>('freefeed-active-token-id', '');
+
+export const activeToken = derived(
+  [tokens, activeTokenId],
+  ([$tokens, $activeTokenId]) => $tokens.find((t) => t.id === $activeTokenId) ?? null
+);
+
 export const selectedInstance = createLocalStorageStore<FreeFeedInstance>('freefeed-instance', FREEFEED_INSTANCES[0]);
 export const requestHistory = createLocalStorageStore<ApiRequest[]>('freefeed-history', []);
 
@@ -43,8 +52,13 @@ export const isLoading = writable(false);
 export const searchQuery = createLocalStorageStore('freefeed-search-query', '');
 export const selectedScope = createLocalStorageStore('freefeed-selected-scope', '');
 
-export function clearToken() {
-  token.set('');
+export function removeToken(id: string) {
+  tokens.update((list) => list.filter((t) => t.id !== id));
+  activeTokenId.update((current) => (current === id ? '' : current));
+}
+
+export function setActiveToken(id: string) {
+  activeTokenId.set(id);
 }
 
 export function clearHistory() {
