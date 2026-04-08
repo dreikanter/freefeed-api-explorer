@@ -49,10 +49,6 @@
     return groups;
   }, []);
 
-  function maskToken(value: string): string {
-    if (value.length <= 8) return '****';
-    return value.slice(0, 4) + '…' + value.slice(-4);
-  }
 
 
   // Watch for URL changes and update selected endpoint
@@ -403,7 +399,7 @@
                         <optgroup label={group.instance}>
                           {#each group.tokens as token}
                             <option value={token.id}>
-                              {token.label} ({maskToken(token.value)})
+                              {token.label} — {new URL(token.instance.url).hostname}
                             </option>
                           {/each}
                         </optgroup>
