@@ -60,7 +60,7 @@
                         {/if}
                       </td>
                       <td>{token.label}</td>
-                      <td>{token.instance.name}</td>
+                      <td>{new URL(token.instance.url).hostname}</td>
                       <td>{formatDate(token.createdAt)}</td>
                       <td class="validation-status">
                         {#if $validatingTokenIds.has(token.id)}
