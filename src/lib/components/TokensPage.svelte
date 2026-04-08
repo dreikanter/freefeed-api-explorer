@@ -17,7 +17,7 @@
   }
 </script>
 
-<div class="container mb-4">
+<div class="container py-5">
   <div class="row justify-content-center">
     <div class="col-lg-8">
       <div class="card">
