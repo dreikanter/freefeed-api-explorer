@@ -17,12 +17,16 @@
       html, body, main {
         height: 100dvh;
         margin: 0;
-        overflow: hidden;
       }
 
       main {
         display: flex;
         flex-direction: column;
+      }
+
+      /* Lock scrolling only when the page uses split-layout */
+      main:has(.split-layout) {
+        overflow: hidden;
       }
 
       /* Two-column split layout */
