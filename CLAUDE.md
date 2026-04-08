@@ -6,6 +6,18 @@ Reference material is in the `docs/` directory. Automation scripts are in `scrip
 
 Keep PR descriptions compact. Focus on the most important conceptual changes — don't explain every code-level detail. Stay brief.
 
+Always include a **References** section linking the relevant issue or ticket (e.g., `Closes #N`, `Relates to #N`). Use the PR body format:
+
+```
+## Summary
+
+- <concise description of changes>
+
+## References
+
+- Closes #<issue number>
+```
+
 ## Development Workflow
 
 ## Available Scripts
