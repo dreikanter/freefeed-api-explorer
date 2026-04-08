@@ -3,10 +3,11 @@
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
   import type { ApiEndpoint, ApiRequest, ApiResponse, ApiParameter } from '$lib/types.js';
-  import { API_ENDPOINTS, FREEFEED_INSTANCES } from '$lib/api-endpoints.js';
-  import { activeToken, tokens, activeTokenId, selectedInstance, currentRequest, isLoading, addToHistory, requestHistory, searchQuery, selectedScope } from '$lib/stores.js';
+  import { API_ENDPOINTS } from '$lib/api-endpoints.js';
+  import { activeToken, selectedInstance, currentRequest, isLoading, addToHistory, requestHistory, searchQuery, selectedScope } from '$lib/stores.js';
   import Response from './Response.svelte';
   import RequestListItem from './RequestListItem.svelte';
+  import TokenModal from './TokenModal.svelte';
   import { initHighlight, hljs } from '$lib/highlight.js';
   import { endpointToId, idToEndpoint } from '$lib/utils.js';
   import 'highlight.js/styles/github.css';
@@ -18,21 +19,7 @@
   let showCodeGeneration = false;
   let generatedCode = '';
   let codeLanguage = 'javascript';
-  let tokenInput = '';
-
-  function saveToken() {
-    if (!tokenInput) return;
-    const newToken = {
-      id: crypto.randomUUID(),
-      label: 'API token',
-      value: tokenInput,
-      instance: $selectedInstance,
-      createdAt: Date.now(),
-    };
-    tokens.update((list) => [...list, newToken]);
-    activeTokenId.set(newToken.id);
-    tokenInput = '';
-  }
+  let tokenModal: TokenModal;
 
   // Find most recent response for the currently selected endpoint
   $: endpointResponse = selectedEndpoint
@@ -289,9 +276,7 @@
     initHighlight();
 
     if (!$activeToken?.value) {
-      // @ts-ignore - Bootstrap is loaded via CDN
-      const modal = new window.bootstrap.Modal(document.getElementById('tokenModal'));
-      modal.show();
+      tokenModal.show();
     }
   });
 
@@ -459,45 +444,4 @@
   </div>
 </div>
 
-<!-- Token Modal -->
-<div class="modal fade" id="tokenModal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Configure API Token</h5>
-      </div>
-      <div class="modal-body">
-        <div class="alert alert-info">
-          <strong>Privacy Notice:</strong>
-          Your token is stored locally in your browser's localStorage and will not be sent to any third-party servers except
-          when making API requests to the selected FreeFeed instance.
-        </div>
-        <div class="mb-3">
-          <label for="token-input" class="form-label">FreeFeed API Token</label>
-          <input
-            id="token-input"
-            type="password"
-            class="form-control"
-            bind:value={tokenInput}
-            placeholder="Enter your FreeFeed API token..."
-          />
-        </div>
-        <div class="mb-3">
-          <label for="instance-select" class="form-label">FreeFeed Instance</label>
-          <select id="instance-select" class="form-select" bind:value={$selectedInstance}>
-            {#each FREEFEED_INSTANCES as instance}
-              <option value={instance}>
-                {instance.name} - {instance.description}
-              </option>
-            {/each}
-          </select>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" disabled={!tokenInput} on:click={saveToken}>
-          Save Configuration
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+<TokenModal bind:this={tokenModal} />
