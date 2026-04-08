@@ -68,7 +68,7 @@
                           >Validate</button>
                         {/if}
                       </td>
-                      <td>
+                      <td class="text-end">
                         <button
                           class="btn btn-sm text-secondary"
                           on:click={() => removeToken(token.id)}
