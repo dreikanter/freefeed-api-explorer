@@ -46,7 +46,7 @@
                   {#each $tokens as token (token.id)}
                     <tr>
                       <td>{token.label}</td>
-                      <td>{new URL(token.instance.url).hostname}</td>
+                      <td><code>{new URL(token.instance.url).hostname}</code></td>
                       <td>{formatDate(token.createdAt)}</td>
                       <td class="validation-status">
                         {#if $validatingTokenIds.has(token.id)}
