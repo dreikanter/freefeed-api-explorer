@@ -8,11 +8,6 @@
     validateToken(token);
   }
 
-  function maskToken(value: string): string {
-    if (value.length <= 8) return '****';
-    return value.slice(0, 4) + '****' + value.slice(-4);
-  }
-
   function formatDate(timestamp: number): string {
     return new Date(timestamp).toLocaleDateString(undefined, {
       year: 'numeric',
@@ -42,7 +37,6 @@
                   <tr>
                     <th></th>
                     <th>Label</th>
-                    <th>Token</th>
                     <th>Instance</th>
                     <th>Created</th>
                     <th>Status</th>
@@ -66,7 +60,6 @@
                         {/if}
                       </td>
                       <td>{token.label}</td>
-                      <td><code>{maskToken(token.value)}</code></td>
                       <td>{token.instance.name}</td>
                       <td>{formatDate(token.createdAt)}</td>
                       <td class="validation-status">
