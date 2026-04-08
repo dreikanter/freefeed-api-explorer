@@ -25,7 +25,7 @@
           <h3 class="mb-0">Tokens</h3>
           <button class="btn btn-primary btn-sm" on:click={() => tokenModal.show()}>Create Token</button>
         </div>
-        <div class="card-body">
+        <div class="card-body p-0">
           {#if $tokens.length === 0}
             <p class="text-center text-muted py-4 mb-0">
               No tokens saved yet. Click <strong>Create Token</strong> to get started.
