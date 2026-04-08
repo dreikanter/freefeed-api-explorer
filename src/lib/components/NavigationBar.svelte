@@ -6,7 +6,7 @@
   const environment = env.PUBLIC_ENVIRONMENT || 'development';
 </script>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
   <div class="container-fluid">
     <div class="d-flex align-items-center">
       <button
