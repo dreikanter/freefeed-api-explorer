@@ -30,11 +30,3 @@
     </div>
   </div>
 </nav>
-
-<style>
-  nav {
-    --bs-navbar-color: rgba(255, 255, 255, 0.75);
-    --bs-navbar-hover-color: rgba(255, 255, 255, 0.9);
-    --bs-navbar-active-color: #fff;
-  }
-</style>
