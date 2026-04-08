@@ -16,9 +16,7 @@
   let filteredEndpoints: ApiEndpoint[] = API_ENDPOINTS;
   let selectedEndpoint: ApiEndpoint | null = null;
   let parameters: Record<string, string> = {};
-  let showCodeGeneration = false;
-  let generatedCode = '';
-  let codeLanguage = 'javascript';
+  let activeTab: 'request' | 'fetch' | 'curl' = 'request';
   let tokenModal: TokenModal;
 
   // Find most recent response for the currently selected endpoint
@@ -63,7 +61,7 @@
             parameters[param.name] = '';
           }
         });
-        showCodeGeneration = false;
+        activeTab = 'request';
       }
     } else if (!endpointParam && selectedEndpoint) {
       selectedEndpoint = null;
@@ -87,7 +85,7 @@
         parameters[param.name] = '';
       }
     });
-    showCodeGeneration = false;
+    activeTab = 'request';
 
     // Update URL with selected endpoint using URL-friendly ID
     const url = new URL($page.url);
@@ -261,17 +259,6 @@
     return command;
   }
 
-  function showCode(type: 'fetch' | 'curl') {
-    const newCode = type === 'fetch' ? generateFetchCode() : generateCurlCode();
-    codeLanguage = type === 'fetch' ? 'javascript' : 'bash';
-    if (showCodeGeneration && generatedCode === newCode) {
-      showCodeGeneration = false;
-    } else {
-      generatedCode = newCode;
-      showCodeGeneration = true;
-    }
-  }
-
   onMount(() => {
     initHighlight();
 
@@ -376,34 +363,43 @@
               {/each}
             {/if}
 
-            <div class="mt-4">
-              <button class="btn btn-success" on:click={executeRequest} disabled={$isLoading || !$activeToken?.value}>
-                {$isLoading ? 'Executing...' : 'Execute'}
-              </button>
-              <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('fetch')}>
-                Generate fetch call
-              </button>
-              <button class="btn btn-outline-secondary ms-2" on:click={() => showCode('curl')}>
-                Generate curl command
-              </button>
-            </div>
+          </div>
+
+          <!-- Tabs: Request / Code Examples -->
+          <ul class="nav nav-tabs px-3" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" class:active={activeTab === 'request'} on:click={() => activeTab = 'request'} type="button" role="tab">Request</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" class:active={activeTab === 'fetch'} on:click={() => activeTab = 'fetch'} type="button" role="tab">fetch call</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" class:active={activeTab === 'curl'} on:click={() => activeTab = 'curl'} type="button" role="tab">curl command</button>
+            </li>
+          </ul>
+          <div class="tab-content p-3">
+            {#if activeTab === 'request'}
+              <div class="tab-pane active" role="tabpanel">
+                <button class="btn btn-success" on:click={executeRequest} disabled={$isLoading || !$activeToken?.value}>
+                  {$isLoading ? 'Executing...' : 'Execute'}
+                </button>
+                {#if endpointResponse}
+                  <div class="mt-3">
+                    <Response request={endpointResponse} />
+                  </div>
+                {/if}
+              </div>
+            {:else if activeTab === 'fetch'}
+              <div class="tab-pane active" role="tabpanel">
+                <pre class="m-0 p-2 rounded small"><code class="language-javascript">{generateFetchCode()}</code></pre>
+              </div>
+            {:else if activeTab === 'curl'}
+              <div class="tab-pane active" role="tabpanel">
+                <pre class="m-0 p-2 rounded small"><code class="language-bash">{generateCurlCode()}</code></pre>
+              </div>
+            {/if}
           </div>
         </div>
-
-        <!-- Code Generation -->
-        {#if showCodeGeneration}
-          <div class="card mb-4">
-            <h5 class="card-header">Code Example</h5>
-            <div class="card-body">
-              <pre class="m-0 p-2 rounded small"><code class="language-{codeLanguage}">{generatedCode}</code></pre>
-            </div>
-          </div>
-        {/if}
-
-        <!-- Response -->
-        {#if endpointResponse}
-          <Response request={endpointResponse} />
-        {/if}
       {:else}
         <div class="card">
           <div class="card-body text-center text-muted py-5">
