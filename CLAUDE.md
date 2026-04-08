@@ -6,7 +6,7 @@ Reference material is in the `docs/` directory. Automation scripts are in `scrip
 
 Keep PR descriptions compact. Focus on the most important conceptual changes — don't explain every code-level detail. Stay brief.
 
-Always include a **References** section linking the relevant issue or ticket (e.g., `Closes #N`, `Relates to #N`). Use the PR body format:
+Always include a **References** section linking the relevant issue or ticket (e.g., `Closes #N`, `Relates to #N`) and the Claude Code session link. References should be a bullet list. Use the PR body format:
 
 ```
 ## Summary
@@ -16,6 +16,7 @@ Always include a **References** section linking the relevant issue or ticket (e.
 ## References
 
 - Closes #<issue number>
+- <Claude Code session link>
 ```
 
 ## Development Workflow
