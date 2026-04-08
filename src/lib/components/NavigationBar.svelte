@@ -23,10 +23,10 @@
       {#if environment === 'staging'}
         <span class="badge bg-warning text-dark ms-2">STAGING</span>
       {/if}
-      <a href="/requests" class="nav-link text-light ms-3 {currentPage === 'requests' ? 'active fw-bold' : ''}">Requests</a>
-      <a href="/history" class="nav-link text-light ms-3 {currentPage === 'history' ? 'active fw-bold' : ''}">History</a>
-      <a href="/tokens" class="nav-link text-light ms-3 {currentPage === 'tokens' ? 'active fw-bold' : ''}">Tokens</a>
-      <a href="/about" class="nav-link text-light ms-3 {currentPage === 'about' ? 'active fw-bold' : ''}">?</a>
+      <a href="/requests" class="nav-link text-light ms-3 {currentPage === 'requests' ? 'active text-decoration-underline' : ''}">Requests</a>
+      <a href="/history" class="nav-link text-light ms-3 {currentPage === 'history' ? 'active text-decoration-underline' : ''}">History</a>
+      <a href="/tokens" class="nav-link text-light ms-3 {currentPage === 'tokens' ? 'active text-decoration-underline' : ''}">Tokens</a>
+      <a href="/about" class="nav-link text-light ms-3 {currentPage === 'about' ? 'active text-decoration-underline' : ''}">About</a>
     </div>
   </div>
 </nav>
