@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { FREEFEED_INSTANCES } from '$lib/api-endpoints.js';
-  import { selectedInstance } from '$lib/stores.js';
   import { env } from '$env/dynamic/public';
 
   export let currentPage: 'home' | 'history' | 'requests' | 'tokens' | 'about' = 'home';
@@ -29,22 +27,6 @@
       <a href="/history" class="nav-link text-light ms-3 {currentPage === 'history' ? 'active fw-bold' : ''}">History</a>
       <a href="/tokens" class="nav-link text-light ms-3 {currentPage === 'tokens' ? 'active fw-bold' : ''}">Tokens</a>
       <a href="/about" class="nav-link text-light ms-3 {currentPage === 'about' ? 'active fw-bold' : ''}">?</a>
-    </div>
-    <div class="navbar-nav ms-auto">
-      <div class="dropdown">
-        <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
-          {$selectedInstance.name}
-        </button>
-        <ul class="dropdown-menu">
-          {#each FREEFEED_INSTANCES as instance}
-            <li>
-              <button class="dropdown-item" on:click={() => ($selectedInstance = instance)}>
-                {instance.name}
-              </button>
-            </li>
-          {/each}
-        </ul>
-      </div>
     </div>
   </div>
 </nav>

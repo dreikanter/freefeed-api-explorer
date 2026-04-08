@@ -1,16 +1,11 @@
 <script lang="ts">
-  import { tokens, activeTokenId, setActiveToken, removeToken, validationResults, validatingTokenIds, validateToken } from '$lib/stores.js';
+  import { tokens, removeToken, validationResults, validatingTokenIds, validateToken } from '$lib/stores.js';
   import TokenModal from './TokenModal.svelte';
 
   let tokenModal: TokenModal;
 
   function handleValidate(token: Parameters<typeof validateToken>[0]) {
     validateToken(token);
-  }
-
-  function maskToken(value: string): string {
-    if (value.length <= 8) return '****';
-    return value.slice(0, 4) + '****' + value.slice(-4);
   }
 
   function formatDate(timestamp: number): string {
@@ -22,7 +17,7 @@
   }
 </script>
 
-<div class="container mb-4">
+<div class="container py-2">
   <div class="row justify-content-center">
     <div class="col-lg-8">
       <div class="card">
@@ -30,7 +25,7 @@
           <h3 class="mb-0">Tokens</h3>
           <button class="btn btn-primary btn-sm" on:click={() => tokenModal.show()}>Create Token</button>
         </div>
-        <div class="card-body">
+        <div class="card-body p-0">
           {#if $tokens.length === 0}
             <p class="text-center text-muted py-4 mb-0">
               No tokens saved yet. Click <strong>Create Token</strong> to get started.
@@ -40,9 +35,7 @@
               <table class="table table-hover align-middle mb-0">
                 <thead>
                   <tr>
-                    <th></th>
-                    <th>Label</th>
-                    <th>Token</th>
+                    <th>Title</th>
                     <th>Instance</th>
                     <th>Created</th>
                     <th>Status</th>
@@ -51,24 +44,10 @@
                 </thead>
                 <tbody>
                   {#each $tokens as token (token.id)}
-                    <tr
-                      class="cursor-pointer {token.id === $activeTokenId ? 'table-primary' : ''}"
-                      on:click={() => setActiveToken(token.id)}
-                      role="button"
-                      tabindex="0"
-                      on:keydown={(e) => e.key === 'Enter' && setActiveToken(token.id)}
-                    >
-                      <td class="text-center" style="width: 2rem">
-                        {#if token.id === $activeTokenId}
-                          <i class="bi bi-check-circle-fill text-primary"></i>
-                        {:else}
-                          <i class="bi bi-circle text-muted"></i>
-                        {/if}
-                      </td>
-                      <td>{token.label}</td>
-                      <td><code>{maskToken(token.value)}</code></td>
-                      <td>{token.instance.name}</td>
-                      <td>{formatDate(token.createdAt)}</td>
+                    <tr>
+                      <td class="title-cell" title={token.label}>{token.label}</td>
+                      <td><code>{new URL(token.instance.url).hostname}</code></td>
+                      <td class="text-nowrap">{formatDate(token.createdAt)}</td>
                       <td class="validation-status">
                         {#if $validatingTokenIds.has(token.id)}
                           <span class="text-muted"><i class="bi bi-arrow-repeat spin"></i> Validating…</span>
@@ -84,17 +63,17 @@
                         {:else}
                           <button
                             class="btn btn-outline-secondary btn-sm"
-                            on:click|stopPropagation={() => handleValidate(token)}
+                            on:click={() => handleValidate(token)}
                             title="Validate token"
                           >Validate</button>
                         {/if}
                       </td>
-                      <td>
+                      <td class="text-end">
                         <button
-                          class="btn btn-outline-danger btn-sm"
-                          on:click|stopPropagation={() => removeToken(token.id)}
+                          class="btn btn-sm text-secondary"
+                          on:click={() => removeToken(token.id)}
                           title="Delete token"
-                        >Delete</button>
+                        ><i class="bi bi-trash"></i></button>
                       </td>
                     </tr>
                   {/each}
@@ -102,6 +81,9 @@
               </table>
             </div>
           {/if}
+        </div>
+        <div class="card-footer text-muted small">
+          {$tokens.length} {$tokens.length === 1 ? 'token' : 'tokens'}
         </div>
       </div>
     </div>
@@ -111,8 +93,11 @@
 <TokenModal bind:this={tokenModal} />
 
 <style>
-  .cursor-pointer {
-    cursor: pointer;
+  .title-cell {
+    max-width: 12rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .spin {

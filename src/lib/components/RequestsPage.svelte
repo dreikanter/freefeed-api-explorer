@@ -4,10 +4,10 @@
   import { goto } from '$app/navigation';
   import type { ApiEndpoint, ApiRequest, ApiResponse, ApiParameter } from '$lib/types.js';
   import { API_ENDPOINTS } from '$lib/api-endpoints.js';
-  import { activeToken, selectedInstance, currentRequest, isLoading, addToHistory, requestHistory, searchQuery, selectedScope } from '$lib/stores.js';
+  import { tokens, activeTokenId, activeToken, selectedInstance, currentRequest, isLoading, addToHistory, requestHistory, searchQuery, selectedScope } from '$lib/stores.js';
+  import type { SavedToken } from '$lib/types.js';
   import Response from './Response.svelte';
   import RequestListItem from './RequestListItem.svelte';
-  import TokenModal from './TokenModal.svelte';
   import { initHighlight, hljs } from '$lib/highlight.js';
   import { endpointToId, idToEndpoint } from '$lib/utils.js';
   import 'highlight.js/styles/github.css';
@@ -17,7 +17,6 @@
   let selectedEndpoint: ApiEndpoint | null = null;
   let parameters: Record<string, string> = {};
   let activeTab: 'request' | 'fetch' | 'curl' = 'request';
-  let tokenModal: TokenModal;
 
   // Find most recent response for the currently selected endpoint
   $: endpointResponse = selectedEndpoint
@@ -38,6 +37,18 @@
   }
 
   const scopes = [...new Set(API_ENDPOINTS.flatMap((e) => e.scopes))].sort();
+
+  // Group tokens by instance URL, preserving token order
+  $: tokensByInstance = $tokens.reduce<{ instance: string; tokens: SavedToken[] }[]>((groups, token) => {
+    const existing = groups.find((g) => g.instance === token.instance.url);
+    if (existing) {
+      existing.tokens.push(token);
+    } else {
+      groups.push({ instance: token.instance.url, tokens: [token] });
+    }
+    return groups;
+  }, []);
+
 
 
   // Watch for URL changes and update selected endpoint
@@ -261,10 +272,6 @@
 
   onMount(() => {
     initHighlight();
-
-    if (!$activeToken?.value) {
-      tokenModal.show();
-    }
   });
 
   afterUpdate(() => {
@@ -281,7 +288,7 @@
   <div class="split-sidebar hide-below-md border-end">
     <div class="scrollable-column">
       <!-- Search and Filter -->
-      <div class="p-3 border-bottom">
+      <div class="p-2 border-bottom">
         <input type="text" class="form-control mb-2" placeholder="Search endpoints..." bind:value={$searchQuery} />
         <select class="form-select" bind:value={$selectedScope}>
           <option value="">All Scopes</option>
@@ -380,9 +387,34 @@
           <div class="tab-content p-3">
             {#if activeTab === 'request'}
               <div class="tab-pane active" role="tabpanel">
-                <button class="btn btn-success" on:click={executeRequest} disabled={$isLoading || !$activeToken?.value}>
-                  {$isLoading ? 'Executing...' : 'Execute'}
-                </button>
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                  {#if $tokens.length > 0}
+                    <select
+                      class="form-select form-select-sm"
+                      style="width: auto; min-width: 14rem"
+                      value={$activeTokenId}
+                      on:change={(e) => activeTokenId.set(e.currentTarget.value)}
+                    >
+                      {#each tokensByInstance as group}
+                        <optgroup label={group.instance}>
+                          {#each group.tokens as token}
+                            <option value={token.id}>
+                              {token.label} — {new URL(token.instance.url).hostname}
+                            </option>
+                          {/each}
+                        </optgroup>
+                      {/each}
+                    </select>
+                  {:else}
+                    <span class="text-muted small">
+                      <i class="bi bi-exclamation-circle"></i>
+                      No tokens configured — <a href="/tokens">add one</a>
+                    </span>
+                  {/if}
+                  <button class="btn btn-success btn-sm" on:click={executeRequest} disabled={$isLoading || !$activeToken?.value}>
+                    {$isLoading ? 'Executing...' : 'Execute'}
+                  </button>
+                </div>
                 {#if endpointResponse}
                   <div class="mt-3">
                     <Response request={endpointResponse} />
@@ -440,4 +472,3 @@
   </div>
 </div>
 
-<TokenModal bind:this={tokenModal} />
