@@ -387,6 +387,12 @@
           <div class="tab-content p-3">
             {#if activeTab === 'request'}
               <div class="tab-pane active" role="tabpanel">
+                {#if $tokens.length === 0}
+                  <div class="alert alert-warning small mb-3" role="alert">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    No tokens configured — <a href="/tokens">add one</a> to start making API requests.
+                  </div>
+                {/if}
                 <div class="d-flex align-items-center gap-2 flex-wrap">
                   {#if $tokens.length > 0}
                     <select
@@ -406,10 +412,13 @@
                       {/each}
                     </select>
                   {:else}
-                    <span class="text-muted small">
-                      <i class="bi bi-exclamation-circle"></i>
-                      No tokens configured — <a href="/tokens">add one</a>
-                    </span>
+                    <select
+                      class="form-select form-select-sm"
+                      style="width: auto; min-width: 14rem"
+                      disabled
+                    >
+                      <option>No available tokens</option>
+                    </select>
                   {/if}
                   <button class="btn btn-success btn-sm" on:click={executeRequest} disabled={$isLoading || !$activeToken?.value}>
                     {$isLoading ? 'Executing...' : 'Execute'}
