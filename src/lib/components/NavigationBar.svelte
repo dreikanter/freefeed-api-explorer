@@ -3,7 +3,7 @@
   import { selectedInstance, activeToken, removeToken } from '$lib/stores.js';
   import { env } from '$env/dynamic/public';
 
-  export let currentPage: 'home' | 'history' | 'requests' | 'about' = 'home';
+  export let currentPage: 'home' | 'history' | 'requests' | 'tokens' | 'about' = 'home';
 
   const environment = env.PUBLIC_ENVIRONMENT || 'development';
 </script>
@@ -27,6 +27,7 @@
       {/if}
       <a href="/requests" class="nav-link text-light ms-3 {currentPage === 'requests' ? 'active fw-bold' : ''}">Requests</a>
       <a href="/history" class="nav-link text-light ms-3 {currentPage === 'history' ? 'active fw-bold' : ''}">History</a>
+      <a href="/tokens" class="nav-link text-light ms-3 {currentPage === 'tokens' ? 'active fw-bold' : ''}">Tokens</a>
       <a href="/about" class="nav-link text-light ms-3 {currentPage === 'about' ? 'active fw-bold' : ''}">?</a>
     </div>
     <div class="navbar-nav ms-auto">
