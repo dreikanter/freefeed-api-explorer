@@ -1,6 +1,6 @@
 <script lang="ts">
   import { FREEFEED_INSTANCES } from '$lib/api-endpoints.js';
-  import { selectedInstance, activeToken, removeToken } from '$lib/stores.js';
+  import { selectedInstance } from '$lib/stores.js';
   import { env } from '$env/dynamic/public';
 
   export let currentPage: 'home' | 'history' | 'requests' | 'tokens' | 'about' = 'home';
@@ -45,7 +45,6 @@
           {/each}
         </ul>
       </div>
-      <button class="btn btn-outline-light btn-sm ms-2" on:click={() => $activeToken && removeToken($activeToken.id)}>Reset Token</button>
     </div>
   </div>
 </nav>
