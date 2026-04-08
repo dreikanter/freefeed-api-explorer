@@ -388,7 +388,7 @@
             {#if activeTab === 'request'}
               <div class="tab-pane active" role="tabpanel">
                 {#if $tokens.length === 0}
-                  <div class="alert alert-warning small mb-3">
+                  <div class="alert alert-warning small mb-3" role="alert">
                     <i class="bi bi-exclamation-triangle"></i>
                     No tokens configured — <a href="/tokens">add one</a> to start making API requests.
                   </div>
