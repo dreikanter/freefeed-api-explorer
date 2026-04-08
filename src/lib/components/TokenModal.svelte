@@ -3,8 +3,24 @@
   import { tokens, activeTokenId, selectedInstance } from '$lib/stores.js';
 
   let tokenInput = '';
+  let titleInput = '';
+
+  function nextDefaultTitle(): string {
+    let n = 1;
+    let candidate = `Token ${n}`;
+    const existing = new Set<string>();
+    const unsub = tokens.subscribe((list) => list.forEach((t) => existing.add(t.label)));
+    unsub();
+    while (existing.has(candidate)) {
+      n++;
+      candidate = `Token ${n}`;
+    }
+    return candidate;
+  }
 
   export function show() {
+    titleInput = '';
+    tokenInput = '';
     // @ts-ignore - Bootstrap is loaded via CDN
     const modal = new window.bootstrap.Modal(document.getElementById('tokenModal'));
     modal.show();
@@ -12,9 +28,10 @@
 
   function saveToken() {
     if (!tokenInput) return;
+    const label = titleInput.trim() || nextDefaultTitle();
     const newToken = {
       id: crypto.randomUUID(),
-      label: 'API token',
+      label,
       value: tokenInput,
       instance: $selectedInstance,
       createdAt: Date.now(),
@@ -22,6 +39,7 @@
     tokens.update((list) => [...list, newToken]);
     activeTokenId.set(newToken.id);
     tokenInput = '';
+    titleInput = '';
   }
 </script>
 
@@ -36,6 +54,16 @@
           <strong>Privacy Notice:</strong>
           Your token is stored locally in your browser's localStorage and will not be sent to any third-party servers except
           when making API requests to the selected FreeFeed instance.
+        </div>
+        <div class="mb-3">
+          <label for="title-input" class="form-label">Title</label>
+          <input
+            id="title-input"
+            type="text"
+            class="form-control"
+            bind:value={titleInput}
+            placeholder="Token 1"
+          />
         </div>
         <div class="mb-3">
           <label for="token-input" class="form-label">FreeFeed API Token</label>
