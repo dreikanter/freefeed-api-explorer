@@ -4,7 +4,7 @@ Reference material is in the `docs/` directory. Automation scripts are in `scrip
 
 ## Pull Requests
 
-Keep PR descriptions concise. Focus on the conceptual level when it makes sense, without diving into less meaningful parts of the diff.
+Keep PR descriptions compact. Focus on the most important conceptual changes — don't explain every code-level detail. Stay brief.
 
 ## Development Workflow
 
