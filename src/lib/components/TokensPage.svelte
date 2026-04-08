@@ -47,7 +47,7 @@
                     <tr>
                       <td class="title-cell" title={token.label}>{token.label}</td>
                       <td><code>{new URL(token.instance.url).hostname}</code></td>
-                      <td>{formatDate(token.createdAt)}</td>
+                      <td class="text-nowrap">{formatDate(token.createdAt)}</td>
                       <td class="validation-status">
                         {#if $validatingTokenIds.has(token.id)}
                           <span class="text-muted"><i class="bi bi-arrow-repeat spin"></i> Validating…</span>
