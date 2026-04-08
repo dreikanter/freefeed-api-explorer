@@ -364,41 +364,41 @@
             {/if}
 
           </div>
-        </div>
 
-        <!-- Tabs: Request / Code Examples -->
-        <ul class="nav nav-tabs" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" class:active={activeTab === 'request'} on:click={() => activeTab = 'request'} type="button" role="tab">Request</button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" class:active={activeTab === 'fetch'} on:click={() => activeTab = 'fetch'} type="button" role="tab">fetch call</button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" class:active={activeTab === 'curl'} on:click={() => activeTab = 'curl'} type="button" role="tab">curl command</button>
-          </li>
-        </ul>
-        <div class="tab-content border border-top-0 rounded-bottom mb-4">
-          {#if activeTab === 'request'}
-            <div class="tab-pane active p-3" role="tabpanel">
-              <button class="btn btn-success" on:click={executeRequest} disabled={$isLoading || !$activeToken?.value}>
-                {$isLoading ? 'Executing...' : 'Execute'}
-              </button>
-              {#if endpointResponse}
-                <div class="mt-3">
-                  <Response request={endpointResponse} />
-                </div>
-              {/if}
-            </div>
-          {:else if activeTab === 'fetch'}
-            <div class="tab-pane active p-3" role="tabpanel">
-              <pre class="m-0 p-2 rounded small"><code class="language-javascript">{generateFetchCode()}</code></pre>
-            </div>
-          {:else if activeTab === 'curl'}
-            <div class="tab-pane active p-3" role="tabpanel">
-              <pre class="m-0 p-2 rounded small"><code class="language-bash">{generateCurlCode()}</code></pre>
-            </div>
-          {/if}
+          <!-- Tabs: Request / Code Examples -->
+          <ul class="nav nav-tabs px-3" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" class:active={activeTab === 'request'} on:click={() => activeTab = 'request'} type="button" role="tab">Request</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" class:active={activeTab === 'fetch'} on:click={() => activeTab = 'fetch'} type="button" role="tab">fetch call</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" class:active={activeTab === 'curl'} on:click={() => activeTab = 'curl'} type="button" role="tab">curl command</button>
+            </li>
+          </ul>
+          <div class="tab-content p-3">
+            {#if activeTab === 'request'}
+              <div class="tab-pane active" role="tabpanel">
+                <button class="btn btn-success" on:click={executeRequest} disabled={$isLoading || !$activeToken?.value}>
+                  {$isLoading ? 'Executing...' : 'Execute'}
+                </button>
+                {#if endpointResponse}
+                  <div class="mt-3">
+                    <Response request={endpointResponse} />
+                  </div>
+                {/if}
+              </div>
+            {:else if activeTab === 'fetch'}
+              <div class="tab-pane active" role="tabpanel">
+                <pre class="m-0 p-2 rounded small"><code class="language-javascript">{generateFetchCode()}</code></pre>
+              </div>
+            {:else if activeTab === 'curl'}
+              <div class="tab-pane active" role="tabpanel">
+                <pre class="m-0 p-2 rounded small"><code class="language-bash">{generateCurlCode()}</code></pre>
+              </div>
+            {/if}
+          </div>
         </div>
       {:else}
         <div class="card">
