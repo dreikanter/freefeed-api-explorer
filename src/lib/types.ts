@@ -45,6 +45,11 @@ export interface SavedToken {
   createdAt: number;
 }
 
+export type ValidationResult =
+  | { status: 'valid'; username: string; validatedAt: number }
+  | { status: 'invalid'; validatedAt: number }
+  | { status: 'error'; message: string; validatedAt: number };
+
 export interface AppSettings {
   tokens: SavedToken[];
   activeTokenId: string;

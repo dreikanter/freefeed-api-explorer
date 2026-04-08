@@ -1,5 +1,5 @@
 import { writable, derived } from 'svelte/store';
-import type { FreeFeedInstance, ApiRequest, SavedToken } from './types.js';
+import type { FreeFeedInstance, ApiRequest, SavedToken, ValidationResult } from './types.js';
 import { FREEFEED_INSTANCES } from './api-endpoints.js';
 
 function createLocalStorageStore<T>(key: string, defaultValue: T) {
@@ -68,4 +68,49 @@ export function clearHistory() {
 
 export function addToHistory(request: ApiRequest) {
   requestHistory.update((history) => [request, ...history.slice(0, 49)]);
+}
+
+// --- Token validation ---
+
+export const validationResults = writable<Record<string, ValidationResult>>({});
+export const validatingTokenIds = writable<Set<string>>(new Set());
+
+export async function validateToken(token: SavedToken): Promise<void> {
+  validatingTokenIds.update((ids) => new Set(ids).add(token.id));
+
+  try {
+    const url = `${token.instance.url}/v2/users/whoami`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token.value}`,
+        Accept: 'application/json',
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      const username = data?.users?.username ?? 'unknown';
+      validationResults.update((results) => ({
+        ...results,
+        [token.id]: { status: 'valid', username, validatedAt: Date.now() },
+      }));
+    } else {
+      validationResults.update((results) => ({
+        ...results,
+        [token.id]: { status: 'invalid', validatedAt: Date.now() },
+      }));
+    }
+  } catch {
+    validationResults.update((results) => ({
+      ...results,
+      [token.id]: { status: 'error', message: 'Connection failed', validatedAt: Date.now() },
+    }));
+  } finally {
+    validatingTokenIds.update((ids) => {
+      const next = new Set(ids);
+      next.delete(token.id);
+      return next;
+    });
+  }
 }

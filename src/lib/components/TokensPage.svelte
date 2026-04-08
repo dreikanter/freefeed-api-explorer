@@ -1,8 +1,12 @@
 <script lang="ts">
-  import { tokens, activeTokenId, setActiveToken, removeToken } from '$lib/stores.js';
+  import { tokens, activeTokenId, setActiveToken, removeToken, validationResults, validatingTokenIds, validateToken } from '$lib/stores.js';
   import TokenModal from './TokenModal.svelte';
 
   let tokenModal: TokenModal;
+
+  function handleValidate(token: Parameters<typeof validateToken>[0]) {
+    validateToken(token);
+  }
 
   function maskToken(value: string): string {
     if (value.length <= 8) return '****';
@@ -41,6 +45,7 @@
                     <th>Token</th>
                     <th>Instance</th>
                     <th>Created</th>
+                    <th>Status</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -64,6 +69,26 @@
                       <td><code>{maskToken(token.value)}</code></td>
                       <td>{token.instance.name}</td>
                       <td>{formatDate(token.createdAt)}</td>
+                      <td class="validation-status">
+                        {#if $validatingTokenIds.has(token.id)}
+                          <span class="text-muted"><i class="bi bi-arrow-repeat spin"></i> Validating…</span>
+                        {:else if $validationResults[token.id]}
+                          {@const result = $validationResults[token.id]}
+                          {#if result.status === 'valid'}
+                            <span class="text-success" title="Validated at {formatDate(result.validatedAt)}"><i class="bi bi-check-circle-fill"></i> {result.username}</span>
+                          {:else if result.status === 'invalid'}
+                            <span class="text-danger" title="Validated at {formatDate(result.validatedAt)}"><i class="bi bi-x-circle-fill"></i> Invalid</span>
+                          {:else}
+                            <span class="text-warning" title={result.message}><i class="bi bi-exclamation-triangle-fill"></i> Error</span>
+                          {/if}
+                        {:else}
+                          <button
+                            class="btn btn-outline-secondary btn-sm"
+                            on:click|stopPropagation={() => handleValidate(token)}
+                            title="Validate token"
+                          >Validate</button>
+                        {/if}
+                      </td>
                       <td>
                         <button
                           class="btn btn-outline-danger btn-sm"
@@ -88,5 +113,19 @@
 <style>
   .cursor-pointer {
     cursor: pointer;
+  }
+
+  .spin {
+    display: inline-block;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .validation-status {
+    white-space: nowrap;
   }
 </style>
