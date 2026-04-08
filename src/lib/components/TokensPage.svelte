@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { tokens, activeTokenId, setActiveToken, removeToken, validationResults, validatingTokenIds, validateToken } from '$lib/stores.js';
+  import { tokens, removeToken, validationResults, validatingTokenIds, validateToken } from '$lib/stores.js';
   import TokenModal from './TokenModal.svelte';
 
   let tokenModal: TokenModal;
@@ -35,7 +35,6 @@
               <table class="table table-hover align-middle mb-0">
                 <thead>
                   <tr>
-                    <th></th>
                     <th>Title</th>
                     <th>Instance</th>
                     <th>Created</th>
@@ -45,20 +44,7 @@
                 </thead>
                 <tbody>
                   {#each $tokens as token (token.id)}
-                    <tr
-                      class="cursor-pointer {token.id === $activeTokenId ? 'table-primary' : ''}"
-                      on:click={() => setActiveToken(token.id)}
-                      role="button"
-                      tabindex="0"
-                      on:keydown={(e) => e.key === 'Enter' && setActiveToken(token.id)}
-                    >
-                      <td class="text-center" style="width: 2rem">
-                        {#if token.id === $activeTokenId}
-                          <i class="bi bi-check-circle-fill text-primary"></i>
-                        {:else}
-                          <i class="bi bi-circle text-muted"></i>
-                        {/if}
-                      </td>
+                    <tr>
                       <td>{token.label}</td>
                       <td>{new URL(token.instance.url).hostname}</td>
                       <td>{formatDate(token.createdAt)}</td>
@@ -77,7 +63,7 @@
                         {:else}
                           <button
                             class="btn btn-outline-secondary btn-sm"
-                            on:click|stopPropagation={() => handleValidate(token)}
+                            on:click={() => handleValidate(token)}
                             title="Validate token"
                           >Validate</button>
                         {/if}
@@ -85,7 +71,7 @@
                       <td>
                         <button
                           class="btn btn-outline-danger btn-sm"
-                          on:click|stopPropagation={() => removeToken(token.id)}
+                          on:click={() => removeToken(token.id)}
                           title="Delete token"
                         >Delete</button>
                       </td>
@@ -104,10 +90,6 @@
 <TokenModal bind:this={tokenModal} />
 
 <style>
-  .cursor-pointer {
-    cursor: pointer;
-  }
-
   .spin {
     display: inline-block;
     animation: spin 1s linear infinite;
