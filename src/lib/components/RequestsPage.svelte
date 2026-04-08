@@ -288,7 +288,7 @@
   <div class="split-sidebar hide-below-md border-end">
     <div class="scrollable-column">
       <!-- Search and Filter -->
-      <div class="p-3 border-bottom">
+      <div class="p-2 border-bottom">
         <input type="text" class="form-control mb-2" placeholder="Search endpoints..." bind:value={$searchQuery} />
         <select class="form-select" bind:value={$selectedScope}>
           <option value="">All Scopes</option>
