@@ -417,7 +417,7 @@
                       style="width: auto; min-width: 14rem"
                       disabled
                     >
-                      <option>No available instances</option>
+                      <option>No available tokens</option>
                     </select>
                   {/if}
                   <button class="btn btn-success btn-sm" on:click={executeRequest} disabled={$isLoading || !$activeToken?.value}>
