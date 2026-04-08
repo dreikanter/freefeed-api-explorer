@@ -82,6 +82,9 @@
             </div>
           {/if}
         </div>
+        <div class="card-footer text-muted small">
+          {$tokens.length} {$tokens.length === 1 ? 'token' : 'tokens'}
+        </div>
       </div>
     </div>
   </div>
