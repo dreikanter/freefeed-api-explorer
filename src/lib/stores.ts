@@ -44,6 +44,26 @@ export const activeToken = derived(
 );
 
 export const selectedInstance = createLocalStorageStore<FreeFeedInstance>('freefeed-instance', FREEFEED_INSTANCES[0]);
+
+// Auto-sync selectedInstance when active token changes
+activeToken.subscribe((token) => {
+  if (token) {
+    selectedInstance.set(token.instance);
+  }
+});
+
+// Auto-select first available token when none is active
+tokens.subscribe(($tokens) => {
+  if ($tokens.length > 0) {
+    let currentActiveId: string = '';
+    const unsub = activeTokenId.subscribe((id) => (currentActiveId = id));
+    unsub();
+    const hasActive = $tokens.some((t) => t.id === currentActiveId);
+    if (!hasActive) {
+      activeTokenId.set($tokens[0].id);
+    }
+  }
+});
 export const requestHistory = createLocalStorageStore<ApiRequest[]>('freefeed-history', []);
 
 export const currentRequest = createLocalStorageStore<ApiRequest | null>('freefeed-current-request', null);
