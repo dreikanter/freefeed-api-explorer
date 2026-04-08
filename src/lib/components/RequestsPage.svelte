@@ -7,7 +7,6 @@
   import { activeToken, selectedInstance, currentRequest, isLoading, addToHistory, requestHistory, searchQuery, selectedScope } from '$lib/stores.js';
   import Response from './Response.svelte';
   import RequestListItem from './RequestListItem.svelte';
-  import TokenModal from './TokenModal.svelte';
   import { initHighlight, hljs } from '$lib/highlight.js';
   import { endpointToId, idToEndpoint } from '$lib/utils.js';
   import 'highlight.js/styles/github.css';
@@ -17,7 +16,6 @@
   let selectedEndpoint: ApiEndpoint | null = null;
   let parameters: Record<string, string> = {};
   let activeTab: 'request' | 'fetch' | 'curl' = 'request';
-  let tokenModal: TokenModal;
 
   // Find most recent response for the currently selected endpoint
   $: endpointResponse = selectedEndpoint
@@ -261,10 +259,6 @@
 
   onMount(() => {
     initHighlight();
-
-    if (!$activeToken?.value) {
-      tokenModal.show();
-    }
   });
 
   afterUpdate(() => {
@@ -440,4 +434,3 @@
   </div>
 </div>
 
-<TokenModal bind:this={tokenModal} />
