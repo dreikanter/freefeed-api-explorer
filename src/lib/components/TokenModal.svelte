@@ -62,7 +62,7 @@
             type="text"
             class="form-control"
             bind:value={titleInput}
-            placeholder="Token 1"
+            placeholder="Optional description"
           />
         </div>
         <div class="mb-3">
