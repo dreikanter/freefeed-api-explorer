@@ -36,7 +36,7 @@
                 <thead>
                   <tr>
                     <th></th>
-                    <th>Label</th>
+                    <th>Title</th>
                     <th>Instance</th>
                     <th>Created</th>
                     <th>Status</th>
