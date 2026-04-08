@@ -45,7 +45,7 @@
                 <tbody>
                   {#each $tokens as token (token.id)}
                     <tr>
-                      <td>{token.label}</td>
+                      <td class="title-cell" title={token.label}>{token.label}</td>
                       <td><code>{new URL(token.instance.url).hostname}</code></td>
                       <td>{formatDate(token.createdAt)}</td>
                       <td class="validation-status">
@@ -90,6 +90,13 @@
 <TokenModal bind:this={tokenModal} />
 
 <style>
+  .title-cell {
+    max-width: 12rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .spin {
     display: inline-block;
     animation: spin 1s linear infinite;
