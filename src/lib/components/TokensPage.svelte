@@ -70,10 +70,10 @@
                       </td>
                       <td>
                         <button
-                          class="btn btn-outline-danger btn-sm"
+                          class="btn btn-sm text-secondary"
                           on:click={() => removeToken(token.id)}
                           title="Delete token"
-                        >Delete</button>
+                        ><i class="bi bi-trash"></i></button>
                       </td>
                     </tr>
                   {/each}
