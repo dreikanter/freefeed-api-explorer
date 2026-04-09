@@ -2,6 +2,7 @@
 // Note: The core logic is tested in utils.test.ts
 // This test validates the component integration
 
+import { describe, test, expect } from 'vitest';
 import { getStatusInfo } from '../utils';
 
 describe('ResponseStatus Component Integration', () => {
