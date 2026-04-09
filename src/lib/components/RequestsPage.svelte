@@ -331,7 +331,7 @@
   <div class="split-main">
     <div class="scrollable-column px-2 pt-2">
       {#if selectedEndpoint}
-        <div class="card mb-4">
+        <div class="card mb-2">
           <h5 class="card-header font-monospace">
             <strong>{selectedEndpoint.method}</strong>
             {selectedEndpoint.path}
