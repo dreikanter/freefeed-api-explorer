@@ -80,12 +80,13 @@
 
       if (found && found !== untrack(() => selectedEndpoint)) {
         selectedEndpoint = found;
-        parameters = {};
+        const newParams: Record<string, string> = {};
         found.parameters?.forEach((param: ApiParameter) => {
           if (param.required) {
-            parameters[param.name] = '';
+            newParams[param.name] = '';
           }
         });
+        parameters = newParams;
         activeTab = 'request';
       }
     } else if (!endpointParam && untrack(() => selectedEndpoint)) {
