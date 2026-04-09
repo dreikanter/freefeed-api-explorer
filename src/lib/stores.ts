@@ -77,10 +77,6 @@ export function removeToken(id: string) {
   activeTokenId.update((current) => (current === id ? '' : current));
 }
 
-export function setActiveToken(id: string) {
-  activeTokenId.set(id);
-}
-
 export function clearHistory() {
   requestHistory.set([]);
   currentRequest.set(null);

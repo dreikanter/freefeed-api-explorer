@@ -319,7 +319,7 @@
         {#each filteredEndpoints as endpoint}
           <RequestListItem
             {endpoint}
-            isSelected={selectedEndpoint === endpoint}
+            isSelected={selectedEndpoint?.path === endpoint.path && selectedEndpoint?.method === endpoint.method}
             onClick={() => selectEndpoint(endpoint)}
           />
         {/each}
@@ -514,7 +514,7 @@
       {#each filteredEndpoints as endpoint}
         <RequestListItem
           {endpoint}
-          isSelected={selectedEndpoint === endpoint}
+          isSelected={selectedEndpoint?.path === endpoint.path && selectedEndpoint?.method === endpoint.method}
           onClick={() => {
             selectEndpoint(endpoint);
             closeOffcanvas();
