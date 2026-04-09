@@ -9,7 +9,7 @@
   import ResponseStatus from '$lib/components/ResponseStatus.svelte';
   import { getRelativeTime } from '$lib/utils.js';
 
-  let selectedRequest: ApiRequest | null = null;
+  let selectedRequest: ApiRequest | null = $state(null);
 
   let isNavigating = false;
 
@@ -67,7 +67,7 @@
   }
 
   // Watch for URL changes and update selected request
-  $: {
+  $effect(() => {
     if (!isNavigating) {
       const requestId = $page.url.searchParams.get('request');
       if (requestId) {
@@ -81,7 +81,7 @@
         selectedRequest = null;
       }
     }
-  }
+  });
 </script>
 
 <svelte:head>
@@ -99,7 +99,7 @@
         {#if $requestHistory.length > 0}
           <button
             class="btn btn-sm text-secondary"
-            on:click={clearHistory}
+            onclick={clearHistory}
             title="Clear History"
           >
             <i class="bi bi-trash"></i>
@@ -120,7 +120,7 @@
               isSelected={selectedRequest?.id === request.id}
               onClick={() => selectRequest(request)}
             >
-              <div slot="side-content">
+              {#snippet sideContent()}
                 {#if request.response}
                   <p class="mb-1">
                     <ResponseStatus status={request.response.status} />
@@ -129,7 +129,7 @@
                 <p class="mb-0 small">
                   {getRelativeTime(request.timestamp)}
                 </p>
-              </div>
+              {/snippet}
             </RequestListItem>
           {/each}
         </div>

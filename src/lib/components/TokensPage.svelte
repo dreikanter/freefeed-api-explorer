@@ -23,7 +23,7 @@
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
           <h3 class="mb-0">Tokens</h3>
-          <button class="btn btn-primary btn-sm" on:click={() => tokenModal.show()}>Create Token</button>
+          <button class="btn btn-primary btn-sm" onclick={() => tokenModal.show()}>Create Token</button>
         </div>
         <div class="card-body p-0">
           {#if $tokens.length === 0}
@@ -63,7 +63,7 @@
                         {:else}
                           <button
                             class="btn btn-outline-secondary btn-sm"
-                            on:click={() => handleValidate(token)}
+                            onclick={() => handleValidate(token)}
                             title="Validate token"
                           >Validate</button>
                         {/if}
@@ -71,7 +71,7 @@
                       <td class="text-end">
                         <button
                           class="btn btn-sm text-secondary"
-                          on:click={() => removeToken(token.id)}
+                          onclick={() => removeToken(token.id)}
                           title="Delete token"
                         ><i class="bi bi-trash"></i></button>
                       </td>

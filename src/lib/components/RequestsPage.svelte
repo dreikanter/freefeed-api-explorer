@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount, afterUpdate } from 'svelte';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
   import type { ApiEndpoint, ApiRequest, ApiResponse, ApiParameter } from '$lib/types.js';
@@ -13,33 +12,30 @@
   import 'highlight.js/styles/github.css';
   import 'highlightjs-copy/dist/highlightjs-copy.min.css';
 
-  let filteredEndpoints: ApiEndpoint[] = API_ENDPOINTS;
-  let selectedEndpoint: ApiEndpoint | null = null;
-  let parameters: Record<string, string> = {};
-  let activeTab: 'request' | 'fetch' | 'curl' = 'request';
+  let selectedEndpoint: ApiEndpoint | null = $state(null);
+  let parameters: Record<string, string> = $state({});
+  let activeTab: 'request' | 'fetch' | 'curl' = $state('request');
 
   // Find most recent response for the currently selected endpoint
-  $: endpointResponse = selectedEndpoint
+  let endpointResponse = $derived(selectedEndpoint
     ? $requestHistory.find(
         (req) => req.endpoint.method === selectedEndpoint!.method && req.endpoint.path === selectedEndpoint!.path
       )
-    : null;
+    : null);
 
-  $: {
-    filteredEndpoints = API_ENDPOINTS.filter((endpoint) => {
-      const matchesSearch =
-        !$searchQuery ||
-        endpoint.path.toLowerCase().includes($searchQuery.toLowerCase()) ||
-        endpoint.description.toLowerCase().includes($searchQuery.toLowerCase());
-      const matchesScope = !$selectedScope || endpoint.scopes.includes($selectedScope);
-      return matchesSearch && matchesScope;
-    });
-  }
+  let filteredEndpoints = $derived(API_ENDPOINTS.filter((endpoint) => {
+    const matchesSearch =
+      !$searchQuery ||
+      endpoint.path.toLowerCase().includes($searchQuery.toLowerCase()) ||
+      endpoint.description.toLowerCase().includes($searchQuery.toLowerCase());
+    const matchesScope = !$selectedScope || endpoint.scopes.includes($selectedScope);
+    return matchesSearch && matchesScope;
+  }));
 
   const scopes = [...new Set(API_ENDPOINTS.flatMap((e) => e.scopes))].sort();
 
   // Group tokens by instance URL, preserving token order
-  $: tokensByInstance = $tokens.reduce<{ instance: string; tokens: SavedToken[] }[]>((groups, token) => {
+  let tokensByInstance = $derived($tokens.reduce<{ instance: string; tokens: SavedToken[] }[]>((groups, token) => {
     const existing = groups.find((g) => g.instance === token.instance.url);
     if (existing) {
       existing.tokens.push(token);
@@ -47,12 +43,10 @@
       groups.push({ instance: token.instance.url, tokens: [token] });
     }
     return groups;
-  }, []);
-
-
+  }, []));
 
   // Watch for URL changes and update selected endpoint
-  $: {
+  $effect(() => {
     const endpointParam = $page.url.searchParams.get('endpoint');
     if (endpointParam) {
       // Try new URL-friendly format first
@@ -77,7 +71,7 @@
     } else if (!endpointParam && selectedEndpoint) {
       selectedEndpoint = null;
     }
-  }
+  });
 
   function closeOffcanvas() {
     if (typeof window !== 'undefined') {
@@ -270,14 +264,16 @@
     return command;
   }
 
-  onMount(() => {
+  $effect(() => {
     initHighlight();
   });
 
-  afterUpdate(() => {
-    // Highlight any new code blocks after updates
+  $effect(() => {
+    // Re-highlight when tab or response changes
+    void activeTab;
+    void endpointResponse;
     if (typeof window !== 'undefined') {
-      hljs.highlightAll();
+      queueMicrotask(() => hljs.highlightAll());
     }
   });
 
@@ -375,13 +371,13 @@
           <!-- Tabs: Request / Code Examples -->
           <ul class="nav nav-tabs px-3" role="tablist">
             <li class="nav-item" role="presentation">
-              <button class="nav-link" class:active={activeTab === 'request'} on:click={() => activeTab = 'request'} type="button" role="tab">Request</button>
+              <button class="nav-link" class:active={activeTab === 'request'} onclick={() => activeTab = 'request'} type="button" role="tab">Request</button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link" class:active={activeTab === 'fetch'} on:click={() => activeTab = 'fetch'} type="button" role="tab">fetch call</button>
+              <button class="nav-link" class:active={activeTab === 'fetch'} onclick={() => activeTab = 'fetch'} type="button" role="tab">fetch call</button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link" class:active={activeTab === 'curl'} on:click={() => activeTab = 'curl'} type="button" role="tab">curl command</button>
+              <button class="nav-link" class:active={activeTab === 'curl'} onclick={() => activeTab = 'curl'} type="button" role="tab">curl command</button>
             </li>
           </ul>
           <div class="tab-content p-3">
@@ -399,7 +395,7 @@
                       class="form-select form-select-sm"
                       style="width: auto; min-width: 14rem"
                       value={$activeTokenId}
-                      on:change={(e) => activeTokenId.set(e.currentTarget.value)}
+                      onchange={(e) => activeTokenId.set(e.currentTarget.value)}
                     >
                       {#each tokensByInstance as group}
                         <optgroup label={group.instance}>
@@ -420,7 +416,7 @@
                       <option>No available tokens</option>
                     </select>
                   {/if}
-                  <button class="btn btn-success btn-sm" on:click={executeRequest} disabled={$isLoading || !$activeToken?.value}>
+                  <button class="btn btn-success btn-sm" onclick={executeRequest} disabled={$isLoading || !$activeToken?.value}>
                     {$isLoading ? 'Executing...' : 'Execute'}
                   </button>
                 </div>
