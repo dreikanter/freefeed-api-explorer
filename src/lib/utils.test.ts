@@ -1,14 +1,15 @@
+import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest';
 import { getRelativeTime, getStatusInfo, endpointToId, idToEndpoint } from './utils';
 
 describe('getRelativeTime', () => {
   const now = Date.now();
 
   beforeEach(() => {
-    jest.spyOn(Date, 'now').mockImplementation(() => now);
+    vi.spyOn(Date, 'now').mockImplementation(() => now);
   });
 
   afterEach(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   test('returns "Just now" for timestamps less than 1 minute ago', () => {

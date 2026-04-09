@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest';
 import { API_ENDPOINTS } from './api-endpoints';
 
 describe('freefeed-api.json validation', () => {

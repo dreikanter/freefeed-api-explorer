@@ -1,3 +1,4 @@
+import { describe, test, expect, beforeEach } from 'vitest';
 import { get } from 'svelte/store';
 import { requestHistory, currentRequest, clearHistory } from './stores';
 import type { ApiRequest } from './types';
