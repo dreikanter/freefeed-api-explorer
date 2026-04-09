@@ -24,7 +24,7 @@
   import 'highlight.js/styles/github.css';
   import 'highlightjs-copy/dist/highlightjs-copy.min.css';
 
-  let selectedEndpoint: ApiEndpoint | null = $state(null);
+  let selectedEndpoint: ApiEndpoint | null = $state.raw(null);
   let parameters: Record<string, string> = $state({});
   let activeTab: 'request' | 'fetch' | 'curl' = $state('request');
 
@@ -64,8 +64,8 @@
   );
 
   // Watch for URL changes and update selected endpoint.
-  // Use untrack for state reads to avoid infinite loops — $state proxies
-  // break reference equality, so the effect must only react to URL changes.
+  // Use untrack for state reads so the effect only reacts to URL changes,
+  // not to its own writes.
   $effect(() => {
     const endpointParam = $page.url.searchParams.get('endpoint');
     if (endpointParam) {
@@ -319,7 +319,7 @@
         {#each filteredEndpoints as endpoint}
           <RequestListItem
             {endpoint}
-            isSelected={selectedEndpoint?.path === endpoint.path && selectedEndpoint?.method === endpoint.method}
+            isSelected={selectedEndpoint === endpoint}
             onClick={() => selectEndpoint(endpoint)}
           />
         {/each}
