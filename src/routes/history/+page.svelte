@@ -98,7 +98,14 @@
       <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
         <h5 class="mb-0">Request History</h5>
         {#if $requestHistory.length > 0}
-          <button class="btn btn-sm text-secondary" onclick={clearHistory} title="Clear History">
+          <button
+            class="btn btn-sm text-secondary"
+            onclick={() => {
+              clearHistory();
+              selectedRequest = null;
+            }}
+            title="Clear History"
+          >
             <i class="bi bi-trash"></i>
           </button>
         {/if}
