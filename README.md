@@ -2,6 +2,8 @@
 
 An interactive web application for exploring and testing the FreeFeed API, providing an easy way to learn and experiment with all available endpoints.
 
+![FreeFeed API Explorer screenshot](https://github.com/user-attachments/assets/484863f6-89aa-40fc-9239-f1debf3b3b6b)
+
 ## Features
 
 - **Interactive API Reference**: Browse all FreeFeed API endpoints organized by scope.
