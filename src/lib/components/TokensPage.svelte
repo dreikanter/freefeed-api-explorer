@@ -88,6 +88,7 @@
                           class="btn btn-sm text-secondary"
                           onclick={() => removeToken(token.id)}
                           title="Delete token"
+                          aria-label={`Delete token ${token.label}`}
                         >
                           <i class="bi bi-trash"></i>
                         </button>

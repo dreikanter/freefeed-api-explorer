@@ -11,7 +11,7 @@
 
   let selectedRequest: ApiRequest | null = $state(null);
 
-  let isNavigating = false;
+  let isNavigating = $state(false);
 
   function selectRequest(request: ApiRequest) {
     if (isNavigating) {
