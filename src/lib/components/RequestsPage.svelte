@@ -82,7 +82,7 @@
   function closeOffcanvas() {
     if (typeof window !== 'undefined') {
       const el = document.getElementById('sidebarOffcanvas');
-      // @ts-ignore - Bootstrap is loaded via CDN
+      // @ts-expect-error - Bootstrap is loaded via CDN
       const offcanvas = window.bootstrap.Offcanvas.getInstance(el);
       offcanvas?.hide();
     }
@@ -342,7 +342,7 @@
                       type="number"
                       class="form-control"
                       bind:value={parameters[param.name]}
-                      placeholder={''}
+                      placeholder=""
                       required={param.required}
                     />
                   {:else if param.type === 'boolean'}
@@ -362,7 +362,7 @@
                       type="text"
                       class="form-control"
                       bind:value={parameters[param.name]}
-                      placeholder={''}
+                      placeholder=""
                       required={param.required}
                     />
                   {/if}

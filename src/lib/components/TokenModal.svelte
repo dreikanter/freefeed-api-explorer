@@ -21,7 +21,7 @@
   export function show() {
     titleInput = '';
     tokenInput = '';
-    // @ts-ignore - Bootstrap is loaded via CDN
+    // @ts-expect-error - Bootstrap is loaded via CDN
     const modal = new window.bootstrap.Modal(document.getElementById('tokenModal'));
     modal.show();
   }
