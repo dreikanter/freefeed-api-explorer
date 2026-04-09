@@ -14,7 +14,6 @@
     }
   });
 
-
   function getStatusText(status: number): string {
     if (status === 0) return 'Network Error';
     if (status >= 200 && status < 300) {

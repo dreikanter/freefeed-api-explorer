@@ -79,12 +79,8 @@ This does everything in one step:
 {
   "server_rev": "abc1234...",
   "reference_rev": "def5678...",
-  "added": [
-    { "id": "GET /v2/new-endpoint", "scopes": ["read-feeds"] }
-  ],
-  "removed": [
-    { "id": "GET /v2/old-endpoint" }
-  ],
+  "added": [{ "id": "GET /v2/new-endpoint", "scopes": ["read-feeds"] }],
+  "removed": [{ "id": "GET /v2/old-endpoint" }],
   "scope_changed": [
     {
       "id": "GET /v2/posts/:postId",

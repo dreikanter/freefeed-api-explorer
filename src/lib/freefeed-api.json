@@ -13,9 +13,7 @@
       "path": "/v2/allGroups",
       "description": "Get list of all groups.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": []
     },
     {
@@ -23,9 +21,7 @@
       "path": "/v2/app-tokens",
       "description": "List current user's app tokens.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": []
     },
     {
@@ -33,9 +29,7 @@
       "path": "/v2/app-tokens",
       "description": "Create a new app token.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "title",
@@ -86,9 +80,7 @@
       "path": "/v2/app-tokens/:tokenId",
       "description": "Update an app token's title.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "tokenId",
@@ -111,9 +103,7 @@
       "path": "/v2/app-tokens/:tokenId",
       "description": "Deactivate (delete) an app token.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "tokenId",
@@ -129,9 +119,7 @@
       "path": "/v2/app-tokens/:tokenId/reissue",
       "description": "Regenerate a specific app token.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "tokenId",
@@ -147,9 +135,7 @@
       "path": "/v2/app-tokens/activate",
       "description": "Activate an app token using activation code.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "activationCode",
@@ -165,9 +151,7 @@
       "path": "/v2/app-tokens/current",
       "description": "Get the current app token (when authenticated via app token).",
       "auth_required": true,
-      "scopes": [
-        "any"
-      ],
+      "scopes": ["any"],
       "parameters": []
     },
     {
@@ -175,9 +159,7 @@
       "path": "/v2/app-tokens/current/reissue",
       "description": "Regenerate the current app token.",
       "auth_required": true,
-      "scopes": [
-        "any"
-      ],
+      "scopes": ["any"],
       "parameters": []
     },
     {
@@ -185,9 +167,7 @@
       "path": "/v2/app-tokens/scopes",
       "description": "Get list of available token scopes and their descriptions.",
       "auth_required": false,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": []
     },
     {
@@ -195,9 +175,7 @@
       "path": "/v2/archives-stats",
       "description": "Get archive restoration statistics.",
       "auth_required": false,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": []
     },
     {
@@ -205,9 +183,7 @@
       "path": "/v2/archives/activities",
       "description": "Start activity restoration from archive.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "restore",
@@ -223,9 +199,7 @@
       "path": "/v2/archives/post-by-old-name/:name",
       "description": "Look up a post by its old FriendFeed name/URL.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "name",
@@ -241,9 +215,7 @@
       "path": "/v2/archives/restoration",
       "description": "Start FriendFeed archive restoration.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "disable_comments",
@@ -266,9 +238,7 @@
       "path": "/v2/attachments",
       "description": "Upload a new attachment (file).",
       "auth_required": true,
-      "scopes": [
-        "manage-posts"
-      ],
+      "scopes": ["manage-posts"],
       "parameters": []
     },
     {
@@ -276,9 +246,7 @@
       "path": "/v2/attachments/:attId",
       "description": "Get attachment metadata by ID.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "attId",
@@ -294,9 +262,7 @@
       "path": "/v2/attachments/:attId/:type",
       "description": "Get attachment preview/variant in specific format.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "attId",
@@ -354,9 +320,7 @@
       "path": "/v2/attachments/byIds",
       "description": "Get multiple attachments by their IDs.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "ids",
@@ -372,9 +336,7 @@
       "path": "/v2/attachments/my",
       "description": "List current user's uploaded attachments.",
       "auth_required": true,
-      "scopes": [
-        "read-my-files"
-      ],
+      "scopes": ["read-my-files"],
       "parameters": [
         {
           "name": "limit",
@@ -397,9 +359,7 @@
       "path": "/v2/attachments/my/sanitize",
       "description": "Sanitize metadata of uploaded files (strip EXIF etc.).",
       "auth_required": true,
-      "scopes": [
-        "manage-my-files"
-      ],
+      "scopes": ["manage-my-files"],
       "parameters": []
     },
     {
@@ -407,9 +367,7 @@
       "path": "/v2/attachments/my/stats",
       "description": "Get upload statistics for current user.",
       "auth_required": true,
-      "scopes": [
-        "read-my-files"
-      ],
+      "scopes": ["read-my-files"],
       "parameters": []
     },
     {
@@ -417,9 +375,7 @@
       "path": "/v2/bestof",
       "description": "Get best-of posts (most liked).",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "offset",
@@ -442,9 +398,7 @@
       "path": "/v2/bookmarklet",
       "description": "Create a post from bookmarklet data.",
       "auth_required": true,
-      "scopes": [
-        "manage-posts"
-      ],
+      "scopes": ["manage-posts"],
       "parameters": [
         {
           "name": "title",
@@ -488,9 +442,7 @@
       "path": "/v2/calendar/:username/:year",
       "description": "Get days with posts in a given year.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "username",
@@ -520,9 +472,7 @@
       "path": "/v2/calendar/:username/:year/:month",
       "description": "Get days with posts in a given month.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "username",
@@ -559,9 +509,7 @@
       "path": "/v2/calendar/:username/:year/:month/:day",
       "description": "Get posts for a specific date.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "username",
@@ -612,9 +560,7 @@
       "path": "/v2/comments",
       "description": "Create a new comment on a post.",
       "auth_required": true,
-      "scopes": [
-        "manage-posts"
-      ],
+      "scopes": ["manage-posts"],
       "parameters": [
         {
           "name": "comment.body",
@@ -637,9 +583,7 @@
       "path": "/v2/comments/:commentId",
       "description": "Get a single comment by ID.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "commentId",
@@ -662,9 +606,7 @@
       "path": "/v2/comments/:commentId",
       "description": "Update an existing comment.",
       "auth_required": true,
-      "scopes": [
-        "manage-posts"
-      ],
+      "scopes": ["manage-posts"],
       "parameters": [
         {
           "name": "commentId",
@@ -687,9 +629,7 @@
       "path": "/v2/comments/:commentId",
       "description": "Delete a comment.",
       "auth_required": true,
-      "scopes": [
-        "manage-posts"
-      ],
+      "scopes": ["manage-posts"],
       "parameters": [
         {
           "name": "commentId",
@@ -705,9 +645,7 @@
       "path": "/v2/comments/:commentId/like",
       "description": "Like a comment.",
       "auth_required": true,
-      "scopes": [
-        "manage-posts"
-      ],
+      "scopes": ["manage-posts"],
       "parameters": [
         {
           "name": "commentId",
@@ -723,10 +661,7 @@
       "path": "/v2/comments/:commentId/likes",
       "description": "Get list of users who liked a comment.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds",
-        "manage-posts"
-      ],
+      "scopes": ["read-feeds", "manage-posts"],
       "parameters": [
         {
           "name": "commentId",
@@ -742,9 +677,7 @@
       "path": "/v2/comments/:commentId/translated-body",
       "description": "Get machine-translated comment body.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "commentId",
@@ -767,9 +700,7 @@
       "path": "/v2/comments/:commentId/unlike",
       "description": "Remove like from a comment.",
       "auth_required": true,
-      "scopes": [
-        "manage-posts"
-      ],
+      "scopes": ["manage-posts"],
       "parameters": [
         {
           "name": "commentId",
@@ -785,9 +716,7 @@
       "path": "/v2/comments/byIds",
       "description": "Get multiple comments by their IDs.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "commentIds",
@@ -803,9 +732,7 @@
       "path": "/v2/cors-proxy",
       "description": "Proxy a URL fetch to bypass CORS restrictions.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "url",
@@ -821,9 +748,7 @@
       "path": "/v2/everything",
       "description": "Get all public posts across the site.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": []
     },
     {
@@ -831,9 +756,7 @@
       "path": "/v2/ext-auth/auth-finish",
       "description": "Complete external authentication flow.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "provider",
@@ -856,9 +779,7 @@
       "path": "/v2/ext-auth/auth-start",
       "description": "Start external authentication flow (OAuth).",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "provider",
@@ -888,9 +809,7 @@
       "path": "/v2/ext-auth/profiles",
       "description": "List linked external authentication profiles.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": []
     },
     {
@@ -898,9 +817,7 @@
       "path": "/v2/ext-auth/profiles/:profileId",
       "description": "Remove a linked external auth profile.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "profileId",
@@ -916,9 +833,7 @@
       "path": "/v2/groups",
       "description": "Create a new group.",
       "auth_required": true,
-      "scopes": [
-        "manage-groups"
-      ],
+      "scopes": ["manage-groups"],
       "parameters": [
         {
           "name": "group.username",
@@ -969,9 +884,7 @@
       "path": "/v2/groups/:groupName/acceptRequest/:userName",
       "description": "Accept a user's request to join group.",
       "auth_required": true,
-      "scopes": [
-        "manage-groups"
-      ],
+      "scopes": ["manage-groups"],
       "parameters": [
         {
           "name": "groupName",
@@ -994,9 +907,7 @@
       "path": "/v2/groups/:groupName/block/:userName",
       "description": "Block a user from group.",
       "auth_required": true,
-      "scopes": [
-        "manage-groups"
-      ],
+      "scopes": ["manage-groups"],
       "parameters": [
         {
           "name": "groupName",
@@ -1019,9 +930,7 @@
       "path": "/v2/groups/:groupName/blockedUsers",
       "description": "Get list of users blocked from group.",
       "auth_required": true,
-      "scopes": [
-        "manage-groups"
-      ],
+      "scopes": ["manage-groups"],
       "parameters": [
         {
           "name": "groupName",
@@ -1037,9 +946,7 @@
       "path": "/v2/groups/:groupName/disableBans",
       "description": "Disable bans in group (allow banned users to see group posts).",
       "auth_required": true,
-      "scopes": [
-        "manage-my-feeds"
-      ],
+      "scopes": ["manage-my-feeds"],
       "parameters": [
         {
           "name": "groupName",
@@ -1055,9 +962,7 @@
       "path": "/v2/groups/:groupName/enableBans",
       "description": "Enable bans in group.",
       "auth_required": true,
-      "scopes": [
-        "manage-my-feeds"
-      ],
+      "scopes": ["manage-my-feeds"],
       "parameters": [
         {
           "name": "groupName",
@@ -1073,9 +978,7 @@
       "path": "/v2/groups/:groupName/rejectRequest/:userName",
       "description": "Reject a user's request to join group.",
       "auth_required": true,
-      "scopes": [
-        "manage-groups"
-      ],
+      "scopes": ["manage-groups"],
       "parameters": [
         {
           "name": "groupName",
@@ -1098,9 +1001,7 @@
       "path": "/v2/groups/:groupName/sendRequest",
       "description": "Send request to join a group.",
       "auth_required": true,
-      "scopes": [
-        "manage-groups"
-      ],
+      "scopes": ["manage-groups"],
       "parameters": [
         {
           "name": "groupName",
@@ -1116,9 +1017,7 @@
       "path": "/v2/groups/:groupName/subscribers/:adminName/admin",
       "description": "Promote a group subscriber to admin.",
       "auth_required": true,
-      "scopes": [
-        "manage-groups"
-      ],
+      "scopes": ["manage-groups"],
       "parameters": [
         {
           "name": "groupName",
@@ -1141,9 +1040,7 @@
       "path": "/v2/groups/:groupName/subscribers/:adminName/unadmin",
       "description": "Demote a group admin.",
       "auth_required": true,
-      "scopes": [
-        "manage-groups"
-      ],
+      "scopes": ["manage-groups"],
       "parameters": [
         {
           "name": "groupName",
@@ -1166,9 +1063,7 @@
       "path": "/v2/groups/:groupName/unblock/:userName",
       "description": "Unblock a user from group.",
       "auth_required": true,
-      "scopes": [
-        "manage-groups"
-      ],
+      "scopes": ["manage-groups"],
       "parameters": [
         {
           "name": "groupName",
@@ -1191,9 +1086,7 @@
       "path": "/v2/groups/:groupName/unsubscribeFromGroup/:userName",
       "description": "Remove a user from group.",
       "auth_required": true,
-      "scopes": [
-        "manage-groups"
-      ],
+      "scopes": ["manage-groups"],
       "parameters": [
         {
           "name": "groupName",
@@ -1216,9 +1109,7 @@
       "path": "/v2/groups/:groupName/updateProfilePicture",
       "description": "Update group profile picture.",
       "auth_required": true,
-      "scopes": [
-        "manage-profile"
-      ],
+      "scopes": ["manage-profile"],
       "parameters": [
         {
           "name": "groupName",
@@ -1248,9 +1139,7 @@
       "path": "/v2/groups/sudo",
       "description": "Perform privileged operation (admin)",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": []
     },
     {
@@ -1258,9 +1147,7 @@
       "path": "/v2/hashtags/sparseMatches",
       "description": "Search hashtags by prefix (autocomplete).",
       "auth_required": true,
-      "scopes": [
-        "read-users-info"
-      ],
+      "scopes": ["read-users-info"],
       "parameters": [
         {
           "name": "qs",
@@ -1276,9 +1163,7 @@
       "path": "/v2/invitations",
       "description": "Create a new invitation.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "message",
@@ -1322,9 +1207,7 @@
       "path": "/v2/invitations/:secureId",
       "description": "Get invitation details by secure ID.",
       "auth_required": false,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "secureId",
@@ -1340,9 +1223,7 @@
       "path": "/v2/invitations/info",
       "description": "Get invitation creation limits and info for current user.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": []
     },
     {
@@ -1350,9 +1231,7 @@
       "path": "/v2/managedGroups",
       "description": "Get groups managed by current user.",
       "auth_required": true,
-      "scopes": [
-        "read-my-info"
-      ],
+      "scopes": ["read-my-info"],
       "parameters": []
     },
     {
@@ -1360,9 +1239,7 @@
       "path": "/v2/notifications",
       "description": "Get notifications for current user.",
       "auth_required": true,
-      "scopes": [
-        "manage-notifications"
-      ],
+      "scopes": ["manage-notifications"],
       "parameters": [
         {
           "name": "offset",
@@ -1406,9 +1283,7 @@
       "path": "/v2/notifications/:notifId",
       "description": "Get a specific notification.",
       "auth_required": true,
-      "scopes": [
-        "manage-notifications"
-      ],
+      "scopes": ["manage-notifications"],
       "parameters": [
         {
           "name": "notifId",
@@ -1424,9 +1299,7 @@
       "path": "/v2/passwords",
       "description": "Request password reset email.",
       "auth_required": false,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "email",
@@ -1442,9 +1315,7 @@
       "path": "/v2/passwords/:resetPasswordToken",
       "description": "Reset password using token from email.",
       "auth_required": false,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "resetPasswordToken",
@@ -1474,9 +1345,7 @@
       "path": "/v2/posts",
       "description": "Create a new post.",
       "auth_required": true,
-      "scopes": [
-        "manage-posts"
-      ],
+      "scopes": ["manage-posts"],
       "parameters": [
         {
           "name": "post.body",
@@ -1513,9 +1382,7 @@
       "path": "/v2/posts-opengraph/:postId",
       "description": "Get OpenGraph metadata for a post (used for link previews).",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "postId",
@@ -1531,10 +1398,7 @@
       "path": "/v2/posts/:postId",
       "description": "Get a single post with comments and likes.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds",
-        "manage-posts"
-      ],
+      "scopes": ["read-feeds", "manage-posts"],
       "parameters": [
         {
           "name": "postId",
@@ -1564,9 +1428,7 @@
       "path": "/v2/posts/:postId",
       "description": "Update an existing post.",
       "auth_required": true,
-      "scopes": [
-        "manage-posts"
-      ],
+      "scopes": ["manage-posts"],
       "parameters": [
         {
           "name": "postId",
@@ -1603,9 +1465,7 @@
       "path": "/v2/posts/:postId",
       "description": "Delete a post.",
       "auth_required": true,
-      "scopes": [
-        "manage-posts"
-      ],
+      "scopes": ["manage-posts"],
       "parameters": [
         {
           "name": "postId",
@@ -1628,9 +1488,7 @@
       "path": "/v2/posts/:postId/backlinks",
       "description": "Get posts that link to this post.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "postId",
@@ -1646,9 +1504,7 @@
       "path": "/v2/posts/:postId/comments/:seqNumber",
       "description": "Get a comment by its sequence number within a post.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "postId",
@@ -1671,9 +1527,7 @@
       "path": "/v2/posts/:postId/comments/id/:commentId",
       "description": "Get a comment by post ID and comment ID.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "postId",
@@ -1696,9 +1550,7 @@
       "path": "/v2/posts/:postId/disableComments",
       "description": "Disable comments on your post.",
       "auth_required": true,
-      "scopes": [
-        "manage-posts"
-      ],
+      "scopes": ["manage-posts"],
       "parameters": [
         {
           "name": "postId",
@@ -1714,9 +1566,7 @@
       "path": "/v2/posts/:postId/enableComments",
       "description": "Re-enable comments on your post.",
       "auth_required": true,
-      "scopes": [
-        "manage-posts"
-      ],
+      "scopes": ["manage-posts"],
       "parameters": [
         {
           "name": "postId",
@@ -1732,9 +1582,7 @@
       "path": "/v2/posts/:postId/hide",
       "description": "Hide a post from your feed.",
       "auth_required": true,
-      "scopes": [
-        "manage-my-feeds"
-      ],
+      "scopes": ["manage-my-feeds"],
       "parameters": [
         {
           "name": "postId",
@@ -1750,9 +1598,7 @@
       "path": "/v2/posts/:postId/leave",
       "description": "Leave a direct message conversation.",
       "auth_required": true,
-      "scopes": [
-        "manage-posts"
-      ],
+      "scopes": ["manage-posts"],
       "parameters": [
         {
           "name": "postId",
@@ -1768,9 +1614,7 @@
       "path": "/v2/posts/:postId/like",
       "description": "Like a post.",
       "auth_required": true,
-      "scopes": [
-        "manage-posts"
-      ],
+      "scopes": ["manage-posts"],
       "parameters": [
         {
           "name": "postId",
@@ -1786,10 +1630,7 @@
       "path": "/v2/posts/:postId/notifyOfAllComments",
       "description": "Toggle notifications for all comments on a post.",
       "auth_required": true,
-      "scopes": [
-        "manage-notifications",
-        "manage-posts"
-      ],
+      "scopes": ["manage-notifications", "manage-posts"],
       "parameters": [
         {
           "name": "postId",
@@ -1812,9 +1653,7 @@
       "path": "/v2/posts/:postId/pin",
       "description": "Pin a post to a user or group feed.",
       "auth_required": true,
-      "scopes": [
-        "manage-posts"
-      ],
+      "scopes": ["manage-posts"],
       "parameters": [
         {
           "name": "postId",
@@ -1837,9 +1676,7 @@
       "path": "/v2/posts/:postId/save",
       "description": "Save a post to your saved posts.",
       "auth_required": true,
-      "scopes": [
-        "manage-my-feeds"
-      ],
+      "scopes": ["manage-my-feeds"],
       "parameters": [
         {
           "name": "postId",
@@ -1855,9 +1692,7 @@
       "path": "/v2/posts/:postId/save",
       "description": "Remove a post from saved posts.",
       "auth_required": true,
-      "scopes": [
-        "manage-my-feeds"
-      ],
+      "scopes": ["manage-my-feeds"],
       "parameters": [
         {
           "name": "postId",
@@ -1873,9 +1708,7 @@
       "path": "/v2/posts/:postId/translated-body",
       "description": "Get machine-translated post body.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "postId",
@@ -1898,9 +1731,7 @@
       "path": "/v2/posts/:postId/unhide",
       "description": "Unhide a previously hidden post.",
       "auth_required": true,
-      "scopes": [
-        "manage-my-feeds"
-      ],
+      "scopes": ["manage-my-feeds"],
       "parameters": [
         {
           "name": "postId",
@@ -1916,9 +1747,7 @@
       "path": "/v2/posts/:postId/unlike",
       "description": "Remove like from a post.",
       "auth_required": true,
-      "scopes": [
-        "manage-posts"
-      ],
+      "scopes": ["manage-posts"],
       "parameters": [
         {
           "name": "postId",
@@ -1934,9 +1763,7 @@
       "path": "/v2/posts/:postId/unpin",
       "description": "Unpin a post.",
       "auth_required": true,
-      "scopes": [
-        "manage-posts"
-      ],
+      "scopes": ["manage-posts"],
       "parameters": [
         {
           "name": "postId",
@@ -1959,9 +1786,7 @@
       "path": "/v2/posts/byIds",
       "description": "Get multiple posts by their IDs.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "postIds",
@@ -1991,9 +1816,7 @@
       "path": "/v2/requests/:followedUserName/revoke",
       "description": "Revoke own outgoing subscription request.",
       "auth_required": true,
-      "scopes": [
-        "manage-my-feeds"
-      ],
+      "scopes": ["manage-my-feeds"],
       "parameters": [
         {
           "name": "followedUserName",
@@ -2009,9 +1832,7 @@
       "path": "/v2/search",
       "description": "Search posts and comments.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "qs",
@@ -2048,9 +1869,7 @@
       "path": "/v2/server-info",
       "description": "Get server configuration info (text limits, supported features, etc.).",
       "auth_required": false,
-      "scopes": [
-        "any"
-      ],
+      "scopes": ["any"],
       "parameters": []
     },
     {
@@ -2058,9 +1877,7 @@
       "path": "/v2/session",
       "description": "Create session (sign in).",
       "auth_required": false,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "username",
@@ -2083,9 +1900,7 @@
       "path": "/v2/session",
       "description": "Close current session (sign out).",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": []
     },
     {
@@ -2093,9 +1908,7 @@
       "path": "/v2/session/list",
       "description": "List active sessions.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": []
     },
     {
@@ -2103,9 +1916,7 @@
       "path": "/v2/session/list",
       "description": "Close specific sessions.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "close",
@@ -2121,9 +1932,7 @@
       "path": "/v2/session/reissue",
       "description": "Reissue session token.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": []
     },
     {
@@ -2131,9 +1940,7 @@
       "path": "/v2/stats",
       "description": "Get site-wide statistics.",
       "auth_required": false,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "data",
@@ -2163,9 +1970,7 @@
       "path": "/v2/summary/:days",
       "description": "Get general site summary (most popular posts).",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "days",
@@ -2188,9 +1993,7 @@
       "path": "/v2/summary/:username/:days",
       "description": "Get user-specific summary.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "username",
@@ -2213,9 +2016,7 @@
       "path": "/v2/timelines-metatags/:username",
       "description": "Get HTML meta tags for a user's timeline (for embedding/SEO).",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "username",
@@ -2231,9 +2032,7 @@
       "path": "/v2/timelines-rss/:username",
       "description": "Get RSS feed for a user's posts.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "username",
@@ -2249,9 +2048,7 @@
       "path": "/v2/timelines/:username",
       "description": "Get a user's posts timeline.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "username",
@@ -2267,9 +2064,7 @@
       "path": "/v2/timelines/:username/comments",
       "description": "Get posts commented on by user.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "username",
@@ -2285,9 +2080,7 @@
       "path": "/v2/timelines/:username/likes",
       "description": "Get posts liked by user.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "username",
@@ -2303,9 +2096,7 @@
       "path": "/v2/timelines/filter/directs",
       "description": "Get direct messages.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": []
     },
     {
@@ -2313,9 +2104,7 @@
       "path": "/v2/timelines/filter/discussions",
       "description": "Get posts you've participated in (commented or liked).",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": []
     },
     {
@@ -2323,9 +2112,7 @@
       "path": "/v2/timelines/filter/saves",
       "description": "Get saved posts.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": []
     },
     {
@@ -2333,9 +2120,7 @@
       "path": "/v2/timelines/home",
       "description": "Get home feed (River of News) with local bumps.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": []
     },
     {
@@ -2343,9 +2128,7 @@
       "path": "/v2/timelines/home",
       "description": "Create a new custom home feed.",
       "auth_required": true,
-      "scopes": [
-        "manage-my-feeds"
-      ],
+      "scopes": ["manage-my-feeds"],
       "parameters": [
         {
           "name": "title",
@@ -2368,9 +2151,7 @@
       "path": "/v2/timelines/home",
       "description": "Reorder home feeds.",
       "auth_required": true,
-      "scopes": [
-        "manage-my-feeds"
-      ],
+      "scopes": ["manage-my-feeds"],
       "parameters": [
         {
           "name": "reorder",
@@ -2386,9 +2167,7 @@
       "path": "/v2/timelines/home/:feedId",
       "description": "Get info about a specific home feed.",
       "auth_required": true,
-      "scopes": [
-        "manage-my-feeds"
-      ],
+      "scopes": ["manage-my-feeds"],
       "parameters": [
         {
           "name": "feedId",
@@ -2404,9 +2183,7 @@
       "path": "/v2/timelines/home/:feedId",
       "description": "Update a home feed.",
       "auth_required": true,
-      "scopes": [
-        "manage-my-feeds"
-      ],
+      "scopes": ["manage-my-feeds"],
       "parameters": [
         {
           "name": "feedId",
@@ -2436,9 +2213,7 @@
       "path": "/v2/timelines/home/:feedId",
       "description": "Delete a home feed.",
       "auth_required": true,
-      "scopes": [
-        "manage-my-feeds"
-      ],
+      "scopes": ["manage-my-feeds"],
       "parameters": [
         {
           "name": "feedId",
@@ -2461,9 +2236,7 @@
       "path": "/v2/timelines/home/:feedId/posts",
       "description": "Get posts from a specific custom home feed.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": [
         {
           "name": "feedId",
@@ -2479,10 +2252,7 @@
       "path": "/v2/timelines/home/list",
       "description": "List all home feeds for current user.",
       "auth_required": true,
-      "scopes": [
-        "read-my-info",
-        "read-feeds"
-      ],
+      "scopes": ["read-my-info", "read-feeds"],
       "parameters": []
     },
     {
@@ -2490,9 +2260,7 @@
       "path": "/v2/timelines/home/subscriptions",
       "description": "List all subscription assignments to home feeds.",
       "auth_required": true,
-      "scopes": [
-        "manage-my-feeds"
-      ],
+      "scopes": ["manage-my-feeds"],
       "parameters": []
     },
     {
@@ -2500,9 +2268,7 @@
       "path": "/v2/undo/:subject",
       "description": "Undo a recent action (post/comment deletion).",
       "auth_required": true,
-      "scopes": [
-        "manage-posts"
-      ],
+      "scopes": ["manage-posts"],
       "parameters": [
         {
           "name": "subject",
@@ -2525,9 +2291,7 @@
       "path": "/v2/users",
       "description": "Create new user account.",
       "auth_required": false,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "username",
@@ -2620,9 +2384,7 @@
       "path": "/v2/users/:userId",
       "description": "Update user or group profile. Delegates to user or group controller based on feed type.",
       "auth_required": true,
-      "scopes": [
-        "manage-profile"
-      ],
+      "scopes": ["manage-profile"],
       "parameters": [
         {
           "name": "userId",
@@ -2694,9 +2456,7 @@
       "path": "/v2/users/:username",
       "description": "Get user profile.",
       "auth_required": true,
-      "scopes": [
-        "read-users-info"
-      ],
+      "scopes": ["read-users-info"],
       "parameters": [
         {
           "name": "username",
@@ -2712,9 +2472,7 @@
       "path": "/v2/users/:username/ban",
       "description": "Ban a user.",
       "auth_required": true,
-      "scopes": [
-        "manage-my-feeds"
-      ],
+      "scopes": ["manage-my-feeds"],
       "parameters": [
         {
           "name": "username",
@@ -2730,9 +2488,7 @@
       "path": "/v2/users/:username/sendRequest",
       "description": "Send subscription request to private user or group.",
       "auth_required": true,
-      "scopes": [
-        "manage-my-feeds"
-      ],
+      "scopes": ["manage-my-feeds"],
       "parameters": [
         {
           "name": "username",
@@ -2755,9 +2511,7 @@
       "path": "/v2/users/:username/statistics",
       "description": "Get user statistics (post count, like count, etc.).",
       "auth_required": true,
-      "scopes": [
-        "read-users-info"
-      ],
+      "scopes": ["read-users-info"],
       "parameters": [
         {
           "name": "username",
@@ -2773,9 +2527,7 @@
       "path": "/v2/users/:username/subscribe",
       "description": "Subscribe to user or group.",
       "auth_required": true,
-      "scopes": [
-        "manage-my-feeds"
-      ],
+      "scopes": ["manage-my-feeds"],
       "parameters": [
         {
           "name": "username",
@@ -2798,9 +2550,7 @@
       "path": "/v2/users/:username/subscribe",
       "description": "Update subscription (change home feed assignment).",
       "auth_required": true,
-      "scopes": [
-        "manage-my-feeds"
-      ],
+      "scopes": ["manage-my-feeds"],
       "parameters": [
         {
           "name": "username",
@@ -2823,9 +2573,7 @@
       "path": "/v2/users/:username/subscribers",
       "description": "Get user's subscribers list.",
       "auth_required": true,
-      "scopes": [
-        "read-users-info"
-      ],
+      "scopes": ["read-users-info"],
       "parameters": [
         {
           "name": "username",
@@ -2841,9 +2589,7 @@
       "path": "/v2/users/:username/subscriptions",
       "description": "Get user's subscriptions list.",
       "auth_required": true,
-      "scopes": [
-        "read-users-info"
-      ],
+      "scopes": ["read-users-info"],
       "parameters": [
         {
           "name": "username",
@@ -2859,9 +2605,7 @@
       "path": "/v2/users/:username/unban",
       "description": "Unban a user.",
       "auth_required": true,
-      "scopes": [
-        "manage-my-feeds"
-      ],
+      "scopes": ["manage-my-feeds"],
       "parameters": [
         {
           "name": "username",
@@ -2877,9 +2621,7 @@
       "path": "/v2/users/:username/unsubscribe",
       "description": "Unsubscribe from user or group.",
       "auth_required": true,
-      "scopes": [
-        "manage-my-feeds"
-      ],
+      "scopes": ["manage-my-feeds"],
       "parameters": [
         {
           "name": "username",
@@ -2895,9 +2637,7 @@
       "path": "/v2/users/:username/unsubscribeFromMe",
       "description": "Remove a subscriber from your feed.",
       "auth_required": true,
-      "scopes": [
-        "manage-subscription-requests"
-      ],
+      "scopes": ["manage-subscription-requests"],
       "parameters": [
         {
           "name": "username",
@@ -2913,9 +2653,7 @@
       "path": "/v2/users/acceptRequest/:username",
       "description": "Accept incoming subscription request.",
       "auth_required": true,
-      "scopes": [
-        "manage-subscription-requests"
-      ],
+      "scopes": ["manage-subscription-requests"],
       "parameters": [
         {
           "name": "username",
@@ -2931,9 +2669,7 @@
       "path": "/v2/users/blockedByMe",
       "description": "Get list of users blocked by current user.",
       "auth_required": true,
-      "scopes": [
-        "read-my-info"
-      ],
+      "scopes": ["read-my-info"],
       "parameters": []
     },
     {
@@ -2941,9 +2677,7 @@
       "path": "/v2/users/getUnreadDirectsNumber",
       "description": "Get count of unread direct messages.",
       "auth_required": true,
-      "scopes": [
-        "read-feeds"
-      ],
+      "scopes": ["read-feeds"],
       "parameters": []
     },
     {
@@ -2951,9 +2685,7 @@
       "path": "/v2/users/getUnreadNotificationsNumber",
       "description": "Get count of unread notifications.",
       "auth_required": true,
-      "scopes": [
-        "manage-notifications"
-      ],
+      "scopes": ["manage-notifications"],
       "parameters": []
     },
     {
@@ -2961,9 +2693,7 @@
       "path": "/v2/users/markAllDirectsAsRead",
       "description": "Mark all direct messages as read.",
       "auth_required": true,
-      "scopes": [
-        "manage-posts"
-      ],
+      "scopes": ["manage-posts"],
       "parameters": []
     },
     {
@@ -2971,9 +2701,7 @@
       "path": "/v2/users/markAllNotificationsAsRead",
       "description": "Mark all notifications as read.",
       "auth_required": true,
-      "scopes": [
-        "manage-notifications"
-      ],
+      "scopes": ["manage-notifications"],
       "parameters": []
     },
     {
@@ -2981,9 +2709,7 @@
       "path": "/v2/users/me",
       "description": "Get current user profile (basic).",
       "auth_required": true,
-      "scopes": [
-        "any"
-      ],
+      "scopes": ["any"],
       "parameters": []
     },
     {
@@ -2991,9 +2717,7 @@
       "path": "/v2/users/pause-me",
       "description": "Pause own account temporarily.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "password",
@@ -3016,9 +2740,7 @@
       "path": "/v2/users/rejectRequest/:username",
       "description": "Reject incoming subscription request.",
       "auth_required": true,
-      "scopes": [
-        "manage-subscription-requests"
-      ],
+      "scopes": ["manage-subscription-requests"],
       "parameters": [
         {
           "name": "username",
@@ -3034,9 +2756,7 @@
       "path": "/v2/users/resume-me",
       "description": "Resume paused account.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "resumeToken",
@@ -3052,9 +2772,7 @@
       "path": "/v2/users/sparseMatches",
       "description": "Search users by prefix (autocomplete).",
       "auth_required": true,
-      "scopes": [
-        "read-users-info"
-      ],
+      "scopes": ["read-users-info"],
       "parameters": [
         {
           "name": "qs",
@@ -3070,9 +2788,7 @@
       "path": "/v2/users/sudo",
       "description": "Perform privileged operation (admin)",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": []
     },
     {
@@ -3080,9 +2796,7 @@
       "path": "/v2/users/suspend-me",
       "description": "Suspend own account permanently.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "password",
@@ -3098,9 +2812,7 @@
       "path": "/v2/users/updatePassword",
       "description": "Update current user password.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "currentPassword",
@@ -3130,9 +2842,7 @@
       "path": "/v2/users/updateProfilePicture",
       "description": "Update profile picture.",
       "auth_required": true,
-      "scopes": [
-        "manage-profile"
-      ],
+      "scopes": ["manage-profile"],
       "parameters": [
         {
           "name": "file",
@@ -3155,9 +2865,7 @@
       "path": "/v2/users/verifyEmail",
       "description": "Send email verification code.",
       "auth_required": true,
-      "scopes": [
-        "session-only"
-      ],
+      "scopes": ["session-only"],
       "parameters": [
         {
           "name": "email",
@@ -3180,9 +2888,7 @@
       "path": "/v2/users/whoami",
       "description": "Get current user profile (detailed, v2 format).",
       "auth_required": true,
-      "scopes": [
-        "read-my-info"
-      ],
+      "scopes": ["read-my-info"],
       "parameters": []
     }
   ]

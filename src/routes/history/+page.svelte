@@ -97,11 +97,7 @@
       <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
         <h5 class="mb-0">Request History</h5>
         {#if $requestHistory.length > 0}
-          <button
-            class="btn btn-sm text-secondary"
-            onclick={clearHistory}
-            title="Clear History"
-          >
+          <button class="btn btn-sm text-secondary" onclick={clearHistory} title="Clear History">
             <i class="bi bi-trash"></i>
           </button>
         {/if}
@@ -140,55 +136,55 @@
   <!-- Main Content: Request Details -->
   <div class="split-main">
     <div class="scrollable-column px-2 pt-2">
-    {#if selectedRequest}
-      <!-- Request Info -->
-      <div class="card mb-4">
-        <h5 class="card-header font-monospace">
-          <strong>{selectedRequest.endpoint.method}</strong>
-          {generateFullUrl(selectedRequest)}
-        </h5>
-        <div class="card-body">
-          <p>
-            <strong>Scope:</strong>
-            {#each selectedRequest.endpoint.scopes || [] as s}<span class="badge bg-info me-1">{s}</span>{/each}
-          </p>
-          <p>
-            <strong>Instance:</strong>
-            {selectedRequest.instance.name}
-          </p>
-
-          <!-- Parameters -->
-          {#if Object.keys(selectedRequest.parameters).length > 0}
-            <p><strong>Parameters Used:</strong></p>
-            <ul class="list-unstyled ps-4">
-              {#each Object.entries(selectedRequest.parameters) as [key, value]}
-                <li class="mb-1">
-                  <code class="text-primary">{key}</code>
-                  :
-                  <code class="bg-light px-1">{value}</code>
-                </li>
-              {/each}
-            </ul>
-          {/if}
-        </div>
-      </div>
-
-      <!-- Response -->
-      <Response request={selectedRequest} />
-    {:else}
-      <div class="card d-none d-md-block">
-        <div class="card-body text-center text-muted py-5">
-          <h3>Request History</h3>
-          <p>Select a request from the sidebar to view its details.</p>
-          {#if $requestHistory.length === 0}
-            <p class="small">
-              No requests found. <a href="/">Start exploring the API</a>
-              to build your request history.
+      {#if selectedRequest}
+        <!-- Request Info -->
+        <div class="card mb-4">
+          <h5 class="card-header font-monospace">
+            <strong>{selectedRequest.endpoint.method}</strong>
+            {generateFullUrl(selectedRequest)}
+          </h5>
+          <div class="card-body">
+            <p>
+              <strong>Scope:</strong>
+              {#each selectedRequest.endpoint.scopes || [] as s}<span class="badge bg-info me-1">{s}</span>{/each}
             </p>
-          {/if}
+            <p>
+              <strong>Instance:</strong>
+              {selectedRequest.instance.name}
+            </p>
+
+            <!-- Parameters -->
+            {#if Object.keys(selectedRequest.parameters).length > 0}
+              <p><strong>Parameters Used:</strong></p>
+              <ul class="list-unstyled ps-4">
+                {#each Object.entries(selectedRequest.parameters) as [key, value]}
+                  <li class="mb-1">
+                    <code class="text-primary">{key}</code>
+                    :
+                    <code class="bg-light px-1">{value}</code>
+                  </li>
+                {/each}
+              </ul>
+            {/if}
+          </div>
         </div>
-      </div>
-    {/if}
+
+        <!-- Response -->
+        <Response request={selectedRequest} />
+      {:else}
+        <div class="card d-none d-md-block">
+          <div class="card-body text-center text-muted py-5">
+            <h3>Request History</h3>
+            <p>Select a request from the sidebar to view its details.</p>
+            {#if $requestHistory.length === 0}
+              <p class="small">
+                No requests found. <a href="/">Start exploring the API</a>
+                to build your request history.
+              </p>
+            {/if}
+          </div>
+        </div>
+      {/if}
     </div>
   </div>
 </div>

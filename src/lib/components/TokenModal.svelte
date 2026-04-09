@@ -87,7 +87,13 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" disabled={!tokenInput} onclick={saveToken}>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          disabled={!tokenInput}
+          onclick={saveToken}
+        >
           Save Configuration
         </button>
       </div>

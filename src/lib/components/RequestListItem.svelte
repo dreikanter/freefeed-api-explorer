@@ -2,7 +2,12 @@
   import type { ApiEndpoint } from '../types.js';
   import type { Snippet } from 'svelte';
 
-  let { endpoint, isSelected = false, onClick, sideContent }: {
+  let {
+    endpoint,
+    isSelected = false,
+    onClick,
+    sideContent,
+  }: {
     endpoint: ApiEndpoint;
     isSelected?: boolean;
     onClick: () => void;
@@ -20,7 +25,9 @@
         {endpoint.path}
       </p>
       <p class="mb-1 small {selectedTextClass}">{endpoint.description}</p>
-      <p class="mb-0">{#each endpoint.scopes as s}<span class="badge bg-info me-1">{s}</span>{/each}</p>
+      <p class="mb-0">
+        {#each endpoint.scopes as s}<span class="badge bg-info me-1">{s}</span>{/each}
+      </p>
     </div>
     <div class="text-end {selectedTextClass}">
       {#if sideContent}{@render sideContent()}{/if}
@@ -39,5 +46,4 @@
   .list-group-item.active *:not(.badge) {
     color: rgba(255, 255, 255, 0.9) !important;
   }
-
 </style>

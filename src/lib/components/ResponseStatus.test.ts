@@ -11,19 +11,19 @@ describe('ResponseStatus Component Integration', () => {
     expect(getStatusInfo(200)).toMatchObject({
       icon: 'check-circle-fill',
       color: 'text-success',
-      text: '200'
+      text: '200',
     });
 
     expect(getStatusInfo(404)).toMatchObject({
       icon: 'x-circle-fill',
       color: 'text-danger',
-      text: '404'
+      text: '404',
     });
 
     expect(getStatusInfo(301)).toMatchObject({
       icon: 'arrow-right-circle-fill',
       color: 'text-warning',
-      text: '301'
+      text: '301',
     });
   });
 
@@ -58,7 +58,7 @@ describe('ResponseStatus Component Integration', () => {
   test('validates Bootstrap icon classes are correctly formatted', () => {
     const testCases = [200, 301, 404, 500, 0];
 
-    testCases.forEach(status => {
+    testCases.forEach((status) => {
       const result = getStatusInfo(status);
 
       // Icon should be a valid Bootstrap icon name

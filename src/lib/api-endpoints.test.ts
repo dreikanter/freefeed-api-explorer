@@ -43,9 +43,7 @@ describe('freefeed-api.json validation', () => {
   test('path parameters match path placeholders', () => {
     for (const ep of API_ENDPOINTS) {
       const placeholders = (ep.path.match(/:(\w+)/g) || []).map((p) => p.slice(1));
-      const pathParams = ep.parameters
-        .filter((p) => p.location === 'path')
-        .map((p) => p.name);
+      const pathParams = ep.parameters.filter((p) => p.location === 'path').map((p) => p.name);
 
       for (const placeholder of placeholders) {
         expect(pathParams).toContain(placeholder);

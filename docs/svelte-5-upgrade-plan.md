@@ -21,17 +21,18 @@ Use the official `npx sv migrate svelte-5` tool for automated conversion, then m
 
 Update `package.json`:
 
-| Package | Current | Target |
-|---|---|---|
-| `svelte` | `^4.2.0` | `^5.0.0` |
-| `@sveltejs/kit` | `^2.57.0` | latest `^2.x` |
-| `@sveltejs/vite-plugin-svelte` | `^3.1.2` | `^5.0.0` |
-| `@sveltejs/adapter-static` | `^3.0.10` | latest `^3.x` |
-| `svelte-check` | `^4.4.6` | latest |
-| `eslint-plugin-svelte` | `^3.17.0` | latest |
-| `prettier-plugin-svelte` | `^3.1.0` | latest |
+| Package                        | Current   | Target        |
+| ------------------------------ | --------- | ------------- |
+| `svelte`                       | `^4.2.0`  | `^5.0.0`      |
+| `@sveltejs/kit`                | `^2.57.0` | latest `^2.x` |
+| `@sveltejs/vite-plugin-svelte` | `^3.1.2`  | `^5.0.0`      |
+| `@sveltejs/adapter-static`     | `^3.0.10` | latest `^3.x` |
+| `svelte-check`                 | `^4.4.6`  | latest        |
+| `eslint-plugin-svelte`         | `^3.17.0` | latest        |
+| `prettier-plugin-svelte`       | `^3.1.0`  | latest        |
 
 **Tasks:**
+
 1. Run `npx sv migrate svelte-5` to bump core deps automatically
 2. Run `npm install`
 3. Run `npm run build` and `npm run check` to verify the project compiles in compat mode
@@ -44,15 +45,16 @@ Update `package.json`:
 
 7 prop declarations across 5 components need conversion.
 
-| File | Props |
-|---|---|
-| `ResponseStatus.svelte` | `status: number` |
-| `RequestListItem.svelte` | `endpoint`, `isSelected` (default), `onClick` |
-| `Response.svelte` | `request` (default `null`) |
-| `NavigationBar.svelte` | `currentPage` (default) |
-| `TokenModal.svelte` | exported `show()` function (needs `bind:this` review) |
+| File                     | Props                                                 |
+| ------------------------ | ----------------------------------------------------- |
+| `ResponseStatus.svelte`  | `status: number`                                      |
+| `RequestListItem.svelte` | `endpoint`, `isSelected` (default), `onClick`         |
+| `Response.svelte`        | `request` (default `null`)                            |
+| `NavigationBar.svelte`   | `currentPage` (default)                               |
+| `TokenModal.svelte`      | exported `show()` function (needs `bind:this` review) |
 
 **Pattern:**
+
 ```svelte
 // Before
 export let status: number;
@@ -63,6 +65,7 @@ let { status, isSelected = false }: { status: number; isSelected?: boolean } = $
 ```
 
 **Tasks:**
+
 1. Convert each component's `export let` to `$props()` destructuring
 2. Review `TokenModal.svelte`'s exported `show()` function — ensure it works with Svelte 5's component API
 3. Run `npm run check` after each file
@@ -76,22 +79,25 @@ let { status, isSelected = false }: { status: number; isSelected?: boolean } = $
 9 reactive declarations across 4 files.
 
 ### Use `$derived` (computed values):
-| File | Declaration |
-|---|---|
-| `ResponseStatus.svelte` | `$: statusInfo = getStatusInfo(status)` |
+
+| File                     | Declaration                                             |
+| ------------------------ | ------------------------------------------------------- |
+| `ResponseStatus.svelte`  | `$: statusInfo = getStatusInfo(status)`                 |
 | `RequestListItem.svelte` | `$: selectedTextClass = isSelected ? 'text-light' : ''` |
-| `RequestsPage.svelte` | `$: endpointResponse = ...` |
-| `RequestsPage.svelte` | `$: tokensByInstance = ...` |
-| `Response.svelte` | `$: parsedResponseBody = ...` |
+| `RequestsPage.svelte`    | `$: endpointResponse = ...`                             |
+| `RequestsPage.svelte`    | `$: tokensByInstance = ...`                             |
+| `Response.svelte`        | `$: parsedResponseBody = ...`                           |
 
 ### Use `$effect` (side effects):
-| File | Declaration |
-|---|---|
-| `RequestsPage.svelte` | `$: { filteredEndpoints = ... }` (filter side effect) |
-| `RequestsPage.svelte` | `$: { const endpointParam = ... }` (URL sync) |
-| `history/+page.svelte` | `$: { if (!isNavigating) ... }` (navigation sync) |
+
+| File                   | Declaration                                           |
+| ---------------------- | ----------------------------------------------------- |
+| `RequestsPage.svelte`  | `$: { filteredEndpoints = ... }` (filter side effect) |
+| `RequestsPage.svelte`  | `$: { const endpointParam = ... }` (URL sync)         |
+| `history/+page.svelte` | `$: { if (!isNavigating) ... }` (navigation sync)     |
 
 **Pattern:**
+
 ```svelte
 // Before
 $: doubled = count * 2;
@@ -103,6 +109,7 @@ $effect(() => { console.log(count); });
 ```
 
 **Tasks:**
+
 1. Convert computed values to `$derived()` or `$derived.by(() => ...)` for complex expressions
 2. Convert side effects to `$effect()`
 3. Pay special attention to `RequestsPage.svelte` — it has the most complex reactive logic
@@ -116,15 +123,16 @@ $effect(() => { console.log(count); });
 
 12+ event directives across 5 files.
 
-| File | Count | Events |
-|---|---|---|
-| `RequestListItem.svelte` | 1 | `on:click` |
-| `RequestsPage.svelte` | 5 | `on:click`, `on:change` |
-| `TokenModal.svelte` | 1 | `on:click` |
-| `TokensPage.svelte` | 3 | `on:click` |
-| `history/+page.svelte` | 1 | `on:click` |
+| File                     | Count | Events                  |
+| ------------------------ | ----- | ----------------------- |
+| `RequestListItem.svelte` | 1     | `on:click`              |
+| `RequestsPage.svelte`    | 5     | `on:click`, `on:change` |
+| `TokenModal.svelte`      | 1     | `on:click`              |
+| `TokensPage.svelte`      | 3     | `on:click`              |
+| `history/+page.svelte`   | 1     | `on:click`              |
 
 **Pattern:**
+
 ```svelte
 // Before
 <button on:click={handler}>
@@ -134,6 +142,7 @@ $effect(() => { console.log(count); });
 ```
 
 **Tasks:**
+
 1. Replace `on:click` with `onclick`, `on:change` with `onchange`, etc.
 2. Run `npm run check`
 
@@ -145,12 +154,13 @@ $effect(() => { console.log(count); });
 
 2 lifecycle hooks in `RequestsPage.svelte`.
 
-| Hook | Replacement |
-|---|---|
-| `onMount(() => { initHighlight() })` | `$effect(() => { initHighlight() })` with appropriate cleanup |
-| `afterUpdate(() => { hljs.highlightAll() })` | `$effect(() => { hljs.highlightAll() })` |
+| Hook                                         | Replacement                                                   |
+| -------------------------------------------- | ------------------------------------------------------------- |
+| `onMount(() => { initHighlight() })`         | `$effect(() => { initHighlight() })` with appropriate cleanup |
+| `afterUpdate(() => { hljs.highlightAll() })` | `$effect(() => { hljs.highlightAll() })`                      |
 
 **Tasks:**
+
 1. Replace `onMount` / `afterUpdate` with `$effect`
 2. Ensure highlight.js re-runs when response content changes (may need to read reactive dependencies explicitly)
 3. Run `npm run check`
@@ -163,20 +173,20 @@ $effect(() => { console.log(count); });
 
 2 slot usages.
 
-| File | Slot |
-|---|---|
+| File                     | Slot                           |
+| ------------------------ | ------------------------------ |
 | `RequestListItem.svelte` | `<slot name="side-content" />` |
-| `+layout.svelte` | `<slot />` (default) |
+| `+layout.svelte`         | `<slot />` (default)           |
 
 **Pattern:**
+
 ```svelte
 // Before (parent)
 <Component><span slot="side-content">...</span></Component>
 
 // After (child definition)
 {#snippet sideContent()}<span>...</span>{/snippet}
-// or via render prop: let { sideContent } = $props();
-// then: {@render sideContent?.()}
+// or via render prop: let {sideContent} = $props(); // then: {@render sideContent?.()}
 
 // Before (layout)
 <slot />
@@ -186,6 +196,7 @@ $effect(() => { console.log(count); });
 ```
 
 **Tasks:**
+
 1. Convert `+layout.svelte` default slot to `{@render children()}`
 2. Convert `RequestListItem.svelte` named slot to snippet prop
 3. Update all call sites that pass slot content
@@ -200,6 +211,7 @@ $effect(() => { console.log(count); });
 The `$store` auto-subscription syntax still works in Svelte 5. The stores in `stores.ts` use `writable`/`derived` from `svelte/store`, which remain supported.
 
 **Tasks:**
+
 1. Verify all `$store` template subscriptions work correctly after upgrade
 2. Verify `bind:value={$store}` bindings work (may need adjustment)
 3. Optionally: consider migrating to `$state` runes in a future follow-up (not required for this upgrade)
@@ -211,6 +223,7 @@ The `$store` auto-subscription syntax still works in Svelte 5. The stores in `st
 ## Step 8: Update Linting and Formatting Config
 
 **Tasks:**
+
 1. Verify `eslint-plugin-svelte` works with Svelte 5 syntax
 2. Verify `prettier-plugin-svelte` formats Svelte 5 syntax correctly
 3. Run `npm run lint` and `npm run format`
@@ -223,6 +236,7 @@ The `$store` auto-subscription syntax still works in Svelte 5. The stores in `st
 ## Step 9: Final Verification
 
 **Tasks:**
+
 1. `npm run check` — type checking passes
 2. `npm run lint` — no lint errors
 3. `npm run build` — production build succeeds
@@ -235,10 +249,12 @@ The `$store` auto-subscription syntax still works in Svelte 5. The stores in `st
 ## Files Changed (by impact)
 
 ### High impact (complex reactive logic)
+
 - `src/lib/components/RequestsPage.svelte` — props, 4 reactive declarations, 5 events, 2 lifecycle hooks
 - `src/routes/history/+page.svelte` — reactive side effect, event, navigation sync
 
 ### Medium impact
+
 - `src/lib/components/RequestListItem.svelte` — 3 props, 1 reactive, 1 event, 1 named slot
 - `src/lib/components/TokenModal.svelte` — exported function, bindings, event
 - `src/lib/components/TokensPage.svelte` — events, store subscriptions
@@ -246,6 +262,7 @@ The `$store` auto-subscription syntax still works in Svelte 5. The stores in `st
 - `src/routes/+layout.svelte` — default slot conversion
 
 ### Low impact (minimal or no changes)
+
 - `src/lib/components/ResponseStatus.svelte` — 1 prop, 1 reactive
 - `src/lib/components/NavigationBar.svelte` — 1 prop
 - `src/routes/+page.svelte` — minimal
@@ -254,6 +271,7 @@ The `$store` auto-subscription syntax still works in Svelte 5. The stores in `st
 - `src/routes/about/+page.svelte` — static content
 
 ### Non-Svelte files (no migration)
+
 - `src/lib/stores.ts` — Svelte stores remain compatible; no changes required
 - `src/lib/types.ts` — pure TypeScript
 - `src/lib/api-endpoints.ts` — pure TypeScript
