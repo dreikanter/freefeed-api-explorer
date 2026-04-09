@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { untrack } from 'svelte';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
   import type { ApiEndpoint, ApiRequest, ApiResponse, ApiParameter } from '$lib/types.js';
@@ -62,7 +63,9 @@
     }, [])
   );
 
-  // Watch for URL changes and update selected endpoint
+  // Watch for URL changes and update selected endpoint.
+  // Use untrack for state reads to avoid infinite loops — $state proxies
+  // break reference equality, so the effect must only react to URL changes.
   $effect(() => {
     const endpointParam = $page.url.searchParams.get('endpoint');
     if (endpointParam) {
@@ -75,7 +78,7 @@
         found = API_ENDPOINTS.find((ep) => ep.method === method && ep.path === path) || null;
       }
 
-      if (found && found !== selectedEndpoint) {
+      if (found && found !== untrack(() => selectedEndpoint)) {
         selectedEndpoint = found;
         parameters = {};
         found.parameters?.forEach((param: ApiParameter) => {
@@ -85,7 +88,7 @@
         });
         activeTab = 'request';
       }
-    } else if (!endpointParam && selectedEndpoint) {
+    } else if (!endpointParam && untrack(() => selectedEndpoint)) {
       selectedEndpoint = null;
     }
   });

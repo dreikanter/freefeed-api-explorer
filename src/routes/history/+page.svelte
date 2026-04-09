@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { untrack } from 'svelte';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
   import { requestHistory, clearHistory } from '$lib/stores.js';
@@ -66,20 +67,20 @@
     return fullUrl.toString();
   }
 
-  // Watch for URL changes and update selected request
+  // Watch for URL changes and update selected request.
+  // Use untrack for state reads to avoid re-triggering on own writes.
   $effect(() => {
-    if (!isNavigating) {
-      const requestId = $page.url.searchParams.get('request');
-      if (requestId) {
-        const found = $requestHistory.find((req) => req.id === requestId);
-        if (found && found.id !== selectedRequest?.id) {
-          selectedRequest = found;
-        } else if (!found) {
-          clearSelectedRequest();
-        }
-      } else if (!requestId && selectedRequest) {
-        selectedRequest = null;
+    if (untrack(() => isNavigating)) return;
+    const requestId = $page.url.searchParams.get('request');
+    if (requestId) {
+      const found = $requestHistory.find((req) => req.id === requestId);
+      if (found && found.id !== untrack(() => selectedRequest)?.id) {
+        selectedRequest = found;
+      } else if (!found) {
+        clearSelectedRequest();
       }
+    } else if (!requestId && untrack(() => selectedRequest)) {
+      selectedRequest = null;
     }
   });
 </script>
