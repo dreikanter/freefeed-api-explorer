@@ -146,7 +146,7 @@
     <div class="scrollable-column px-2 pt-2">
       {#if selectedRequest}
         <!-- Request Info -->
-        <div class="card mb-4">
+        <div class="card mb-2">
           <h5 class="card-header font-monospace">
             <strong>{selectedRequest.endpoint.method}</strong>
             {generateFullUrl(selectedRequest)}
