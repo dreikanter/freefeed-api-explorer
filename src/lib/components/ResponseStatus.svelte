@@ -1,9 +1,9 @@
 <script lang="ts">
   import { getStatusInfo } from '../utils.js';
 
-  export let status: number;
+  let { status }: { status: number } = $props();
 
-  $: statusInfo = getStatusInfo(status);
+  let statusInfo = $derived(getStatusInfo(status));
 </script>
 
 <span class="d-inline-flex align-items-center">

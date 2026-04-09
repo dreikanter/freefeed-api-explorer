@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { untrack } from 'svelte';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
   import { requestHistory, clearHistory } from '$lib/stores.js';
@@ -9,9 +10,9 @@
   import ResponseStatus from '$lib/components/ResponseStatus.svelte';
   import { getRelativeTime } from '$lib/utils.js';
 
-  let selectedRequest: ApiRequest | null = null;
+  let selectedRequest: ApiRequest | null = $state(null);
 
-  let isNavigating = false;
+  let isNavigating = $state(false);
 
   function selectRequest(request: ApiRequest) {
     if (isNavigating) {
@@ -66,22 +67,22 @@
     return fullUrl.toString();
   }
 
-  // Watch for URL changes and update selected request
-  $: {
-    if (!isNavigating) {
-      const requestId = $page.url.searchParams.get('request');
-      if (requestId) {
-        const found = $requestHistory.find((req) => req.id === requestId);
-        if (found && found.id !== selectedRequest?.id) {
-          selectedRequest = found;
-        } else if (!found) {
-          clearSelectedRequest();
-        }
-      } else if (!requestId && selectedRequest) {
-        selectedRequest = null;
+  // Watch for URL changes and update selected request.
+  // Use untrack for state reads to avoid re-triggering on own writes.
+  $effect(() => {
+    if (untrack(() => isNavigating)) return;
+    const requestId = $page.url.searchParams.get('request');
+    if (requestId) {
+      const found = $requestHistory.find((req) => req.id === requestId);
+      if (found && found.id !== untrack(() => selectedRequest)?.id) {
+        selectedRequest = found;
+      } else if (!found) {
+        clearSelectedRequest();
       }
+    } else if (!requestId && untrack(() => selectedRequest)) {
+      selectedRequest = null;
     }
-  }
+  });
 </script>
 
 <svelte:head>
@@ -99,7 +100,10 @@
         {#if $requestHistory.length > 0}
           <button
             class="btn btn-sm text-secondary"
-            on:click={clearHistory}
+            onclick={() => {
+              clearHistory();
+              selectedRequest = null;
+            }}
             title="Clear History"
           >
             <i class="bi bi-trash"></i>
@@ -120,7 +124,7 @@
               isSelected={selectedRequest?.id === request.id}
               onClick={() => selectRequest(request)}
             >
-              <div slot="side-content">
+              {#snippet sideContent()}
                 {#if request.response}
                   <p class="mb-1">
                     <ResponseStatus status={request.response.status} />
@@ -129,7 +133,7 @@
                 <p class="mb-0 small">
                   {getRelativeTime(request.timestamp)}
                 </p>
-              </div>
+              {/snippet}
             </RequestListItem>
           {/each}
         </div>
@@ -140,55 +144,55 @@
   <!-- Main Content: Request Details -->
   <div class="split-main">
     <div class="scrollable-column px-2 pt-2">
-    {#if selectedRequest}
-      <!-- Request Info -->
-      <div class="card mb-4">
-        <h5 class="card-header font-monospace">
-          <strong>{selectedRequest.endpoint.method}</strong>
-          {generateFullUrl(selectedRequest)}
-        </h5>
-        <div class="card-body">
-          <p>
-            <strong>Scope:</strong>
-            {#each selectedRequest.endpoint.scopes || [] as s}<span class="badge bg-info me-1">{s}</span>{/each}
-          </p>
-          <p>
-            <strong>Instance:</strong>
-            {selectedRequest.instance.name}
-          </p>
-
-          <!-- Parameters -->
-          {#if Object.keys(selectedRequest.parameters).length > 0}
-            <p><strong>Parameters Used:</strong></p>
-            <ul class="list-unstyled ps-4">
-              {#each Object.entries(selectedRequest.parameters) as [key, value]}
-                <li class="mb-1">
-                  <code class="text-primary">{key}</code>
-                  :
-                  <code class="bg-light px-1">{value}</code>
-                </li>
-              {/each}
-            </ul>
-          {/if}
-        </div>
-      </div>
-
-      <!-- Response -->
-      <Response request={selectedRequest} />
-    {:else}
-      <div class="card d-none d-md-block">
-        <div class="card-body text-center text-muted py-5">
-          <h3>Request History</h3>
-          <p>Select a request from the sidebar to view its details.</p>
-          {#if $requestHistory.length === 0}
-            <p class="small">
-              No requests found. <a href="/">Start exploring the API</a>
-              to build your request history.
+      {#if selectedRequest}
+        <!-- Request Info -->
+        <div class="card mb-2">
+          <h5 class="card-header font-monospace">
+            <strong>{selectedRequest.endpoint.method}</strong>
+            {generateFullUrl(selectedRequest)}
+          </h5>
+          <div class="card-body">
+            <p>
+              <strong>Scope:</strong>
+              {#each selectedRequest.endpoint.scopes || [] as s}<span class="badge bg-info me-1">{s}</span>{/each}
             </p>
-          {/if}
+            <p>
+              <strong>Instance:</strong>
+              {selectedRequest.instance.name}
+            </p>
+
+            <!-- Parameters -->
+            {#if Object.keys(selectedRequest.parameters).length > 0}
+              <p><strong>Parameters Used:</strong></p>
+              <ul class="list-unstyled ps-4">
+                {#each Object.entries(selectedRequest.parameters) as [key, value]}
+                  <li class="mb-1">
+                    <code class="text-primary">{key}</code>
+                    :
+                    <code class="bg-light px-1">{value}</code>
+                  </li>
+                {/each}
+              </ul>
+            {/if}
+          </div>
         </div>
-      </div>
-    {/if}
+
+        <!-- Response -->
+        <Response request={selectedRequest} />
+      {:else}
+        <div class="card d-none d-md-block">
+          <div class="card-body text-center text-muted py-5">
+            <h3>Request History</h3>
+            <p>Select a request from the sidebar to view its details.</p>
+            {#if $requestHistory.length === 0}
+              <p class="small">
+                No requests found. <a href="/">Start exploring the API</a>
+                to build your request history.
+              </p>
+            {/if}
+          </div>
+        </div>
+      {/if}
     </div>
   </div>
 </div>

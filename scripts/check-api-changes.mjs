@@ -63,8 +63,7 @@ function main() {
     extracted = JSON.parse(readFileSync(extractedPath, 'utf-8'));
 
     process.stderr.write(
-      `Extracted ${extracted.meta.total_endpoints} endpoints ` +
-        `from server rev ${serverRev.slice(0, 12)}.\n`,
+      `Extracted ${extracted.meta.total_endpoints} endpoints ` + `from server rev ${serverRev.slice(0, 12)}.\n`
     );
   } finally {
     rmSync(workDir, { recursive: true, force: true });
@@ -114,8 +113,7 @@ function main() {
     }
   }
 
-  report.total_changes =
-    report.added.length + report.removed.length + report.scope_changed.length;
+  report.total_changes = report.added.length + report.removed.length + report.scope_changed.length;
 
   process.stdout.write(JSON.stringify(report, null, 2) + '\n');
 

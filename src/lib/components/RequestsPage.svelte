@@ -1,10 +1,21 @@
 <script lang="ts">
-  import { onMount, afterUpdate } from 'svelte';
+  import { untrack } from 'svelte';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
   import type { ApiEndpoint, ApiRequest, ApiResponse, ApiParameter } from '$lib/types.js';
   import { API_ENDPOINTS } from '$lib/api-endpoints.js';
-  import { tokens, activeTokenId, activeToken, selectedInstance, currentRequest, isLoading, addToHistory, requestHistory, searchQuery, selectedScope } from '$lib/stores.js';
+  import {
+    tokens,
+    activeTokenId,
+    activeToken,
+    selectedInstance,
+    currentRequest,
+    isLoading,
+    addToHistory,
+    requestHistory,
+    searchQuery,
+    selectedScope,
+  } from '$lib/stores.js';
   import type { SavedToken } from '$lib/types.js';
   import Response from './Response.svelte';
   import RequestListItem from './RequestListItem.svelte';
@@ -13,46 +24,49 @@
   import 'highlight.js/styles/github.css';
   import 'highlightjs-copy/dist/highlightjs-copy.min.css';
 
-  let filteredEndpoints: ApiEndpoint[] = API_ENDPOINTS;
-  let selectedEndpoint: ApiEndpoint | null = null;
-  let parameters: Record<string, string> = {};
-  let activeTab: 'request' | 'fetch' | 'curl' = 'request';
+  let selectedEndpoint: ApiEndpoint | null = $state.raw(null);
+  let parameters: Record<string, string> = $state({});
+  let activeTab: 'request' | 'fetch' | 'curl' = $state('request');
 
   // Find most recent response for the currently selected endpoint
-  $: endpointResponse = selectedEndpoint
-    ? $requestHistory.find(
-        (req) => req.endpoint.method === selectedEndpoint!.method && req.endpoint.path === selectedEndpoint!.path
-      )
-    : null;
+  let endpointResponse = $derived(
+    selectedEndpoint
+      ? $requestHistory.find(
+          (req) => req.endpoint.method === selectedEndpoint!.method && req.endpoint.path === selectedEndpoint!.path
+        )
+      : null
+  );
 
-  $: {
-    filteredEndpoints = API_ENDPOINTS.filter((endpoint) => {
+  let filteredEndpoints = $derived(
+    API_ENDPOINTS.filter((endpoint) => {
       const matchesSearch =
         !$searchQuery ||
         endpoint.path.toLowerCase().includes($searchQuery.toLowerCase()) ||
         endpoint.description.toLowerCase().includes($searchQuery.toLowerCase());
       const matchesScope = !$selectedScope || endpoint.scopes.includes($selectedScope);
       return matchesSearch && matchesScope;
-    });
-  }
+    })
+  );
 
   const scopes = [...new Set(API_ENDPOINTS.flatMap((e) => e.scopes))].sort();
 
   // Group tokens by instance URL, preserving token order
-  $: tokensByInstance = $tokens.reduce<{ instance: string; tokens: SavedToken[] }[]>((groups, token) => {
-    const existing = groups.find((g) => g.instance === token.instance.url);
-    if (existing) {
-      existing.tokens.push(token);
-    } else {
-      groups.push({ instance: token.instance.url, tokens: [token] });
-    }
-    return groups;
-  }, []);
+  let tokensByInstance = $derived(
+    $tokens.reduce<{ instance: string; tokens: SavedToken[] }[]>((groups, token) => {
+      const existing = groups.find((g) => g.instance === token.instance.url);
+      if (existing) {
+        existing.tokens.push(token);
+      } else {
+        groups.push({ instance: token.instance.url, tokens: [token] });
+      }
+      return groups;
+    }, [])
+  );
 
-
-
-  // Watch for URL changes and update selected endpoint
-  $: {
+  // Watch for URL changes and update selected endpoint.
+  // Use untrack for state reads so the effect only reacts to URL changes,
+  // not to its own writes.
+  $effect(() => {
     const endpointParam = $page.url.searchParams.get('endpoint');
     if (endpointParam) {
       // Try new URL-friendly format first
@@ -64,20 +78,21 @@
         found = API_ENDPOINTS.find((ep) => ep.method === method && ep.path === path) || null;
       }
 
-      if (found && found !== selectedEndpoint) {
+      if (found && found !== untrack(() => selectedEndpoint)) {
         selectedEndpoint = found;
-        parameters = {};
+        const newParams: Record<string, string> = {};
         found.parameters?.forEach((param: ApiParameter) => {
           if (param.required) {
-            parameters[param.name] = '';
+            newParams[param.name] = '';
           }
         });
+        parameters = newParams;
         activeTab = 'request';
       }
-    } else if (!endpointParam && selectedEndpoint) {
+    } else if (!endpointParam && untrack(() => selectedEndpoint)) {
       selectedEndpoint = null;
     }
-  }
+  });
 
   function closeOffcanvas() {
     if (typeof window !== 'undefined') {
@@ -270,17 +285,18 @@
     return command;
   }
 
-  onMount(() => {
+  $effect(() => {
     initHighlight();
   });
 
-  afterUpdate(() => {
-    // Highlight any new code blocks after updates
+  $effect(() => {
+    // Re-highlight when tab or response changes
+    void activeTab;
+    void endpointResponse;
     if (typeof window !== 'undefined') {
-      hljs.highlightAll();
+      queueMicrotask(() => hljs.highlightAll());
     }
   });
-
 </script>
 
 <div class="split-layout">
@@ -315,7 +331,7 @@
   <div class="split-main">
     <div class="scrollable-column px-2 pt-2">
       {#if selectedEndpoint}
-        <div class="card mb-4">
+        <div class="card mb-2">
           <h5 class="card-header font-monospace">
             <strong>{selectedEndpoint.method}</strong>
             {selectedEndpoint.path}
@@ -369,19 +385,42 @@
                 </div>
               {/each}
             {/if}
-
           </div>
 
           <!-- Tabs: Request / Code Examples -->
           <ul class="nav nav-tabs px-3" role="tablist">
             <li class="nav-item" role="presentation">
-              <button class="nav-link" class:active={activeTab === 'request'} on:click={() => activeTab = 'request'} type="button" role="tab">Request</button>
+              <button
+                class="nav-link"
+                class:active={activeTab === 'request'}
+                onclick={() => (activeTab = 'request')}
+                type="button"
+                role="tab"
+              >
+                Request
+              </button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link" class:active={activeTab === 'fetch'} on:click={() => activeTab = 'fetch'} type="button" role="tab">fetch call</button>
+              <button
+                class="nav-link"
+                class:active={activeTab === 'fetch'}
+                onclick={() => (activeTab = 'fetch')}
+                type="button"
+                role="tab"
+              >
+                fetch call
+              </button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link" class:active={activeTab === 'curl'} on:click={() => activeTab = 'curl'} type="button" role="tab">curl command</button>
+              <button
+                class="nav-link"
+                class:active={activeTab === 'curl'}
+                onclick={() => (activeTab = 'curl')}
+                type="button"
+                role="tab"
+              >
+                curl command
+              </button>
             </li>
           </ul>
           <div class="tab-content p-3">
@@ -390,7 +429,9 @@
                 {#if $tokens.length === 0}
                   <div class="alert alert-warning small mb-3" role="alert">
                     <i class="bi bi-exclamation-triangle"></i>
-                    No tokens configured — <a href="/tokens">add one</a> to start making API requests.
+                    No tokens configured —
+                    <a href="/tokens">add one</a>
+                     to start making API requests.
                   </div>
                 {/if}
                 <div class="d-flex align-items-center gap-2 flex-wrap">
@@ -399,7 +440,7 @@
                       class="form-select form-select-sm"
                       style="width: auto; min-width: 14rem"
                       value={$activeTokenId}
-                      on:change={(e) => activeTokenId.set(e.currentTarget.value)}
+                      onchange={(e) => activeTokenId.set(e.currentTarget.value)}
                     >
                       {#each tokensByInstance as group}
                         <optgroup label={group.instance}>
@@ -412,15 +453,15 @@
                       {/each}
                     </select>
                   {:else}
-                    <select
-                      class="form-select form-select-sm"
-                      style="width: auto; min-width: 14rem"
-                      disabled
-                    >
+                    <select class="form-select form-select-sm" style="width: auto; min-width: 14rem" disabled>
                       <option>No available tokens</option>
                     </select>
                   {/if}
-                  <button class="btn btn-success btn-sm" on:click={executeRequest} disabled={$isLoading || !$activeToken?.value}>
+                  <button
+                    class="btn btn-success btn-sm"
+                    onclick={executeRequest}
+                    disabled={$isLoading || !$activeToken?.value}
+                  >
                     {$isLoading ? 'Executing...' : 'Execute'}
                   </button>
                 </div>
@@ -473,11 +514,13 @@
       {#each filteredEndpoints as endpoint}
         <RequestListItem
           {endpoint}
-          isSelected={selectedEndpoint === endpoint}
-          onClick={() => { selectEndpoint(endpoint); closeOffcanvas(); }}
+          isSelected={selectedEndpoint?.path === endpoint.path && selectedEndpoint?.method === endpoint.method}
+          onClick={() => {
+            selectEndpoint(endpoint);
+            closeOffcanvas();
+          }}
         />
       {/each}
     </div>
   </div>
 </div>
-

@@ -12,7 +12,7 @@
     return new Date(timestamp).toLocaleDateString(undefined, {
       year: 'numeric',
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
     });
   }
 </script>
@@ -23,12 +23,13 @@
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
           <h3 class="mb-0">Tokens</h3>
-          <button class="btn btn-primary btn-sm" on:click={() => tokenModal.show()}>Create Token</button>
+          <button class="btn btn-primary btn-sm" onclick={() => tokenModal.show()}>Create Token</button>
         </div>
         <div class="card-body p-0">
           {#if $tokens.length === 0}
             <p class="text-center text-muted py-4 mb-0">
-              No tokens saved yet. Click <strong>Create Token</strong> to get started.
+              No tokens saved yet. Click <strong>Create Token</strong>
+               to get started.
             </p>
           {:else}
             <div class="table-responsive">
@@ -50,30 +51,47 @@
                       <td class="text-nowrap">{formatDate(token.createdAt)}</td>
                       <td class="validation-status">
                         {#if $validatingTokenIds.has(token.id)}
-                          <span class="text-muted"><i class="bi bi-arrow-repeat spin"></i> Validating…</span>
+                          <span class="text-muted">
+                            <i class="bi bi-arrow-repeat spin"></i>
+                             Validating…
+                          </span>
                         {:else if $validationResults[token.id]}
                           {@const result = $validationResults[token.id]}
                           {#if result.status === 'valid'}
-                            <span class="text-success" title="Validated at {formatDate(result.validatedAt)}"><i class="bi bi-check-circle-fill"></i> {result.username}</span>
+                            <span class="text-success" title="Validated at {formatDate(result.validatedAt)}">
+                              <i class="bi bi-check-circle-fill"></i>
+                              {result.username}
+                            </span>
                           {:else if result.status === 'invalid'}
-                            <span class="text-danger" title="Validated at {formatDate(result.validatedAt)}"><i class="bi bi-x-circle-fill"></i> Invalid</span>
+                            <span class="text-danger" title="Validated at {formatDate(result.validatedAt)}">
+                              <i class="bi bi-x-circle-fill"></i>
+                               Invalid
+                            </span>
                           {:else}
-                            <span class="text-warning" title={result.message}><i class="bi bi-exclamation-triangle-fill"></i> Error</span>
+                            <span class="text-warning" title={result.message}>
+                              <i class="bi bi-exclamation-triangle-fill"></i>
+                               Error
+                            </span>
                           {/if}
                         {:else}
                           <button
                             class="btn btn-outline-secondary btn-sm"
-                            on:click={() => handleValidate(token)}
+                            onclick={() => handleValidate(token)}
                             title="Validate token"
-                          >Validate</button>
+                          >
+                            Validate
+                          </button>
                         {/if}
                       </td>
                       <td class="text-end">
                         <button
                           class="btn btn-sm text-secondary"
-                          on:click={() => removeToken(token.id)}
+                          onclick={() => removeToken(token.id)}
                           title="Delete token"
-                        ><i class="bi bi-trash"></i></button>
+                          aria-label={`Delete token ${token.label}`}
+                        >
+                          <i class="bi bi-trash"></i>
+                        </button>
                       </td>
                     </tr>
                   {/each}
@@ -84,7 +102,8 @@
         </div>
         {#if $tokens.length > 0}
           <div class="card-footer border-top-0 text-muted small">
-            {$tokens.length} {$tokens.length === 1 ? 'token' : 'tokens'}
+            {$tokens.length}
+            {$tokens.length === 1 ? 'token' : 'tokens'}
           </div>
         {/if}
       </div>
@@ -108,8 +127,12 @@
   }
 
   @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 
   .validation-status {

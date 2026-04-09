@@ -54,7 +54,7 @@ describe('getStatusInfo', () => {
     expect(result).toEqual({
       icon: 'check-circle-fill',
       color: 'text-success',
-      text: '200'
+      text: '200',
     });
   });
 
@@ -63,7 +63,7 @@ describe('getStatusInfo', () => {
     expect(result).toEqual({
       icon: 'check-circle-fill',
       color: 'text-success',
-      text: '201'
+      text: '201',
     });
   });
 
@@ -72,7 +72,7 @@ describe('getStatusInfo', () => {
     expect(result).toEqual({
       icon: 'arrow-right-circle-fill',
       color: 'text-warning',
-      text: '301'
+      text: '301',
     });
   });
 
@@ -81,7 +81,7 @@ describe('getStatusInfo', () => {
     expect(result).toEqual({
       icon: 'arrow-right-circle-fill',
       color: 'text-warning',
-      text: '302'
+      text: '302',
     });
   });
 
@@ -90,7 +90,7 @@ describe('getStatusInfo', () => {
     expect(result).toEqual({
       icon: 'x-circle-fill',
       color: 'text-danger',
-      text: '404'
+      text: '404',
     });
   });
 
@@ -99,7 +99,7 @@ describe('getStatusInfo', () => {
     expect(result).toEqual({
       icon: 'x-circle-fill',
       color: 'text-danger',
-      text: '500'
+      text: '500',
     });
   });
 
@@ -108,7 +108,7 @@ describe('getStatusInfo', () => {
     expect(result).toEqual({
       icon: 'x-circle-fill',
       color: 'text-danger',
-      text: 'Error'
+      text: 'Error',
     });
   });
 
@@ -117,19 +117,18 @@ describe('getStatusInfo', () => {
     expect(result).toEqual({
       icon: 'x-circle-fill',
       color: 'text-danger',
-      text: 'Error'
+      text: 'Error',
     });
   });
 });
 
 describe('endpointToId', () => {
-
   const testEndpoints = [
     { method: 'GET', path: '/v4/users/whoami' },
     { method: 'POST', path: '/v1/posts' },
     { method: 'DELETE', path: '/v2/posts/:postId' },
     { method: 'PUT', path: '/v1/users/:userId/subscriptions/:username' },
-    { method: 'PATCH', path: '/v2/groups/:groupId' }
+    { method: 'PATCH', path: '/v2/groups/:groupId' },
   ];
 
   test('converts GET endpoint to URL-friendly ID', () => {
@@ -176,7 +175,7 @@ describe('endpointToId', () => {
   });
 
   test('round-trip conversion works correctly', () => {
-    testEndpoints.forEach(endpoint => {
+    testEndpoints.forEach((endpoint) => {
       const id = endpointToId(endpoint);
       const foundEndpoint = idToEndpoint(id, testEndpoints);
       expect(foundEndpoint).toEqual(endpoint);
@@ -184,7 +183,7 @@ describe('endpointToId', () => {
   });
 
   test('IDs are URL-safe (no special characters)', () => {
-    testEndpoints.forEach(endpoint => {
+    testEndpoints.forEach((endpoint) => {
       const id = endpointToId(endpoint);
       // Check that ID only contains letters, numbers, and hyphens
       expect(id).toMatch(/^[a-z0-9-]+$/);

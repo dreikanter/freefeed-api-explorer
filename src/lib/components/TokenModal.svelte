@@ -2,16 +2,16 @@
   import { FREEFEED_INSTANCES } from '$lib/api-endpoints.js';
   import { tokens, activeTokenId, selectedInstance } from '$lib/stores.js';
 
-  let tokenInput = '';
-  let titleInput = '';
+  let tokenInput = $state('');
+  let titleInput = $state('');
 
   function nextDefaultTitle(): string {
     let n = 1;
     let candidate = `Token ${n}`;
-    const existing = new Set<string>();
-    const unsub = tokens.subscribe((list) => list.forEach((t) => existing.add(t.label)));
+    let existing: string[] = [];
+    const unsub = tokens.subscribe((list) => (existing = list.map((t) => t.label)));
     unsub();
-    while (existing.has(candidate)) {
+    while (existing.includes(candidate)) {
       n++;
       candidate = `Token ${n}`;
     }
@@ -21,6 +21,7 @@
   export function show() {
     titleInput = '';
     tokenInput = '';
+    selectedInstance.set(FREEFEED_INSTANCES[0]);
     // @ts-expect-error - Bootstrap is loaded via CDN
     const modal = new window.bootstrap.Modal(document.getElementById('tokenModal'));
     modal.show();
@@ -87,7 +88,13 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" disabled={!tokenInput} on:click={saveToken}>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          disabled={!tokenInput}
+          onclick={saveToken}
+        >
           Save Configuration
         </button>
       </div>

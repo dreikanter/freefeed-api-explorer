@@ -1,7 +1,7 @@
 <script lang="ts">
   import { env } from '$env/dynamic/public';
 
-  export let currentPage: 'home' | 'history' | 'requests' | 'tokens' | 'about' = 'home';
+  let { currentPage = 'home' }: { currentPage?: 'home' | 'history' | 'requests' | 'tokens' | 'about' } = $props();
 
   const environment = env.PUBLIC_ENVIRONMENT || 'development';
 </script>

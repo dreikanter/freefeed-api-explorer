@@ -4,16 +4,15 @@
   import { getRelativeTime } from '../utils.js';
   import ResponseStatus from './ResponseStatus.svelte';
 
-  export let request: ApiRequest | null = null;
+  let { request = null }: { request?: ApiRequest | null } = $props();
 
-  $: parsedResponseBody = (() => {
+  let parsedResponseBody = $derived.by(() => {
     try {
       return JSON.parse(request?.response?.body ?? '');
     } catch {
       return null;
     }
-  })();
-
+  });
 
   function getStatusText(status: number): string {
     if (status === 0) return 'Network Error';

@@ -16,25 +16,25 @@ export function getStatusInfo(status: number) {
     return {
       icon: 'check-circle-fill',
       color: 'text-success',
-      text: `${status}`
+      text: `${status}`,
     };
   } else if (status >= 300 && status < 400) {
     return {
       icon: 'arrow-right-circle-fill',
       color: 'text-warning',
-      text: `${status}`
+      text: `${status}`,
     };
   } else if (status >= 400) {
     return {
       icon: 'x-circle-fill',
       color: 'text-danger',
-      text: `${status}`
+      text: `${status}`,
     };
   } else {
     return {
       icon: 'x-circle-fill',
       color: 'text-danger',
-      text: 'Error'
+      text: 'Error',
     };
   }
 }
@@ -44,5 +44,5 @@ export function endpointToId(endpoint: { method: string; path: string }): string
 }
 
 export function idToEndpoint<T extends { method: string; path: string }>(id: string, endpoints: T[]): T | null {
-  return endpoints.find(endpoint => endpointToId(endpoint) === id) || null;
+  return endpoints.find((endpoint) => endpointToId(endpoint) === id) || null;
 }
