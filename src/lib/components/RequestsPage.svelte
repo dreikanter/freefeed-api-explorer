@@ -290,9 +290,10 @@
   });
 
   $effect(() => {
-    // Re-highlight when tab or response changes
+    // Re-highlight when tab, response, or parameters change
     void activeTab;
     void endpointResponse;
+    void parameters;
     if (typeof window !== 'undefined') {
       queueMicrotask(() => hljs.highlightAll());
     }
