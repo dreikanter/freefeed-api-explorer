@@ -144,3 +144,19 @@ routes under `/v:version/` in the Koa router. The `validateApiVersion`
 middleware accepts any positive integer (`/v1/`, `/v2/`, `/v99/` all hit the
 same handlers). The extraction script normalizes to `/v2/` (the version
 declared in the server docs). The explorer app can use any version number.
+
+## LLM-readable reference
+
+`static/llms-full.txt` is auto-generated from `src/lib/freefeed-api.json` by
+`scripts/generate-llms-txt.mjs`. Do not edit it manually.
+
+The file is regenerated on every production build (`npm run build`). To
+regenerate manually:
+
+```bash
+npm run llms:generate
+```
+
+`static/llms.txt` is a hand-written overview file per the
+[llmstxt.org](https://llmstxt.org/) spec. Edit it directly when the project
+description or links change.
