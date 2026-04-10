@@ -55,35 +55,8 @@ src/
 
 ### Atomic Commits
 
-**Goal:** Every commit is a single, meaningful, self-contained change (e.g., DB migration, controller change, HTML layout tweak, test coverage improvement). No grab-bag commits. Keep the test suite green for each commit.
+One commit = one logical change. If the commit message needs “and”, split it into two commits. Never stage unrelated edits together. Keep the suite green for each commit.
 
-#### Commit-before-you-code loop
+### Pull Requests
 
-1. **Plan → Split work:** Break the task into 3–7 smallest meaningful steps, each summarized in one short sentence (“Add X”, “Refactor Y”, “Fix Z”). If the message needs “and”, split it.
-2. **Implement one step only.**
-3. **Stage precisely:** use `git add -p` (or IDE line/selection staging) to include only the hunks that satisfy the one-sentence change.
-4. **Run tests/linters:** keep the suite green per commit.
-5. **Commit message (subject ≤ 50 chars, imperative):**
-   - Subject: “Add user_email index”
-   - Body (optional): why + constraints/links.
-
-6. **Repeat** for the next planned step. If changes get mixed, use `git reset -p`, `git commit --amend`, or `git rebase -i` to reorganize before pushing.
-
-#### What counts as “atomic”
-
-- **Single purpose & complete:** one logical change, fully done.
-- **Examples:**
-  - “Add migration for `orders.status` enum” (+ entity change if required).
-  - “Refactor `UserService` to use async/await” (no styling changes).
-  - “Fix divide-by-zero in `calc()` + test.”
-
-#### Review yourself before push
-
-- Inspect `git status`, `git diff`, `git log --oneline`.
-- Squash/fixup only when several commits are fragments of the _same_ unit of work.
-
-#### Guardrails
-
-- **Never** stage unrelated edits together (formatting, renames, feature code in one commit).
-- If mid-flow you discover a second concern, **stop** and create a new TODO line; do not keep coding in the same commit.
-- Prefer many small PRs built from atomic commits; they’re easier to review, revert, and bisect.
+Follow the PR template in `.github/pull_request_template.md` when creating pull requests.
