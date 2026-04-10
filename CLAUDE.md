@@ -56,3 +56,7 @@ src/
 ### Atomic Commits
 
 One commit = one logical change. If the commit message needs “and”, split it into two commits. Never stage unrelated edits together. Keep the suite green for each commit.
+
+### Pull Requests
+
+Follow the PR template in `.github/pull_request_template.md` when creating pull requests.
