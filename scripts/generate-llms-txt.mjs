@@ -22,9 +22,7 @@ export function generateMarkdown(apiData) {
   lines.push('# FreeFeed API Reference');
   lines.push('');
   lines.push(`> Source: [${meta.server_repo}](https://github.com/${meta.server_repo}) (${meta.server_branch} branch)`);
-  lines.push(
-    `> Synced: ${meta.synced_at} | ${endpoints.length} endpoints | [Interactive explorer](https://freefeed-api-explorer.pages.dev)`
-  );
+  lines.push(`> Synced: ${meta.synced_at} | ${endpoints.length} endpoints`);
   lines.push('');
   lines.push('## Endpoints');
 

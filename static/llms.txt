@@ -6,4 +6,4 @@ FreeFeed is an open-source social network. This site provides a browsable refere
 
 ## API Reference
 
-- [Full API reference (llms-full.txt)](https://freefeed-api-explorer.pages.dev/llms-full.txt): Complete endpoint reference with parameters
+- [Full API reference](llms-full.txt): Complete endpoint reference with parameters
