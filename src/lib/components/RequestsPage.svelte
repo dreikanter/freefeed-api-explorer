@@ -298,7 +298,7 @@
     void parameters;
     if (fetchCodeEl) {
       fetchCodeEl.removeAttribute('data-highlighted');
-      fetchCodeEl.textContent = generateFetchCode();
+      fetchCodeEl.textContent = generateFetchCode(); // eslint-disable-line svelte/no-dom-manipulating -- highlight.js requires direct DOM access
       hljs.highlightElement(fetchCodeEl);
     }
   });
@@ -307,7 +307,7 @@
     void parameters;
     if (curlCodeEl) {
       curlCodeEl.removeAttribute('data-highlighted');
-      curlCodeEl.textContent = generateCurlCode();
+      curlCodeEl.textContent = generateCurlCode(); // eslint-disable-line svelte/no-dom-manipulating
       hljs.highlightElement(curlCodeEl);
     }
   });
