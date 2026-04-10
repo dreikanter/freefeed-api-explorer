@@ -78,5 +78,5 @@ if (isMain) {
   const apiData = JSON.parse(readFileSync(API_JSON, 'utf-8'));
   const markdown = generateMarkdown(apiData);
   writeFileSync(OUTPUT, markdown);
-  process.stderr.write(`Generated ${OUTPUT} (${apiData.meta.total_endpoints} endpoints)\n`);
+  process.stderr.write(`Generated ${OUTPUT} (${apiData.endpoints.length} endpoints)\n`);
 }
