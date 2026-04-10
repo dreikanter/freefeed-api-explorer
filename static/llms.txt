@@ -1,9 +1,5 @@
 # FreeFeed API Explorer
 
-> FreeFeed API Explorer is an interactive tool for browsing the FreeFeed social network API.
-
 FreeFeed is an open-source social network. This site provides a browsable reference for all public API endpoints, including HTTP methods, paths, parameters, authentication requirements, and access scopes.
 
-## API Reference
-
-- [Full API reference](llms-full.txt): Complete endpoint reference with parameters
+Full API reference: /llms-full.txt
