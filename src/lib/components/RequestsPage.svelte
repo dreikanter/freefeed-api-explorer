@@ -289,13 +289,26 @@
     initHighlight();
   });
 
+  let fetchCodeEl: HTMLElement | undefined = $state();
+  let curlCodeEl: HTMLElement | undefined = $state();
+
+  // Re-highlight code blocks when parameters change.
+  // We must unhighlight first because hljs skips already-highlighted elements.
   $effect(() => {
-    // Re-highlight when tab, response, or parameters change
-    void activeTab;
-    void endpointResponse;
     void parameters;
-    if (typeof window !== 'undefined') {
-      queueMicrotask(() => hljs.highlightAll());
+    if (fetchCodeEl) {
+      fetchCodeEl.removeAttribute('data-highlighted');
+      fetchCodeEl.textContent = generateFetchCode();
+      hljs.highlightElement(fetchCodeEl);
+    }
+  });
+
+  $effect(() => {
+    void parameters;
+    if (curlCodeEl) {
+      curlCodeEl.removeAttribute('data-highlighted');
+      curlCodeEl.textContent = generateCurlCode();
+      hljs.highlightElement(curlCodeEl);
     }
   });
 </script>
@@ -474,11 +487,11 @@
               </div>
             {:else if activeTab === 'fetch'}
               <div class="tab-pane active" role="tabpanel">
-                <pre class="m-0 p-2 rounded small"><code class="language-javascript">{generateFetchCode()}</code></pre>
+                <pre class="m-0 p-2 rounded small"><code bind:this={fetchCodeEl} class="language-javascript"></code></pre>
               </div>
             {:else if activeTab === 'curl'}
               <div class="tab-pane active" role="tabpanel">
-                <pre class="m-0 p-2 rounded small"><code class="language-bash">{generateCurlCode()}</code></pre>
+                <pre class="m-0 p-2 rounded small"><code bind:this={curlCodeEl} class="language-bash"></code></pre>
               </div>
             {/if}
           </div>
