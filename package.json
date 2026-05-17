@@ -24,7 +24,7 @@
     "highlightjs-copy": "^1.0.6"
   },
   "devDependencies": {
-    "@eslint/js": "^10.4.0",
+    "@eslint/js": "^10.0.1",
     "@sveltejs/adapter-static": "^3.0.10",
     "@sveltejs/kit": "^2.60.1",
     "@sveltejs/vite-plugin-svelte": "^7.1.2",
