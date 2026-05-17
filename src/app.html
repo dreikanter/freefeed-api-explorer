@@ -55,14 +55,33 @@
         padding-bottom: 2rem;
       }
 
-      /* Responsive: stack columns on mobile */
+      /* Responsive: stack columns on mobile and let the page scroll
+         as one document instead of locking scroll inside each column. */
       @media (max-width: 767.98px) {
+        html,
+        body,
+        main {
+          height: auto;
+          min-height: 100dvh;
+        }
+
+        main:has(.split-layout) {
+          overflow: visible;
+        }
+
         .split-layout {
           flex-direction: column;
+          min-height: 0;
         }
 
         .split-sidebar {
           width: auto;
+        }
+
+        .scrollable-column {
+          height: auto;
+          overflow-y: visible;
+          padding-bottom: 0;
         }
 
         .hide-below-md {
@@ -74,6 +93,21 @@
         .show-below-md {
           display: none;
         }
+      }
+
+      /* Keep the navbar above the offcanvas + backdrop so it stays visible
+         (and its brand serves as the drawer's header — no duplicated title). */
+      .site-navbar {
+        position: sticky;
+        top: 0;
+        z-index: 1050;
+      }
+      .sidebar-offcanvas.offcanvas-start {
+        top: var(--nav-h, 56px);
+        height: calc(100dvh - var(--nav-h, 56px));
+      }
+      .offcanvas-backdrop {
+        top: var(--nav-h, 56px);
       }
     </style>
     %sveltekit.head%
