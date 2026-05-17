@@ -12,6 +12,7 @@
     { href: '/requests', label: 'Requests', icon: 'bi-send' },
     { href: '/history', label: 'History', icon: 'bi-clock-history' },
     { href: '/tokens', label: 'Tokens', icon: 'bi-key' },
+    { href: '/agents', label: 'Agents', icon: 'bi-robot' },
     { href: '/about', label: 'About', icon: 'bi-info-circle' },
   ];
 
@@ -126,12 +127,7 @@
     {:else}
       <!-- API endpoints search + list -->
       <div class="p-3 border-top">
-        <input
-          type="text"
-          class="form-control mb-2"
-          placeholder="Search endpoints..."
-          bind:value={$searchQuery}
-        />
+        <input type="text" class="form-control mb-2" placeholder="Search endpoints..." bind:value={$searchQuery} />
         <select class="form-select" bind:value={$selectedScope}>
           <option value="">All Scopes</option>
           {#each scopes as scope}
