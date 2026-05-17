@@ -1,7 +1,8 @@
 <script lang="ts">
   import { env } from '$env/dynamic/public';
 
-  let { currentPage = 'home' }: { currentPage?: 'home' | 'history' | 'requests' | 'tokens' | 'about' } = $props();
+  let { currentPage = 'home' }: { currentPage?: 'home' | 'history' | 'requests' | 'tokens' | 'agents' | 'about' } =
+    $props();
 
   const environment = env.PUBLIC_ENVIRONMENT || 'development';
 
@@ -42,6 +43,7 @@
         <a href="/requests" class="nav-link" class:active={currentPage === 'requests'}>Requests</a>
         <a href="/history" class="nav-link" class:active={currentPage === 'history'}>History</a>
         <a href="/tokens" class="nav-link" class:active={currentPage === 'tokens'}>Tokens</a>
+        <a href="/agents" class="nav-link" class:active={currentPage === 'agents'}>Agents</a>
         <a href="/about" class="nav-link" class:active={currentPage === 'about'}>About</a>
       </div>
     </div>
