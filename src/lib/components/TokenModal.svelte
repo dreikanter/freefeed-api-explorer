@@ -52,9 +52,8 @@
       </div>
       <div class="modal-body">
         <div class="alert alert-info">
-          <strong>Privacy Notice:</strong>
-          Your token is stored locally in your browser's localStorage and will not be sent to any third-party servers except
-          when making API requests to the selected FreeFeed instance.
+          <strong>Privacy:</strong>
+          Tokens are stored in your browser's localStorage and sent only to the selected FreeFeed instance.
         </div>
         <div class="mb-3">
           <label for="title-input" class="form-label">Title</label>
@@ -63,7 +62,7 @@
             type="text"
             class="form-control"
             bind:value={titleInput}
-            placeholder="Optional description"
+            placeholder="Optional nickname"
           />
         </div>
         <div class="mb-3">
@@ -73,7 +72,7 @@
             type="password"
             class="form-control"
             bind:value={tokenInput}
-            placeholder="Enter your FreeFeed API token..."
+            placeholder="Paste API token"
           />
         </div>
         <div class="mb-3">
@@ -95,7 +94,7 @@
           disabled={!tokenInput}
           onclick={saveToken}
         >
-          Save Configuration
+          Save Token
         </button>
       </div>
     </div>

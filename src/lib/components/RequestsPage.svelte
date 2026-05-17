@@ -434,9 +434,9 @@
                 {#if $tokens.length === 0}
                   <div class="alert alert-warning small mb-3" role="alert">
                     <i class="bi bi-exclamation-triangle"></i>
-                    No tokens configured —
+                    No tokens yet —
                     <a href="/tokens">add one</a>
-                    to start making API requests.
+                    to make requests.
                   </div>
                 {/if}
                 <div class="d-flex align-items-center gap-2 flex-wrap">
@@ -493,7 +493,7 @@
         <div class="card">
           <div class="card-body text-center text-muted py-5">
             <h3>Welcome to FreeFeed API Explorer</h3>
-            <p>Select an API endpoint from the sidebar to get started.</p>
+            <p>Select an endpoint to begin.</p>
           </div>
         </div>
       {/if}
