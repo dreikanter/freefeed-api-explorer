@@ -18,22 +18,6 @@
         <div class="card-body">
           <p class="lead">A web-based tool for exploring and testing the FreeFeed API.</p>
 
-          <p>Features:</p>
-
-          <ul>
-            <li>Endpoint browser with search and scope filtering</li>
-            <li>Parameter forms with type-aware inputs</li>
-            <li>Request execution against any FreeFeed instance</li>
-            <li>
-              Generated <code>fetch()</code>
-              and
-              <code>curl</code>
-               snippets
-            </li>
-            <li>Request history with response inspection</li>
-            <li>Multiple tokens and instances, managed locally</li>
-          </ul>
-
           <p>Built with SvelteKit, TypeScript, and Bootstrap 5. Open source.</p>
 
           <p>

@@ -436,7 +436,7 @@
                     <i class="bi bi-exclamation-triangle"></i>
                     No tokens yet —
                     <a href="/tokens">add one</a>
-                     to make requests.
+                    to make requests.
                   </div>
                 {/if}
                 <div class="d-flex align-items-center gap-2 flex-wrap">
