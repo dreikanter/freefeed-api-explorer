@@ -75,6 +75,21 @@
           display: none;
         }
       }
+
+      /* Keep the navbar above the offcanvas + backdrop so it stays visible
+         (and its brand serves as the drawer's header — no duplicated title). */
+      .site-navbar {
+        position: sticky;
+        top: 0;
+        z-index: 1050;
+      }
+      .sidebar-offcanvas.offcanvas-start {
+        top: var(--nav-h, 56px);
+        height: calc(100dvh - var(--nav-h, 56px));
+      }
+      .offcanvas-backdrop {
+        top: var(--nav-h, 56px);
+      }
     </style>
     %sveltekit.head%
   </head>

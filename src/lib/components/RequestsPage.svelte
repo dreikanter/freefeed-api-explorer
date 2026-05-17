@@ -94,15 +94,6 @@
     }
   });
 
-  function closeOffcanvas() {
-    if (typeof window !== 'undefined') {
-      const el = document.getElementById('sidebarOffcanvas');
-      // @ts-expect-error - Bootstrap is loaded via CDN
-      const offcanvas = window.bootstrap.Offcanvas.getInstance(el);
-      offcanvas?.hide();
-    }
-  }
-
   function selectEndpoint(endpoint: ApiEndpoint) {
     selectedEndpoint = endpoint;
     parameters = {};
@@ -445,7 +436,7 @@
                     <i class="bi bi-exclamation-triangle"></i>
                     No tokens configured —
                     <a href="/tokens">add one</a>
-                     to start making API requests.
+                    to start making API requests.
                   </div>
                 {/if}
                 <div class="d-flex align-items-center gap-2 flex-wrap">
@@ -487,7 +478,9 @@
               </div>
             {:else if activeTab === 'fetch'}
               <div class="tab-pane active" role="tabpanel">
-                <pre class="m-0 p-2 rounded small"><code bind:this={fetchCodeEl} class="language-javascript"></code></pre>
+                <pre class="m-0 p-2 rounded small"><code
+                    bind:this={fetchCodeEl}
+                    class="language-javascript"></code></pre>
               </div>
             {:else if activeTab === 'curl'}
               <div class="tab-pane active" role="tabpanel">
@@ -504,37 +497,6 @@
           </div>
         </div>
       {/if}
-    </div>
-  </div>
-</div>
-
-<!-- Mobile Offcanvas Sidebar -->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="sidebarOffcanvasLabel">API Endpoints</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body p-0">
-    <div class="p-3">
-      <input type="text" class="form-control mb-2" placeholder="Search endpoints..." bind:value={$searchQuery} />
-      <select class="form-select" bind:value={$selectedScope}>
-        <option value="">All Scopes</option>
-        {#each scopes as scope}
-          <option value={scope}>{scope}</option>
-        {/each}
-      </select>
-    </div>
-    <div class="list-group list-group-flush border-top">
-      {#each filteredEndpoints as endpoint}
-        <RequestListItem
-          {endpoint}
-          isSelected={selectedEndpoint?.path === endpoint.path && selectedEndpoint?.method === endpoint.method}
-          onClick={() => {
-            selectEndpoint(endpoint);
-            closeOffcanvas();
-          }}
-        />
-      {/each}
     </div>
   </div>
 </div>
