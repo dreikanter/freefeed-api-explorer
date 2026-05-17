@@ -32,7 +32,7 @@
           <ul>
             <li>
               <a href="/llms.txt" class="text-decoration-none"><code>/llms.txt</code></a>
-              &mdash; concise index of available endpoints
+              &mdash; short site description with a pointer to the full reference
             </li>
             <li>
               <a href="/llms-full.txt" class="text-decoration-none"><code>/llms-full.txt</code></a>
