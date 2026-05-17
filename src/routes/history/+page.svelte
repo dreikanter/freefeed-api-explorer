@@ -92,8 +92,8 @@
 <NavigationBar currentPage="history" />
 
 <div class="split-layout">
-  <!-- Left Sidebar: Request History -->
-  <div class="split-sidebar border-end">
+  <!-- Left Sidebar: Request History (desktop only — drawer on mobile) -->
+  <div class="split-sidebar hide-below-md border-end">
     <div class="scrollable-column">
       <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
         <h5 class="mb-0">Request History</h5>
@@ -180,10 +180,10 @@
         <!-- Response -->
         <Response request={selectedRequest} />
       {:else}
-        <div class="card d-none d-md-block">
+        <div class="card">
           <div class="card-body text-center text-muted py-5">
             <h3>Request History</h3>
-            <p>Select a request from the sidebar to view its details.</p>
+            <p>Select a request to view its details.</p>
             {#if $requestHistory.length === 0}
               <p class="small">
                 No requests found. <a href="/">Start exploring the API</a>
