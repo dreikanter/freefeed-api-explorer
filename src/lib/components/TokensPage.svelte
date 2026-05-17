@@ -27,10 +27,7 @@
         </div>
         <div class="card-body p-0">
           {#if $tokens.length === 0}
-            <p class="text-center text-muted py-4 mb-0">
-              No tokens saved yet. Click <strong>Create Token</strong>
-               to get started.
-            </p>
+            <p class="text-center text-muted py-4 mb-0">No tokens saved yet.</p>
           {:else}
             <div class="table-responsive">
               <table class="table table-hover align-middle mb-0">
@@ -53,7 +50,7 @@
                         {#if $validatingTokenIds.has(token.id)}
                           <span class="text-muted">
                             <i class="bi bi-arrow-repeat spin"></i>
-                             Validating…
+                            Validating…
                           </span>
                         {:else if $validationResults[token.id]}
                           {@const result = $validationResults[token.id]}
@@ -65,12 +62,12 @@
                           {:else if result.status === 'invalid'}
                             <span class="text-danger" title="Validated at {formatDate(result.validatedAt)}">
                               <i class="bi bi-x-circle-fill"></i>
-                               Invalid
+                              Invalid
                             </span>
                           {:else}
                             <span class="text-warning" title={result.message}>
                               <i class="bi bi-exclamation-triangle-fill"></i>
-                               Error
+                              Error
                             </span>
                           {/if}
                         {:else}

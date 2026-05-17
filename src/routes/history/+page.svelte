@@ -183,13 +183,7 @@
         <div class="card">
           <div class="card-body text-center text-muted py-5">
             <h3>Request History</h3>
-            <p>Select a request to view its details.</p>
-            {#if $requestHistory.length === 0}
-              <p class="small">
-                No requests found. <a href="/">Start exploring the API</a>
-                to build your request history.
-              </p>
-            {/if}
+            <p>Select a request to see details.</p>
           </div>
         </div>
       {/if}

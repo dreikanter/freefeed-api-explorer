@@ -16,28 +16,29 @@
           <h3 class="mb-0">About FreeFeed API Explorer</h3>
         </div>
         <div class="card-body">
-          <p class="lead">A web-based tool for exploring and testing the FreeFeed API endpoints.</p>
+          <p class="lead">A web-based tool for exploring and testing the FreeFeed API.</p>
 
-          <p>
-            This application allows you to browse available API endpoints, execute requests with custom parameters, and
-            view responses in a clean interface. It includes features like:
-          </p>
+          <p>Features:</p>
 
           <ul>
-            <li>Interactive API endpoint browser with search and filtering</li>
-            <li>Parameter input forms with validation</li>
-            <li>Request execution with real-time responses</li>
-            <li>Code generation for fetch() and curl commands</li>
-            <li>Request history tracking</li>
-            <li>Local storage for tokens and preferences</li>
+            <li>Endpoint browser with search and scope filtering</li>
+            <li>Parameter forms with type-aware inputs</li>
+            <li>Request execution against any FreeFeed instance</li>
+            <li>
+              Generated <code>fetch()</code>
+              and
+              <code>curl</code>
+               snippets
+            </li>
+            <li>Request history with response inspection</li>
+            <li>Multiple tokens and instances, managed locally</li>
           </ul>
 
-          <p>Built with SvelteKit, TypeScript, and Bootstrap 5. This is an open-source project available on GitHub.</p>
+          <p>Built with SvelteKit, TypeScript, and Bootstrap 5. Open source.</p>
 
           <p>
-            <strong>Privacy & Security:</strong>
-             All data is stored locally in your browser and no information is sent to third-party services except when making
-            API requests to FreeFeed instances.
+            <strong>Privacy:</strong>
+            Tokens, history, and preferences stay in your browser. Requests go directly to the selected FreeFeed instance.
           </p>
 
           <div class="mt-4">
